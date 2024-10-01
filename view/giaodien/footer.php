@@ -50,7 +50,7 @@
             <li>Chăm sóc khách hàng: <a href="#">Trần Thị Diễm Phương</a></li>
             <li>Chăm sóc khách hàng: <a href="#">Nguyễn Phi Thiên</a></li>
           </ul>
-          <!-- <button class="btn btn-warning">Gọi ngay</button> -->
+          
         </div>
       </div>
     </div>

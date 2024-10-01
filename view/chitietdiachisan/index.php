@@ -23,8 +23,8 @@
         <div class="col-md-7">
             <img src="image/<?= $hinhdaidien ?>" class="image-chitiet" alt="">
         </div>
-        <div class="col-md-5 bg-primary">
-            <p>âsdsadsdasdsad</p>
+        <div class="col-md-5">
+            <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
         </div>
        </div>      
     </div>
