@@ -15,9 +15,9 @@
             }
         }
 
-        public function getselectsandistinctmasan(){
+        public function getselectsandistinctmasan($diachi){
             $p = new model();
-            $con = $p->selectsandistinctmasan();
+            $con = $p->selectsandistinctmasan($diachi);
             if(!$con){
                 return -1;
             }else{
@@ -48,6 +48,20 @@
         public function getselectdiachisan(){
             $p = new model();
             $con = $p->selectdiachisan();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        public function getdatsan($masan,$khunggio){
+            $p = new model();
+            $con = $p->selectdatsan($masan,$khunggio,);
             if(!$con){
                 return -1;
             }else{

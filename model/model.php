@@ -16,11 +16,11 @@
             }
         }
         // select MaSan, TenSan, TenLoaiSan của bảng sanvsgiavskhunggio lấy ra các giá trị duy nhất từ cột Mã Sân
-        public function selectsandistinctmasan(){
+        public function selectsandistinctmasan($diachi){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select DISTINCT t.MaSan, TenSan, TenLoaiSan  from sanvsgiavskhunggio t join san s on t.MaSan = s.MaSan join loaisan l on s.MaLoaiSan = l.MaLoai";
+                $sql="select DISTINCT t.MaSan, TenSan, TenLoaiSan  from sanvsgiavskhunggio t join san s on t.MaSan = s.MaSan join loaisan l on s.MaLoaiSan = l.MaLoai join diachi c on s.MaDiaChi = c.MaDiaChi where s.MaDiaChi = '$diachi'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -48,6 +48,19 @@
             $con = $p->moketnoi();
             if($con){
                 $sql="select * from diachi";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function selectdatsan($masan,$khunggio){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="select NgayDat from datsan where MaSan = '$masan' and KhungGio = '$khunggio'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

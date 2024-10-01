@@ -1,5 +1,5 @@
 <?php
-$diachi = 1;
+$diachi = $_REQUEST["masan"];
 // include_once("controller/controller.php");
 $p = new controller();
 
@@ -18,10 +18,11 @@ if($tbl===-1){
     while($r = $tbl->fetch_assoc()){
         $makhunggio = $r["MaKhungGio"];
         if($makhunggio > $d ){
-            $khunggio = $r["TenKhungGio"];
-            $tblmasan = $p->getselectsandistinctmasan();
             
+            $tblmasan = $p->getselectsandistinctmasan($diachi);
             $d = $makhunggio;
+            $khunggio = $r["TenKhungGio"];
+            // $khunggio = $d. "_" .$r["TenKhungGio"];
             while($r1 = $tblmasan->fetch_assoc()){
                 $masan = $r1["MaSan"];
                 for($i=1; $i<8; $i++){
@@ -40,8 +41,8 @@ if($tbl===-1){
                     $dem++;
                     if($dem==1){
 
-                        // $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
-                        $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
+                        $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
+                        // $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
                         $array1= [$khunggio,$tensan];
                         $row1 = array_merge($array1,$giatheothu);
                         $lich[] = $row1;
@@ -145,11 +146,11 @@ if($tbl===-1){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href='?date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
+            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
             <h3> <?= $startOfWeek." đến ".$endOfWeek; ?></h3>
             <div>
-                <a href='?date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
-                <a href='?date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
+                <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
+                <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
             </div>
         </div>
         
@@ -249,12 +250,32 @@ if($tbl===-1){
                             }
                             // Second column: Field
 
-                            // $parts = explode("-", $row[1]);
-                            // $ms = $parts[0];
-                            // echo "<td>{$parts[1]}</td>";
-                            echo "<td>{$row[1]}</td>";
+                            $parts = explode("-", $row[1]);
+                            // $parts1 = explode("_", $row[0]);
+                            $ms = $parts[0];
+                            // $mkg = $parts1[0];
+                            echo "<td>{$parts[1]}</td>";
+                            // echo "<td>{$row[1]}</td>";
+                                
+// Kiểm tra xem đã có người đặt chưa
+                                $tbldatsan = $p->getdatsan($ms,$row[0]);
+                                if($tbldatsan===-1){
+                                    echo "Không có";
+                                }elseif(!$tbldatsan){
+                                    $ngaydat = [];
+                                }else{
+                                    while($rn = $tbldatsan->fetch_assoc()){
+                                        $ngaydat[] = date('d-m-Y', strtotime($rn["NgayDat"]));
+
+                                    }
+                                }
+                            
+                            
+                            
+                            // print_r($ngaydat);
                             for ($i = 2; $i < count($row); $i++) {
                                 // echo "<td><button class='btn btn-custom'>".number_format($row[$i],0,'.',',')." đ</button></td>";
+                                
                                 if($row[$i]==0){
                                     echo "<td></td>";
                                 }else{
@@ -265,12 +286,23 @@ if($tbl===-1){
                                     }else{
                                         $t += 1;
                                         $ngay = $weekDays[$t];
+                                    } 
+                                        // echo $ngay;
+                                        // print_r($ngaydat);
+                                    if(in_array($ngay,$ngaydat)){
+                                        echo "<td></td>";
+                                    }else{
+                                        echo "<td><a href='?page=order&tt=".$row[0]."_".$ms."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
                                     }
-                                    echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' >".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
-                                }
+                                    
+                                    // print_r($ngaydat);
+                                    // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
+                                } 
                                 
                             }
                             echo "</tr>";
+                            $ngaydat=[];
+                           
                         }
                     
                 ?>
