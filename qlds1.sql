@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 01, 2024 lúc 06:35 PM
+-- Thời gian đã tạo: Th10 02, 2024 lúc 07:01 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -42,9 +42,10 @@ CREATE TABLE `datsan` (
 --
 
 INSERT INTO `datsan` (`MaDatSan`, `MaNguoiDung`, `MaSan`, `NgayDat`, `KhungGio`, `TrangThai`, `TongTien`) VALUES
-(4, 1, 1, '2024-10-01', '7h-8h30', 'Còn trống', 100000),
-(5, 1, 1, '2024-09-23', '7h-8h30', 'Đã đặt', 0),
-(6, 3, 3, '2024-10-15', '9h-10h30', 'Còn trống', 0);
+(4, 1, 1, '2024-10-01', '7h-8h30', 'Chờ duyệt', 100000),
+(7, 2, 5, '2024-10-04', '15h-16h30', 'Chờ duyệt', 100000),
+(10, 2, 3, '2024-10-05', '9h-10h30', 'Chờ duyệt', 200000),
+(11, 2, 3, '2024-10-03', '9h-10h30', 'Chờ duyệt', 100000);
 
 -- --------------------------------------------------------
 
@@ -726,7 +727,7 @@ ALTER TABLE `vaitro`
 -- AUTO_INCREMENT cho bảng `datsan`
 --
 ALTER TABLE `datsan`
-  MODIFY `MaDatSan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `MaDatSan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `diachi`
