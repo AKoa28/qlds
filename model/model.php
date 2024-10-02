@@ -69,4 +69,37 @@
             }
         }
     }
+
+    class mnguoidung{
+        public function selectallnguoidung(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="select * from nguoidung";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+    }
+    class mdatsan{
+        public function themdatsan($manguoidung,$masan,$ngay,$khunggio,$trangthai,$tongtien){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="INSERT INTO `datsan`(`MaNguoiDung`, `MaSan`, `NgayDat`, `KhungGio`, `TrangThai`, `TongTien`) VALUES ('$manguoidung','$masan','$ngay','$khunggio','$trangthai','$tongtien')";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+    }
 ?>

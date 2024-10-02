@@ -73,4 +73,33 @@
             }
         }
     }
+
+    class cnguoidung{
+        public function getselectallnguoidung(){
+            $p = new mnguoidung();
+            $con = $p->selectallnguoidung();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+    }
+
+    class cdatsan{
+        public function insertdatsan($manguoidung,$masan,$ngay,$khunggio,$trangthai,$tongtien){
+            $ngay = date('Y-m-d', strtotime($ngay));
+            $p = new mdatsan();
+            $con = $p->themdatsan($manguoidung,$masan,$ngay,$khunggio,$trangthai,$tongtien);
+            if ($con) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 ?>

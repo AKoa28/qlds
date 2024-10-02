@@ -292,7 +292,7 @@ if($tbl===-1){
                                     if(in_array($ngay,$ngaydat)){
                                         echo "<td></td>";
                                     }else{
-                                        echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$parts[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
+                                        echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
                                     }
                                     
                                     // print_r($ngaydat);
