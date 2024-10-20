@@ -1,18 +1,18 @@
 <?php
-    $thongtin = $_REQUEST["tt"];
-    $parts = explode("_",$thongtin);
-    $diachi = $parts[0];
-    $partsMS = explode("-", $parts[2]);
-    $ms = $partsMS[0];
-    $khunggio = $parts[1];
-    $tensan = $partsMS[1];
-    $ngay = $parts[3];
-    $gia = $parts[4];
+    // $thongtin = $_REQUEST["tt"];
+    // $parts = explode("_",$thongtin);
+    // $diachi = $parts[0];
+    // $partsMS = explode("-", $parts[2]);
+    // $ms = $partsMS[0];
+    // $khunggio = $parts[1];
+    // $tensan = $partsMS[1];
+    // $ngay = $parts[3];
+    // $gia = $parts[4];
 
-    $p = new controller();
-    $pn = new cnguoidung();
-    $tbldiachi = $p->getselectallsan($diachi);
-    $tblnguoidung = $pn->getselectallnguoidung();
+    // $p = new controller();
+    // $pn = new cnguoidung();
+    // $tbldiachi = $p->getselectallsan($diachi);
+    // $tblnguoidung = $pn->getselectallnguoidung();
     // echo $khunggio ."<br>";
     // echo $tensan ."<br>";
     // echo $ngay ."<br>";
@@ -20,36 +20,47 @@
 
     
 ?>
-<section class="hero-section ">
-    <div class="list-bar container">
-        <h1 >Thông Tin Đặt Lịch </h1><br>
-        <div class="row justify-content-between">
-            <div class="col-md-5">
-                <form class="row justify-content-center" method="POST">
-                    <div class="col-md-12">
-                    <input type="text" class="form-control m-1" placeholder="Họ & tên *" name="txtname">
-                    </div>
-                    <div class="col-md-12">
-                    <input type="text" class="form-control m-1" placeholder="Số điện thoại *" name="txtpass">
-                    </div>
-                    <div class="col-md-12">
-                    <input type="email" class="form-control m-1" placeholder="Email" name="txtemail">
-                    </div>
-                    <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary w-100 m-1" name="suborder">Gửi</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-5">
-                <p>Khung Giờ: <?=$khunggio?></p>
-                <p>Tên sân: <?=$tensan?></p>
-                <p>Ngày: <?=$ngay?></p>
-                <p>Giá: <?=number_format($gia,0,'.',',') . " đ"?></p>
-                
-            </div>
-        </div>
-    </div>
-</section>
+                <table class="table"  style="text-align:center;">
+                    <thead>
+                        <th>Mã sân</th>
+                        <th>Khung giờ</th>
+                        <th>Tên sân</th>
+                        <th>Ngày đặt</th>
+                        <th>Giá</th>
+                    </thead>
+                    <tbody id="DaChon">
+
+                    </tbody>
+                    <tr>
+                        <td colspan="4" >
+                            Thành tiền:
+                        </td>
+                        <td id="tongtien">
+
+                        </td>
+                    </tr>
+                </table>
+<script>
+    $(document).ready(function () {
+        const storedData = JSON.parse(localStorage.getItem('datachecked')) || [];
+        const total = localStorage.getItem('tongtien') || '0';
+
+        storedData.forEach(item => {
+            $('#DaChon').append(
+                '<tr>' +
+                '<td>' + item.diachi + '</td>' +
+                '<td>' + item.khunggio + '</td>' +
+                '<td>' + item.tensan + '</td>' +
+                '<td>' + item.ngay + '</td>' +
+                '<td>' + item.gia.toLocaleString() + ' đ</td>' +
+                '</tr>'
+            );
+        });
+
+        $('#tongtien').text(total.toLocaleString() + ' đ');
+    });
+
+</script>
 <?php
     if(isset($_REQUEST["suborder"])){
         $pds = new cdatsan();

@@ -72,7 +72,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select NgayDatSan from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where MaSan = '$masan' and KhungGio = '$khunggio'";
+                $sql="select NgayDatSan, TrangThai from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where MaSan = '$masan' and KhungGio = '$khunggio'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

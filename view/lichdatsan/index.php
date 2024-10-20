@@ -107,6 +107,7 @@ if($tbl===-1){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
@@ -117,7 +118,6 @@ if($tbl===-1){
             color: #333;
         }
         th, td {
-            text-align: center;
             vertical-align: middle;
         }
         .table th, .table td {
@@ -147,12 +147,108 @@ if($tbl===-1){
             background-color: darkcyan;
         }
 
+        /* .checkbox-label {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            background-color: #ddd;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkbox-label:hover {
+            background-color: #ccc;
+        }
+
+        .checkbox-input:checked + .checkbox-label {
+            background-color: darkslategray;
+            color: white;
+        }
+
+        .checkbox-label-choduyet {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            background-color: palegreen;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkbox-label-choduyet:hover {
+            background-color: #ccc;
+        }
+
+        .checkbox-input:checked + .checkbox-label-choduyet {
+            background-color: darkslategray;
+            color: white;
+        }
+
+        .checkbox-label-uutien {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            background-color: gold;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkbox-label-uutien:hover {
+            background-color: #ccc;
+        }
+
+        .checkbox-input:checked + .checkbox-label-uutien {
+            background-color: darkslategray;
+            color: white;
+        } */
     </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-between">
+            <div class="col-md-5">
+                <div class="row">
+                    <p style="background-color: #ddd;width:20px; height:20px;"></p>&nbsp;Chưa có người chọn, bạn có thể chọn.
+                </div>
+                <div class="row">
+                    <p style="background-color: darkslategray;width:20px; height:20px;"></p>&nbsp;Lựa chọn của bạn.
+                </div>
+                <div class="row">
+                    <p style="background-color: gold;width:20px; height:20px;"></p>&nbsp;Người có tài khoản được ưu tiên duyệt, bạn không chọn được.
+                </div>
+                <div class="row">
+                    <p style="background-color: palegreen;width:20px; height:20px;"></p>&nbsp;Đã có người chọn nhưng chưa được duyệt, bạn có thể chọn.
+                </div>
+            </div>
+            <div class="col-md-6" >
+                <table class="table"  style="text-align:center;">
+                    <thead>
+                        <th>Mã sân</th>
+                        <th>Khung giờ</th>
+                        <th>Tên sân</th>
+                        <th>Ngày đặt</th>
+                        <th>Giá</th>
+                    </thead>
+                    <tbody id="DaChon">
+
+                    </tbody>
+                    <tr>
+                        <td colspan="4" >
+                            <a href="?page=order">order</a>Thành tiền:
+                        </td>
+                        <td id="tongtien">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container">
         <div align="center">
                 <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
         </div>
@@ -162,7 +258,7 @@ if($tbl===-1){
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
         </div>
         
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="text-align:center;">
             <thead>
                 <tr>
                     <th>Giờ</th>
@@ -187,7 +283,7 @@ if($tbl===-1){
                     $timestamp2 = strtotime($currentDate);
                     $timestamp3 = strtotime($startOfWeek);
                     if($timestamp3 >= $timestamp2 || in_array($currentDate, $weekDays)){
-                        
+                            $checkbox = 1;
                             $times_checked = [];
                             $duplicate_times = [];
                             // Lặp qua mảng schedule để kiểm tra thời gian trùng
@@ -256,16 +352,19 @@ if($tbl===-1){
                                         echo "Không có";
                                     }elseif(!$tbldatsan){
                                         $ngaydat = [];
+                                        $trangthai = [];
                                     }else{
                                         while($rn = $tbldatsan->fetch_assoc()){
                                             $ngaydat[] = date('d-m-Y', strtotime($rn["NgayDatSan"]));
-    
+                                            $trangthai[] = [date('d-m-Y', strtotime($rn["NgayDatSan"])),$rn["TrangThai"]];
                                         }
                                     }
                                 
                                 
                                 
-                                // print_r($ngaydat);
+                                // print_r($ngaydat); 
+                                // print_r($trangthai);
+                                // print_r($trangthai);
                                 for ($i = 2; $i < count($row); $i++) {
                                     // echo "<td><button class='btn btn-custom'>".number_format($row[$i],0,'.',',')." đ</button></td>";
                                     
@@ -282,14 +381,26 @@ if($tbl===-1){
                                         } 
                                             // echo $ngay;
                                             // print_r($ngaydat);
-                                        if(in_array($ngay,$ngaydat)){
-                                            echo "<td></td>";
-                                        }else{
-                                            echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
-                                        }
+                                        foreach ($trangthai as $NDTT) {
+                                            if($ngay==$NDTT[0]){
+                                                $laytrangthai = $NDTT[1];
+                                            }
+                                        }// Lấy trạng thái của Ngày đặt 
+                                            if(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
+                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                $checkbox++;
+                                            }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên"){
+                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                               
+                                            }else{
+                                                // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
+                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                $checkbox++;
+                                            }
+                                            
+                                            // print_r($ngaydat);
+                                            // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
                                         
-                                        // print_r($ngaydat);
-                                        // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
                                     } 
                                     
                                 }
@@ -308,27 +419,61 @@ if($tbl===-1){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        var tongtien = 0;
+        
+        function updateLocalStorage() {
+            const rows = [];
+            $('#DaChon tr').each(function () {
+                const cells = $(this).find('td');
+                rows.push({
+                    diachi: cells.eq(0).text().trim(),
+                    khunggio: cells.eq(1).text().trim(),
+                    tensan: cells.eq(2).text().trim(),
+                    ngay: cells.eq(3).text().trim(),
+                    gia: parseInt(cells.eq(4).text().replace(/\D/g, '')) // Chuyển giá trị tiền thành số nguyên
+                });
+            });
+            localStorage.setItem('datachecked', JSON.stringify(rows));
+            localStorage.setItem('tongtien', tongtien);
+        }
+        
+        $('.checkbox-input').change(function () {
+            var diachi = $(this).data('dc').toString().trim();   // Lấy địa chỉ và loại bỏ khoảng trắng
+            var khunggio = $(this).data('kg').toString().trim();   // Lấy khung giờ và loại bỏ khoảng trắng
+            var tensan = $(this).data('ts').toString().trim();   // Lấy tên sân
+            var ngay = $(this).data('ngay').toString().trim(); // Lấy thời gian
+            var gia = parseInt($(this).data('gia')); // Lấy giá
 
-<!-- <script>
-                
-    $(document).ready(function() {
-        var jsVariable = "<?php echo $prevWeek; ?>";
-        var jsVariable1 = "<?php echo $currentDate; ?>";
-        lichdatsan(jsVariable); 
-    });
-    
-    function lichdatsan(prevWeek) {
-        // alert(prevWeek);
-        $.ajax({
-            url: "lich.php",
-            type: 'POST',
-            data: {prevWeek: prevWeek},
-            success: function (result) {
-                $("#ketqua").html(result);
+            if ($(this).is(':checked')) {
+                tongtien += gia;
+                // Nếu checkbox được chọn, thêm thông tin vào bảng
+                $('#DaChon').append(
+                    '<tr>' +
+                    '<td>' + diachi + '</td>' +
+                    '<td>' + khunggio + '</td>' +
+                    '<td>' + tensan + ' </td>' +
+                    '<td>' + ngay + '</td>' +
+                    '<td>' + gia.toLocaleString() + ' đ</td>' +
+                    '</tr>'
+                );
+            } else {
+                tongtien -= gia;
+                // Nếu bỏ chọn checkbox, xóa thông tin tương ứng
+                $('#DaChon tr').filter(function () {
+                    return $(this).find('td').eq(0).text().trim() === diachi && 
+                        $(this).find('td').eq(1).text().trim() === khunggio && 
+                        $(this).find('td').eq(2).text().trim() === tensan && 
+                        $(this).find('td').eq(3).text().trim() === ngay && 
+                        parseInt($(this).find('td').eq(4).text().replace(/\D/g, '')) === gia; // Chuyển giá trị tiền thành số nguyên
+                }).remove();
             }
+            
+            // Cập nhật tổng tiền
+            $('#tongtien').text(tongtien.toLocaleString() + ' đ');
+            updateLocalStorage();
         });
-    }
+});
 
-    
-
-</script> -->
+</script>
