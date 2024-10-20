@@ -15,6 +15,19 @@
             }
         }
 
+        public function getselectkhunggio(){
+            $p = new model();
+            $con = $p->selectkhunggio();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
         public function getselectsandistinctmasan($diachi){
             $p = new model();
             $con = $p->selectsandistinctmasan($diachi);
@@ -36,7 +49,7 @@
             }else{
                 if($con->num_rows > 0){
                     while($r = $con->fetch_assoc()){
-                        $gia = $r["GiaTheoKhungGio"];
+                        $gia = $r["gia"];
                     }
                     return $gia;
                 }else{

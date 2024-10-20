@@ -3,12 +3,12 @@
     $p = new controller();
     $tbldiachi = $p->getselectdiachisan();
     while($r = $tbldiachi->fetch_assoc()){
-        $arraydiachi [] = $r["MaDiaChi"];
-        if($r["MaDiaChi"] == $masan){
-            $tendiachi = $r["TenDiaChi"];
-            $diadiem = $r["DiaDiem"];
+        $arraydiachi [] = $r["MaDiaDiem"];
+        if($r["MaDiaDiem"] == $masan){
+            $tendiachi = $r["TenDiaDiem"];
+            $diadiem = $r["DiaChi"];
             $hinhdaidien = $r["HinhDaiDien"];
-            $mota = $r["mota"];
+            $mota = $r["MoTa"];
         }
     }
     if(isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"],$arraydiachi)){
