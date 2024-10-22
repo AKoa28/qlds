@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <?php
-    error_reporting(0);
+
+    session_start();
+    ob_start();
+    // error_reporting(0);
     include_once("model/model.php");
     include_once("controller/controller.php");
     // include_once("view/lichdatsan/index.php");

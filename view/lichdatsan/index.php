@@ -207,6 +207,7 @@ if($tbl===-1){
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<form  method="post">
     <div class="container mt-5 mb-5">
         <div class="row justify-content-between">
             <div class="col-md-5">
@@ -226,7 +227,7 @@ if($tbl===-1){
             <div class="col-md-6" >
                 <table class="table"  style="text-align:center;">
                     <thead>
-                        <th>Mã sân</th>
+                        <th>STT</th>
                         <th>Khung giờ</th>
                         <th>Tên sân</th>
                         <th>Ngày đặt</th>
@@ -236,8 +237,11 @@ if($tbl===-1){
 
                     </tbody>
                     <tr>
-                        <td colspan="4" >
-                            <a href="?page=order">order</a>Thành tiền:
+                        <td colspan="2" id="order">
+                            
+                        </td>
+                        <td colspan="2">
+                            Thành tiền:
                         </td>
                         <td id="tongtien">
 
@@ -257,7 +261,7 @@ if($tbl===-1){
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
         </div>
-        
+    
         <table class="table table-bordered" style="text-align:center;">
             <thead>
                 <tr>
@@ -387,14 +391,14 @@ if($tbl===-1){
                                             }
                                         }// Lấy trạng thái của Ngày đặt 
                                             if(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
-                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                 $checkbox++;
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên"){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                
                                             }else{
                                                 // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
-                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                 $checkbox++;
                                             }
                                             
@@ -416,13 +420,15 @@ if($tbl===-1){
             </tbody>
         </table>
     </div>
+</form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 <script>
     $(document).ready(function () {
         var tongtien = 0;
-        
+        var stt = 1;
         function updateLocalStorage() {
             const rows = [];
             $('#DaChon tr').each(function () {
@@ -451,24 +457,36 @@ if($tbl===-1){
                 // Nếu checkbox được chọn, thêm thông tin vào bảng
                 $('#DaChon').append(
                     '<tr>' +
-                    '<td>' + diachi + '</td>' +
+                    '<td>' + stt + '</td>' +
                     '<td>' + khunggio + '</td>' +
                     '<td>' + tensan + ' </td>' +
                     '<td>' + ngay + '</td>' +
                     '<td>' + gia.toLocaleString() + ' đ</td>' +
                     '</tr>'
+                    
                 );
+                stt++;
+                if ($('#order').find('button').length === 0) { // Kiểm tra nút chưa tồn tại
+                    $('#order').append(
+                        "<button type='submit' class='btn btn-info' name='sub' >Đặt sân</button>"
+                    );
+                }
             } else {
                 tongtien -= gia;
                 // Nếu bỏ chọn checkbox, xóa thông tin tương ứng
                 $('#DaChon tr').filter(function () {
-                    return $(this).find('td').eq(0).text().trim() === diachi && 
-                        $(this).find('td').eq(1).text().trim() === khunggio && 
-                        $(this).find('td').eq(2).text().trim() === tensan && 
-                        $(this).find('td').eq(3).text().trim() === ngay && 
+                    return $(this).find('td').eq(1).text().trim() === khunggio &&
+                        $(this).find('td').eq(2).text().trim() === tensan &&
+                        $(this).find('td').eq(3).text().trim() === ngay &&
                         parseInt($(this).find('td').eq(4).text().replace(/\D/g, '')) === gia; // Chuyển giá trị tiền thành số nguyên
                 }).remove();
+                
+                if ($('#DaChon tr').length === 0) { // Nếu không còn hàng nào trong bảng
+                    $('#order').find('button').remove(); // Xóa nút Order
+                }
             }
+            
+
             
             // Cập nhật tổng tiền
             $('#tongtien').text(tongtien.toLocaleString() + ' đ');
@@ -477,3 +495,14 @@ if($tbl===-1){
 });
 
 </script>
+<?php
+    if(isset($_REQUEST["sub"])){
+        $_SESSION["TTHD"] = [];
+        if(isset($_REQUEST["chondatsan"])){
+            $_SESSION["TTHD"] = $_REQUEST["chondatsan"];
+            header("Location: ?page=order");
+            ob_end_flush();
+            exit();
+        }
+    }
+?>
