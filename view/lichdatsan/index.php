@@ -207,8 +207,18 @@ if($tbl===-1){
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-<form  method="post">
-    <div class="container mt-5 mb-5">
+    <div class="container mt-3">
+        <div align="center">
+                <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
+        </div>
+        <div class="d-flex justify-content-around align-items-center mb-3">
+            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
+            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
+            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
+        </div>
+    </div>
+    <form action="" method="post">
+    <div class="container mt-5 mb-5 p-3">
         <div class="row justify-content-between">
             <div class="col-md-5">
                 <div class="row">
@@ -225,6 +235,7 @@ if($tbl===-1){
                 </div>
             </div>
             <div class="col-md-6" >
+                
                 <table class="table"  style="text-align:center;">
                     <thead>
                         <th>STT</th>
@@ -250,18 +261,8 @@ if($tbl===-1){
                 </table>
             </div>
         </div>
-        
     </div>
     <div class="container">
-        <div align="center">
-                <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
-        </div>
-    
         <table class="table table-bordered" style="text-align:center;">
             <thead>
                 <tr>
@@ -415,10 +416,13 @@ if($tbl===-1){
                     }else{
                         echo "<tr><td colspan = '9'>Tuần này đã qua</td></tr>";
                     }
+                    header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
+                    
                 ?>
                 
             </tbody>
         </table>
+        
     </div>
 </form>
     
@@ -426,7 +430,11 @@ if($tbl===-1){
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    $(document).ready(function () {
+    window.onload = function() {
+        var checkbox = document.getElementById('yourCheckboxId');
+        checkbox.checked = false;
+    };
+$(document).ready(function () {
         var tongtien = 0;
         var stt = 1;
         function updateLocalStorage() {
@@ -483,6 +491,7 @@ if($tbl===-1){
                 
                 if ($('#DaChon tr').length === 0) { // Nếu không còn hàng nào trong bảng
                     $('#order').find('button').remove(); // Xóa nút Order
+                    stt = 1;
                 }
             }
             
@@ -500,7 +509,7 @@ if($tbl===-1){
         $_SESSION["TTHD"] = [];
         if(isset($_REQUEST["chondatsan"])){
             $_SESSION["TTHD"] = $_REQUEST["chondatsan"];
-            header("Location: ?page=order");
+            header("Location: ?page=order&masan=$diachi");
             ob_end_flush();
             exit();
         }

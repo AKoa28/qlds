@@ -1,4 +1,5 @@
 <?php
+    $madiadiem = $_REQUEST["masan"];
     if (isset($_SESSION["TTHD"])) {
         $dachon = $_SESSION["TTHD"];
         $tongtien = 0;
@@ -49,7 +50,7 @@
                     echo '<td>' . $tensan . '</td>';
                     echo '<td>' . $ngay . '</td>';
                     echo '<td class="gia">' . number_format($gia, 0, ".", ",") . ' đ</td>';
-                    echo '<td><a href="?page=order&xoa='.$i.'" class="btn btn-danger btn-xoa">Xoá</a></td></tr>';
+                    echo '<td><a href="?page=order&masan='.$madiadiem.'&xoa='.$i.'" class="btn btn-danger btn-xoa">Xoá</a></td></tr>';
                     $tongtien += $gia;
                 }
             echo '          </tbody>
@@ -58,7 +59,15 @@
                                     <td colspan="3"></td>
                                     <td class="table-Warning"><b>Thành tiền:</b> </td>
                                     <td class="table-Warning"><b id="capnhatgia">'.number_format($tongtien, 0, ".", ",").' đ</b></td>
-                                    <td ><button type="submit" name="datsan" class="btn btn-Info">Đặt sân</button></td>
+                                    <td>';
+            //Kiểm tra array session rỗng hay không
+            if(empty($_SESSION["TTHD"])){
+                echo '<a href="?page=lichdatsan&masan='.$madiadiem.'"><button type="button" class="btn btn-danger">Quay lại trang lịch sân</button></a>';
+            }else{
+                echo '<button type="submit" name="datsan" class="btn btn-Info">Đặt sân</button>';
+            }
+            
+            echo '                  </td>
                                     
                                 </tr>
                             </tfoot>
@@ -73,28 +82,49 @@
     }else{
         echo "lỗi";
     }  
-
+    
     // bấm nút xoá thì sẽ tiến hành xoá phần tử tương ứng trong mảng session["TTHD"] 
-    if (isset($_GET['xoa'])) {
+    if (isset($_GET['xoa'])) { 
         $id = $_GET['xoa'];
         // Kiểm tra chỉ số hợp lệ trước khi xóa
         if (isset($_SESSION["TTHD"][$id])) {
             unset($_SESSION["TTHD"][$id]);
             // Cập nhật lại mảng sau khi xóa
             $_SESSION["TTHD"] = array_values($_SESSION["TTHD"]);
+            
         }
         // Chuyển hướng để làm mới trang và tránh việc gửi lại form
-        header("Location: ?page=order");
+        header("Location: ?page=order&masan=$madiadiem");
         exit;
     }
-
     if(isset($_REQUEST["datsan"])){
-        echo"123213213213123213";
-        echo $_REQUEST["ten"];
-        echo $_REQUEST["sdt"];
+        $manhanvien = "1";
+        $ten = $_REQUEST["ten"];
+        $sdt = $_REQUEST["sdt"];
+        $soluong = count($_SESSION["TTHD"]);
+        $ngaydat = date("Y-m-d H:i:s");
+        $trangthai = "Chờ duyệt";
+        $trangthaikhach = "Vãng lai";
+        $total = $tongtien;
+        $diadiem = $madiadiem;
+        $TK_khachvanglai = new cnguoidung();
+        $tblkhachvanglai = $TK_khachvanglai->getinsertkhachvanglai($ten,$sdt,$trangthaikhach);
+        if($tblkhachvanglai){
+            $makh = $tblkhachvanglai;
+            $themdatsan = new cdatsan();
+            $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem);
+            if($tblthemdatsan){
+                // echo $tblthemdatsan;
+                echo "<script>alert('Tạo đặt sân thành công');</script>";
+            }else{
+                echo "<script>alert('thất bại');</script>";
+            }
+        }else{
+            echo "<script>alert('Số điện thoại trùng');</script>";
+        }
         // $pds = new cdatsan();
         // $manguoidung = "2";
-        // $trangthai = "Chờ duyệt";
+        // 
         // // echo $manguoidung . $ms . $ngay . $khunggio . $trangthai .  $gia;
         // $tbldatsan = $pds->insertdatsan($manguoidung,$ms,$ngay,$khunggio,$trangthai, $gia);
         // if($tbldatsan){
@@ -146,9 +176,3 @@
     //     $('#tongtien').text(total.toLocaleString() + ' đ');
     // });
 </script>
-<?php
-
-    
-    
-
-?>

@@ -1,4 +1,5 @@
 <?php
+    // session_start();
     include_once("model/model.php");
     class controller{
         public function getselectallsan($diachi){
@@ -101,18 +102,28 @@
                 }
             }
         }
+
+        public function getinsertkhachvanglai($ten,$sdt,$trangthai){
+            $p = new mnguoidung();
+            $con = $p->insertkhachvanglai($ten,$sdt,$trangthai);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows > 0){
+                    while($r = $con->fetch_assoc()){
+                        $makh = $r["MaKhachHang"];
+                    }
+                    return $makh;
+                }
+            }
+        }
     }
 
     class cdatsan{
-        public function insertdatsan($manguoidung,$masan,$ngay,$khunggio,$trangthai,$tongtien){
-            $ngay = date('Y-m-d', strtotime($ngay));
+        public function getinsertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem){
             $p = new mdatsan();
-            $con = $p->themdatsan($manguoidung,$masan,$ngay,$khunggio,$trangthai,$tongtien);
-            if ($con) {
-                return true;
-            } else {
-                return false;
-            }
+            $con = $p->insertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem);
+            return $con;
         }
     }
 ?>
