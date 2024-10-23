@@ -101,27 +101,60 @@
         $manhanvien = "1";
         $ten = $_REQUEST["ten"];
         $sdt = $_REQUEST["sdt"];
-        $soluong = count($_SESSION["TTHD"]);
-        $ngaydat = date("Y-m-d H:i:s");
-        $trangthai = "Chờ duyệt";
-        $trangthaikhach = "Vãng lai";
-        $total = $tongtien;
-        $diadiem = $madiadiem;
-        $TK_khachvanglai = new cnguoidung();
-        $tblkhachvanglai = $TK_khachvanglai->getinsertkhachvanglai($ten,$sdt,$trangthaikhach);
-        if($tblkhachvanglai){
-            $makh = $tblkhachvanglai;
-            $themdatsan = new cdatsan();
-            $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem);
-            if($tblthemdatsan){
-                // echo $tblthemdatsan;
-                echo "<script>alert('Tạo đặt sân thành công');</script>";
+        $trungsdt = new ctaikhoan;
+        $tbltrungsdt = $trungsdt -> getselecttrungsdt($sdt);
+        if($tbltrungsdt->num_rows > 0){
+            while($remail = $tbltrungsdt->fetch_assoc()){
+                $email = $remail["Email"];
+                $makhachhangcosan = $remail["MaKhachHang"];
+            }
+            if($email != ""){
+                echo "<script>alert('Số điện thoại đã đăng ký vui lòng đăng nhập');</script>";
+                header("refresh:0 url ='?dangnhap'");
+                ob_end_flush();
+                exit();
             }else{
-                echo "<script>alert('thất bại');</script>";
+                $ngaydat = date("Y-m-d H:i:s");
+                $trangthai = "Chờ duyệt";
+                $trangthaikhach = "Vãng lai";
+                $total = $tongtien;
+                $diadiem = $madiadiem;
+                $themdatsan = new cdatsan();
+                $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makhachhangcosan,$ngaydat,$trangthai,$tongtien,$diadiem);
+                if($tblthemdatsan){
+                    unset($_SESSION["TTHD"]);
+                    echo "<script>alert('Tạo đặt sân thành công');</script>";
+                    header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
+                    ob_end_flush();
+                    exit();
+                }else{
+                    echo "<script>alert('thất bại');</script>";
+                }
+                
             }
         }else{
-            echo "<script>alert('Số điện thoại trùng');</script>";
+            $ngaydat = date("Y-m-d H:i:s");
+            $trangthai = "Chờ duyệt";
+            $trangthaikhach = "Vãng lai";
+            $total = $tongtien;
+            $diadiem = $madiadiem;
+            $TK_khachvanglai = new cnguoidung();
+            $tblkhachvanglai = $TK_khachvanglai->getinsertkhachvanglai($ten,$sdt,$trangthaikhach);
+            if($tblkhachvanglai){
+                $makh = $tblkhachvanglai;
+                $themdatsan = new cdatsan();
+                $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
+                if($tblthemdatsan){
+                    // echo $tblthemdatsan;
+                    echo "<script>alert('Tạo đặt sân thành công');</script>";
+                }else{
+                    echo "<script>alert('thất bại');</script>";
+                }
+            }else{
+                echo "<script>alert('error');</script>";
+            }
         }
+        
         // $pds = new cdatsan();
         // $manguoidung = "2";
         // 

@@ -119,10 +119,23 @@
         }
     }
 
+    class ctaikhoan{
+        public function getselecttrungsdt($sdt){
+            $p = new mtaikhoan();
+            $con = $p->selecttrungsdt($sdt);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+    }
+
     class cdatsan{
-        public function getinsertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem){
+        public function getinsertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem){
             $p = new mdatsan();
-            $con = $p->insertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem);
+            $con = $p->insertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
             return $con;
         }
     }

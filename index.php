@@ -9,13 +9,15 @@
 
     session_start();
     ob_start();
-    // error_reporting(0);
+    error_reporting(0);
     include_once("model/model.php");
     include_once("controller/controller.php");
     // include_once("view/lichdatsan/index.php");
     include_once("view/giaodien/header.php");
-        if(isset($_GET['login'])) {
-            include_once ("view/login.php");
+        if(isset($_REQUEST['dangky'])) {
+            include_once ("view/dangky/index.php");
+        }elseif(isset($_REQUEST['dangnhap'])) {
+            include_once ("view/dangnhap/index.php");
         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "order"){
             include_once("view/order/index.php");
         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chitietdiachisan"){

@@ -126,13 +126,29 @@
             }
         }
     }
-    class mdatsan{
-        public function insertdatsankhachvl($makh,$manhanvien,$ngaydat,$trangthai,$soluong,$tongtien,$diadiem){
+
+    class mtaikhoan{
+        public function selecttrungsdt($sdt){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="INSERT INTO `datsan`(`MaKhachHang`, `MaNhanVien`, `NgayDat`, `TrangThai`, `SoLuong`, `TongTien`, `MaDiaDiem`) 
-                                     VALUES ('$makh','$manhanvien','$ngaydat','$trangthai','$soluong','$tongtien','$diadiem')";
+                $sql="SELECT * FROM `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan WHERE SDT = '$sdt'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+    }
+    class mdatsan{
+        public function insertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="INSERT INTO `datsan`(`MaKhachHang`,`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
+                                     VALUES ('$makh','$ngaydat','$trangthai','$tongtien','$diadiem')";
                 // $kq = $con->query($sql);
                 // $p->dongketnoi($con);
                 if ($con->query($sql) === TRUE) {
