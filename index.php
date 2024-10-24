@@ -5,6 +5,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
+<style>
+    body{
+        /* background-image: url('image/nen1.jpg'), url('image/nen1.jpg');
+        background-size: 100%; */
+    }
+</style>
 <?php
 
     session_start();

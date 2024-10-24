@@ -1,6 +1,6 @@
 <?php
     // session_start();
-    include_once("model/model.php");
+    // include_once("model/model.php");
     class controller{
         public function getselectallsan($diachi){
             $p = new model();
@@ -104,8 +104,9 @@
         }
 
         public function getinsertkhachvanglai($ten,$sdt,$trangthai){
+            $capnhatlancuoi = date("Y-m-d H:i:s");
             $p = new mnguoidung();
-            $con = $p->insertkhachvanglai($ten,$sdt,$trangthai);
+            $con = $p->insertkhachvanglai($ten,$sdt,$trangthai,$capnhatlancuoi);
             if(!$con){
                 return false;
             }else{
@@ -123,6 +124,39 @@
         public function getselecttrungsdt($sdt){
             $p = new mtaikhoan();
             $con = $p->selecttrungsdt($sdt);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+        public function getselecttrungemail($email){
+            $p = new mtaikhoan();
+            $con = $p->selecttrungemail($email);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getinserttaikhoan($ten,$sdt,$email,$pass){
+            $pass = md5($pass);
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+            $p = new mtaikhoan();
+            $con = $p->inserttaikhoan($ten,$sdt,$email,$pass,$capnhatlancuoi);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getupdatetaikhoan($ten,$sdt,$email,$pass){
+            $pass = md5($pass);
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+            $p = new mtaikhoan();
+            $con = $p->updatetaikhoan($ten,$sdt,$email,$pass, $capnhatlancuoi);
             if(!$con){
                 return false;
             }else{

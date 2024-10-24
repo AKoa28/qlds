@@ -145,8 +145,8 @@
                 $themdatsan = new cdatsan();
                 $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
                 if($tblthemdatsan){
-                    // echo $tblthemdatsan;
-                    echo "<script>alert('Tạo đặt sân thành công');</script>";
+                    echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt');</script>";
+                    header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
                 }else{
                     echo "<script>alert('thất bại');</script>";
                 }
