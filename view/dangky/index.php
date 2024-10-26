@@ -1,15 +1,15 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <style>
-    #khongchobam {
+    /* #khongchobam {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
-    display: none; /* Ẩn khi không cần */
-    z-index: 1000; /* Đảm bảo ở trên cùng */
-  }
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: none; 
+    z-index: 1000;
+  } */
 </style>
 <div id="khongchobam">
 
@@ -96,10 +96,7 @@
                     },
                     success: function(ketqua){
                         // Xử lý phản hồi từ server
-                        if(ketqua === "success") {
-                            alert("Đăng ký thành công!");
-                            window.location.href = '?dangnhap';
-                        } else if (ketqua === "successmail") {
+                        if (ketqua === "successmail") {
                             let xacnhanmail = prompt("Nhập mã xác nhận đã gửi qua mail của bạn", '');
                             if(xacnhanmail !== null){
                                 $.ajax({
@@ -122,7 +119,7 @@
                                     }
                                 });
                             }else{
-                                alert("Không có mã xác nhận: " + ketqua);
+                                alert("Bạn không nhập mã xác nhận");
                             }
                             
                         } else {

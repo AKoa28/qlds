@@ -54,20 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         }
                         
                     }
-                    
-                    // if($mail){
-                    //     echo "gui mail thanh cong";
-                    // }else{
-                    //     echo "that bai";
-                    // }
-                    //thêm gửi mail
-                    // $updatetaikhoan = $p->getupdatetaikhoan($username,$sdt,$email,$password);
-                    // if($updatetaikhoan){
-                    //     echo "success";
-                    //     // header("refresh:0 url = '?dangnhap'");
-                    // }else{
-                    //     echo "Đăng ký thất bại";
-                    // }
                 }
             }else{
                echo "Số điện thoại đã được đăng ký"; 
@@ -108,16 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             echo "Mã quá hiệu lực";
                         }
                 }
-                
-                
-                // echo "successmail";
-                
-                // $inserttaikhoan = $p->getinserttaikhoan($username,$sdt,$email,$password);
-                // if($inserttaikhoan){
-                //     echo "success";
-                // }else{
-                //     echo "Đăng ký thất bại";
-                // }
             }
         }
     }else {

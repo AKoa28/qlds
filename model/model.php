@@ -131,6 +131,18 @@
     }
 
     class mtaikhoan{
+        public function KhachDANGNHAP($sdt,$pass){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `taikhoan` tk  JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan WHERE SDT = '$sdt' and MatKhau = '$pass'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
         public function selecttrungsdt($sdt){
             $p = new ketnoi();
             $con = $p->moketnoi();

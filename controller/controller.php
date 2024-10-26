@@ -121,6 +121,20 @@
     }
 
     class ctaikhoan{
+        public function getkhachDANGNHAP($sdt,$pass){
+            $pass = md5($pass);
+            $p = new mtaikhoan();
+            $con = $p->khachDANGNHAP($sdt,$pass);
+            if($con->num_rows > 0){
+                while($r = $con->fetch_assoc()){
+                    $_SESSION["dangnhap"] = $r["MaKhachHang"];
+                    $_SESSION["tenkhachhang"] = $r["Ten"];
+                }
+                return $con;
+            }else{
+                return 0;
+            }
+        }
         public function getselecttrungsdt($sdt){
             $p = new mtaikhoan();
             $con = $p->selecttrungsdt($sdt);
