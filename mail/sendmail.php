@@ -10,8 +10,9 @@ use PHPMailer\PHPMailer\Exception;
 
 
 class sendmail{
-    public function xacnhanmail($maildangky,$ten,$maxacnhan){
+    public function xacnhandangkytaikhoan($maildangky,$ten,$maxacnhan){
         $mail = new PHPMailer(true);
+        $mail -> CharSet = 'UTF-8';
         try {
             //Server settings
             $mail->SMTPDebug = 0;                     
@@ -36,12 +37,12 @@ class sendmail{
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Xác nhận đăng ký';
-            $mail->Body    = 'Bạn đã đăng ký tài khoản tại DatSanNhom9 và đây là mã xác nhận của bạn <b>'.$maxacnhan.'</b>';
+            $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã đăng ký tài khoản tại DatSanNhom9 và đây là mã xác nhận của bạn <b>'.$maxacnhan.'</b></p><p style="color: red"><i>Lưu ý: Mã xác nhận có hiệu lực trong vòng 1 phút<i></p>';
             // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
             $mail->send();
-            echo 'Message has been sent';
+            // echo 'Message has been sent';
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
         }
     }
 }

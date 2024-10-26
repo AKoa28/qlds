@@ -135,7 +135,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="SELECT * FROM `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan WHERE SDT = '$sdt'";
+                $sql="SELECT * FROM `taikhoan` tk LEFT OUTER JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan LEFT OUTER JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan LEFT OUTER JOIN chusan cs on cs.MaTaiKhoan = tk.MaTaiKhoan WHERE SDT = '$sdt'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

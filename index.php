@@ -18,6 +18,7 @@
     error_reporting(0);
     include_once("model/model.php");
     include_once("controller/controller.php");
+    require_once("mail/sendmail.php");
     // include_once("view/lichdatsan/index.php");
     include_once("view/giaodien/header.php");
         if(isset($_REQUEST['dangky'])) {

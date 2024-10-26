@@ -1,4 +1,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    #khongchobam {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    display: none; /* Ẩn khi không cần */
+    z-index: 1000; /* Đảm bảo ở trên cùng */
+  }
+</style>
+<div id="khongchobam">
+
+</div>
 <div class="register-login-section spad ">
     <div class="container">
         <div class="row">
@@ -45,16 +60,28 @@
 
 <script>
     $(document).ready(function() {
+        function hienthi() {
+            // Hiển thị lớp phủ để chặn tương tác
+            document.getElementById("khongchobam").style.display = "block";
+        }
+
+        function andi() {
+            // Ẩn lớp phủ để kích hoạt lại trang
+            document.getElementById("khongchobam").style.display = "none";
+        }
         $('#registerForm').on('submit', function(e) {
+            
             e.preventDefault();  // Ngăn chặn form gửi đi thông thường
             const password = $('#pass').val();
             const confirmPassword = $('#con-pass').val();
             const username = $('#username').val();
             const sdt = $('#sdt').val();
             const email = $('#email').val();
+            hienthi();
             // Kiểm tra xem mật khẩu có khớp hay không
             if (password !== confirmPassword) {
                 $('#error-message').show();  // Hiển thị thông báo lỗi
+                andi();
             } else {
                 $('#error-message').hide();  // Ẩn thông báo lỗi nếu mật khẩu khớp
                 $.ajax({
@@ -71,15 +98,45 @@
                         // Xử lý phản hồi từ server
                         if(ketqua === "success") {
                             alert("Đăng ký thành công!");
+                            window.location.href = '?dangnhap';
+                        } else if (ketqua === "successmail") {
+                            let xacnhanmail = prompt("Nhập mã xác nhận đã gửi qua mail của bạn", '');
+                            if(xacnhanmail !== null){
+                                $.ajax({
+                                    url: "view/dangky/ajax.php",
+                                    type: "POST",
+                                    data: {
+                                        password: password,
+                                        confirmPassword: confirmPassword,
+                                        username: username,
+                                        sdt: sdt,
+                                        email: email,
+                                        xacnhanmail: xacnhanmail},
+                                    success: function(ketqua){
+                                        if(ketqua === "thanhcongroi") {
+                                            alert("Đăng ký thành công!");
+                                            window.location.href = '?dangnhap';
+                                        }else{
+                                            alert("Lỗi mã xác nhận: " + ketqua);
+                                        } 
+                                    }
+                                });
+                            }else{
+                                alert("Không có mã xác nhận: " + ketqua);
+                            }
+                            
                         } else {
                             alert("Có lỗi xảy ra: " + ketqua);
                         }
+                        andi();
                     },
                     error: function(xhr, status, error){
                         alert("Lỗi: " + error);
+                        andi();
                     }
                 });
             }
         });
+        
     });
 </script>

@@ -123,7 +123,7 @@
                 $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makhachhangcosan,$ngaydat,$trangthai,$tongtien,$diadiem);
                 if($tblthemdatsan){
                     unset($_SESSION["TTHD"]);
-                    echo "<script>alert('Tạo đặt sân thành công');</script>";
+                    echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
                     header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
                     ob_end_flush();
                     exit();
