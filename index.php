@@ -21,6 +21,7 @@
     session_start();
     ob_start();
     error_reporting(0);
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
     require_once("mail/sendmail.php");

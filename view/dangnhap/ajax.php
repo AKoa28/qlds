@@ -12,7 +12,7 @@ require_once("../../mail/sendmail.php");
         if(!$tbldangnhap){
             echo "thatbai";
         }else{
-            echo "Xin chào quý khách " . $_SESSION["tenkhachhang"] . ". Bạn đã dăng nhập thành công";
+            echo "Xin chào quý khách " . $_SESSION["tenkhachhang"] . ". Bạn đã đăng nhập thành công";
         }
 
     }
