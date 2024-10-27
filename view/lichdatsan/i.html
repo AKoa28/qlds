@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Interface</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .checkbox-label {
+            display: inline-block;
+            width: 100px;
+            padding: 10px;
+            background-color: #ddd;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkbox-label:hover {
+            background-color: #ccc;
+        }
+
+        .checkbox-input:checked + .checkbox-label {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table {
+            text-align: center;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Booking Interface</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Giờ</th>
+                <th>Sân</th>
+                <th>Thứ 2<br>28/10/2024</th>
+                <th>Thứ 3<br>29/10/2024</th>
+                <th>Thứ 4<br>30/10/2024</th>
+                <th>Thứ 5<br>31/10/2024</th>
+                <th>Thứ 6<br>01/11/2024</th>
+                <th>Thứ 7<br>02/11/2024</th>
+                <th>Chủ nhật<br>03/11/2024</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>7h - 8h30</td>
+                <td>Sân số 1 (Sân 5)</td>
+                <td><input type="checkbox" id="checkbox1" class="checkbox-input d-none"><label for="checkbox1" class="checkbox-label">100,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox2" class="checkbox-input d-none"><label for="checkbox2" class="checkbox-label">100,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox3" class="checkbox-input d-none"><label for="checkbox3" class="checkbox-label">100,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox4" class="checkbox-input d-none"><label for="checkbox4" class="checkbox-label">100,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox5" class="checkbox-input d-none"><label for="checkbox5" class="checkbox-label">100,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox6" class="checkbox-input d-none"><label for="checkbox6" class="checkbox-label">200,000 đ</label></td>
+                <td><input type="checkbox" id="checkbox7" class="checkbox-input d-none"><label for="checkbox7" class="checkbox-label">200,000 đ</label></td>
+            </tr>
+            <!-- Repeat for more rows -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<form action="" method="post">
+<button type="submit"></button>
+<input type="submit" value="">

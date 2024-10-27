@@ -1,4 +1,8 @@
-
+<style>
+  .hero-section{
+    /* background-image: url('https://thuthuatnhanh.com/wp-content/uploads/2022/06/Anh-bong-da-sieu-dep.jpg'); */
+  }
+</style>
 <section class="hero-section text-center">
     <div class="list-bar container">
       <h1 >DANH SÁCH CÁC ĐỊA CHỈ SÂN HIỆN TẠI</h1><br>
