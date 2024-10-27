@@ -294,7 +294,12 @@
             $sql = "INSERT INTO taikhoan (Ten, SDT, Email, MatKhau) VALUES ('$ten', '$sdt', '$email', '$matkhau')";
             $result = $con->query($sql);
             $p->dongketnoi($con);
-            return $result;
+            if($result){
+                return $result;
+            }else{
+                return false;
+            }
+            
         }
     
         public function layMaTaiKhoan($sdt) {

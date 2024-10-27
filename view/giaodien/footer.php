@@ -23,7 +23,11 @@
   }
 </style>
 <?php
-  if(!isset($_REQUEST["dangky"])){
+  if(isset($_REQUEST["dangky"])){
+    echo ''; 
+  }elseif(isset($_SESSION["chusan"])){
+    echo '';
+  }else{
     echo '
       <section class="cta-section text-center">
           <h2>Đăng ký tài khoản để hưởng được những quyền lợi tốt nhất khi đặt sân</h2>
@@ -37,8 +41,6 @@
           </div>
       </section>
     ';
-  }else{
-    echo '';
   }
 ?>
   <footer class="text-center text-md-start bg-success">

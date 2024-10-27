@@ -1,4 +1,5 @@
-<div class="bg-light border fixed-menu" style="width: 20%; height: 100%; position: fixed">
+
+<div class="bg-light border fixed-menu" style="width: 20%; height: auto; position: fixed;">
     <h4 class="p-3">Menu Chủ Sân</h4>
     <ul class="nav flex-column">
         <li class="nav-item">
