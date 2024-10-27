@@ -1,4 +1,8 @@
-
+<style>
+  .hero-section{
+    /* background-image: url('https://thuthuatnhanh.com/wp-content/uploads/2022/06/Anh-bong-da-sieu-dep.jpg'); */
+  }
+</style>
 <section class="hero-section text-center">
     <div class="list-bar container">
       <h1 >DANH SÁCH CÁC ĐỊA CHỈ SÂN HIỆN TẠI</h1><br>
@@ -14,10 +18,10 @@
             }else{
                 while($r = $tbldiachi->fetch_assoc()){
                    echo '
-                       <div class="col-md-4 "><a href="?page=chitietdiachisan&masan='.$r["MaDiaChi"].'">
+                       <div class="col-md-4 "><a href="?page=chitietdiachisan&masan='.$r["MaDiaDiem"].'">
                         <figure class=" figure  p-2 ">
                             <img src="image/'.$r["HinhDaiDien"].'" class="figure-img img-fluid rounded  " alt="">
-                            <figcaption class=" figure-caption single-line-ellipsis limited-text"><h6>'.$r["TenDiaChi"].'</h6><br><i class="bi bi-geo-alt-fill">'.$r["DiaDiem"].'</i></figcaption>
+                            <figcaption class=" figure-caption single-line-ellipsis limited-text"><h6>'.$r["TenDiaDiem"].'</h6><br><i class="bi bi-geo-alt-fill">'.$r["DiaChi"].'</i></figcaption>
                             <button class="btn btn-success">Xem chi tiết</button>
                         </figure></a></div>
                    ';
