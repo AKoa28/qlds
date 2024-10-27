@@ -106,8 +106,9 @@ if($tbl===-1){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -117,7 +118,6 @@ if($tbl===-1){
             color: #333;
         }
         th, td {
-            text-align: center;
             vertical-align: middle;
         }
         .table th, .table td {
@@ -146,23 +146,67 @@ if($tbl===-1){
         tr:hover{
             background-color: darkcyan;
         }
-
     </style>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <div class="container mt-5">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
+    <div class="container mt-3">
         <div align="center">
                 <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
         </div>
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-around align-items-center mb-3">
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
             <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
         </div>
-        
-        <table class="table table-bordered">
+    </div>
+    <form action="" method="post">
+    <div class="container mt-5 mb-5 p-3">
+        <div class="row justify-content-between">
+            <div class="col-md-5">
+                <div class="row">
+                    <p style="background-color: #ddd;width:20px; height:20px;"></p>&nbsp;Chưa có người chọn, bạn có thể chọn.
+                </div>
+                <div class="row">
+                    <p style="background-color: darkslategray;width:20px; height:20px;"></p>&nbsp;Lựa chọn của bạn.
+                </div>
+                <div class="row">
+                    <p style="background-color: gold;width:20px; height:20px;"></p>&nbsp;Người có tài khoản được ưu tiên duyệt, bạn không chọn được.
+                </div>
+                <div class="row">
+                    <p style="background-color: palegreen;width:20px; height:20px;"></p>&nbsp;Đã có người chọn nhưng chưa được duyệt, bạn có thể chọn.
+                </div>
+            </div>
+            <div class="col-md-6" >
+                
+                <table class="table"  style="text-align:center;">
+                    <thead>
+                        <th>STT</th>
+                        <th>Khung giờ</th>
+                        <th>Tên sân</th>
+                        <th>Ngày đặt</th>
+                        <th>Giá</th>
+                    </thead>
+                    <tbody id="DaChon">
+
+                    </tbody>
+                    <tr>
+                        <td colspan="2" id="order">
+                            
+                        </td>
+                        <td colspan="2">
+                            Thành tiền:
+                        </td>
+                        <td id="tongtien">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table table-bordered" style="text-align:center;">
             <thead>
                 <tr>
                     <th>Giờ</th>
@@ -187,7 +231,7 @@ if($tbl===-1){
                     $timestamp2 = strtotime($currentDate);
                     $timestamp3 = strtotime($startOfWeek);
                     if($timestamp3 >= $timestamp2 || in_array($currentDate, $weekDays)){
-                        
+                            $checkbox = 1;
                             $times_checked = [];
                             $duplicate_times = [];
                             // Lặp qua mảng schedule để kiểm tra thời gian trùng
@@ -207,10 +251,21 @@ if($tbl===-1){
                             // } else {
                             //     echo "Không có thời gian nào trùng lặp.";
                             //} 
+                                
+                            // mảng 2 chiều $lich như sau
+                            //Array ( 
+                                    // [0] => Array ( [0] => 7h-8h30    [1] => 1-Sân số 1 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [1] => Array ( [0] => 7h-8h30    [1] => 2-Sân số 2 (Sân 7)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [2] => Array ( [0] => 7h-8h30    [1] => 3-Sân số 3 (Sân 11)  [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [3] => Array ( [0] => 7h-8h30    [1] => 4-Sân số 4 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [4] => Array ( [0] => 7h-8h30    [1] => 5-Sân số 5 (Sân 11)  [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [5] => Array ( [0] => 9h-10h30   [1] => 1-Sân số 1 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 )  
+                                // )
                             $time_counts = array_count_values($duplicate_times);
                             $tam = [];
                             $mausac = 0;
-                            foreach ($lich as $index => $row) {
+                            foreach ($lich as $index => $row) { 
+                               
                                 echo "<tr>";
                                 // Kiểm tra nếu thời gian của hàng này khác với thời gian của hàng trước
                                 if (in_array($row[0],$duplicate_times) && !in_array($row[0],$tam)) {
@@ -256,40 +311,67 @@ if($tbl===-1){
                                         echo "Không có";
                                     }elseif(!$tbldatsan){
                                         $ngaydat = [];
+                                        $trangthai = [];
                                     }else{
                                         while($rn = $tbldatsan->fetch_assoc()){
                                             $ngaydat[] = date('d-m-Y', strtotime($rn["NgayDatSan"]));
-    
+                                            $trangthai[] = [date('d-m-Y', strtotime($rn["NgayDatSan"])),$rn["TrangThai"]];
                                         }
                                     }
                                 
                                 
-                                
-                                // print_r($ngaydat);
-                                for ($i = 2; $i < count($row); $i++) {
-                                    // echo "<td><button class='btn btn-custom'>".number_format($row[$i],0,'.',',')." đ</button></td>";
+                                // print_r($weekDays);
+                                // print_r($ngaydat); 
+                                // print_r($trangthai);
+                                // print_r($trangthai);
+                                for ($i = 2; $i < count($row); $i++) {// duyệt mảng bắt đầu từ phần tử thứ 2 trở về sau để lấy giá
                                     
                                     if($row[$i]==0){
                                         echo "<td></td>";
-                                    }else{
+                                    }else{ 
                                         if($i == 2){
-                                            $t = $row[$i];
-                                            $t -= $t;
-                                            $ngay = $weekDays[$t];
-                                        }else{
-                                            $t += 1;
-                                            $ngay = $weekDays[$t];
+                                            // mảng $weekDays có giá trị như sau Array( [0] => 21-10-2024 [1] => 22-10-2024 [2] => 23-10-2024 [3] => 24-10-2024 [4] => 25-10-2024 [5] => 26-10-2024 [6] => 27-10-2024 ) 
+                                            $t = $row[$i]; //nếu đúng $i = 2 thì gán $t = $row[$i] (giá) 
+                                            $t -= $t;  //sau đó cho $t = $t - $t để lấy giá trị 0
+                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[0] (lấy ngày đầu tiên của tuần hiện tại)
+                                        }else{ //sau khi hoàn thành một vòng for thì $i lúc này đã khác 2 nên sẽ thực hiện else
+                                            $t += 1; // $t lúc này bằng 0 nên $t = 0 + 1 => $t = 1
+                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[1] (lấy ngày thứ 2 của tuần hiện tại)
                                         } 
-                                            // echo $ngay;
-                                            // print_r($ngaydat);
-                                        if(in_array($ngay,$ngaydat)){
-                                            echo "<td></td>";
-                                        }else{
-                                            echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
+                                       
+                                        foreach ($trangthai as $NDTT) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
+                                            if($ngay==$NDTT[0]){
+                                                $laytrangthai = $NDTT[1];
+                                            }
                                         }
-                                        
-                                        // print_r($ngaydat);
-                                        // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
+                                        $giohientai = date('H:i:s');
+                                        $laygiocuakhunggio = explode("-",$row[0]);
+                                        // echo $giohientai;
+                                        // echo $laygiocuakhunggio[0];
+                                        if($timestamp2 > strtotime($ngay)){ // $timestamp2 là ngày hôm nay, strtotime($ngay) là ngày được in trên lịch. Nếu ngày strtotime($ngay) là quá khứ thì 
+                                            echo '<td> </td>'; // in ra khoảng trống
+                                        }else{
+                                            // Lấy trạng thái của Ngày đặt 
+                                            if(strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) && $timestamp2 == strtotime($ngay)){ // nếu strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) và ngày hôm nay = ngày trên lịch thì thực hiện 
+                                                echo '<td> </td>'; // in ra khoảng trống
+                                            }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
+                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                $checkbox++;
+                                            }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên"){
+                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                               
+                                            }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Đã duyệt"){
+                                                echo '<td></td>';
+                                               
+                                            }else{
+                                                // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
+                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                $checkbox++;
+                                            }
+                                        }    
+                                            // print_r($ngaydat);
+                                            // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
+                                            
                                     } 
                                     
                                 }
@@ -300,35 +382,102 @@ if($tbl===-1){
                     }else{
                         echo "<tr><td colspan = '9'>Tuần này đã qua</td></tr>";
                     }
+                    header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
+                    
                 ?>
                 
             </tbody>
         </table>
+        
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</form>
+    
 </body>
 </html>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
+<script>
+    window.onload = function() {
+        var checkbox = document.getElementById('yourCheckboxId');
+        checkbox.checked = false;
+    };
+$(document).ready(function () {
+        var tongtien = 0;
+        var stt = 1;
+        function updateLocalStorage() {
+            const rows = [];
+            $('#DaChon tr').each(function () {
+                const cells = $(this).find('td');
+                rows.push({
+                    diachi: cells.eq(0).text().trim(),
+                    khunggio: cells.eq(1).text().trim(),
+                    tensan: cells.eq(2).text().trim(),
+                    ngay: cells.eq(3).text().trim(),
+                    gia: parseInt(cells.eq(4).text().replace(/\D/g, '')) // Chuyển giá trị tiền thành số nguyên
+                });
+            });
+            localStorage.setItem('datachecked', JSON.stringify(rows));
+            localStorage.setItem('tongtien', tongtien);
+        }
+        
+        $('.checkbox-input').change(function () {
+            var diachi = $(this).data('dc').toString().trim();   // Lấy địa chỉ và loại bỏ khoảng trắng
+            var khunggio = $(this).data('kg').toString().trim();   // Lấy khung giờ và loại bỏ khoảng trắng
+            var tensan = $(this).data('ts').toString().trim();   // Lấy tên sân
+            var ngay = $(this).data('ngay').toString().trim(); // Lấy thời gian
+            var gia = parseInt($(this).data('gia')); // Lấy giá
 
-<!-- <script>
+            if ($(this).is(':checked')) {
+                tongtien += gia;
+                // Nếu checkbox được chọn, thêm thông tin vào bảng
+                $('#DaChon').append(
+                    '<tr>' +
+                    '<td>' + stt + '</td>' +
+                    '<td>' + khunggio + '</td>' +
+                    '<td>' + tensan + ' </td>' +
+                    '<td>' + ngay + '</td>' +
+                    '<td>' + gia.toLocaleString() + ' đ</td>' +
+                    '</tr>'
+                    
+                );
+                stt++;
+                if ($('#order').find('button').length === 0) { // Kiểm tra nút chưa tồn tại
+                    $('#order').append(
+                        "<button type='submit' class='btn btn-info' name='sub' >Đặt sân</button>"
+                    );
+                }
+            } else {
+                tongtien -= gia;
+                // Nếu bỏ chọn checkbox, xóa thông tin tương ứng
+                $('#DaChon tr').filter(function () {
+                    return $(this).find('td').eq(1).text().trim() === khunggio &&
+                        $(this).find('td').eq(2).text().trim() === tensan &&
+                        $(this).find('td').eq(3).text().trim() === ngay &&
+                        parseInt($(this).find('td').eq(4).text().replace(/\D/g, '')) === gia; // Chuyển giá trị tiền thành số nguyên
+                }).remove();
                 
-    $(document).ready(function() {
-        var jsVariable = "<?php echo $prevWeek; ?>";
-        var jsVariable1 = "<?php echo $currentDate; ?>";
-        lichdatsan(jsVariable); 
-    });
-    
-    function lichdatsan(prevWeek) {
-        // alert(prevWeek);
-        $.ajax({
-            url: "lich.php",
-            type: 'POST',
-            data: {prevWeek: prevWeek},
-            success: function (result) {
-                $("#ketqua").html(result);
+                if ($('#DaChon tr').length === 0) { // Nếu không còn hàng nào trong bảng
+                    $('#order').find('button').remove(); // Xóa nút Order
+                    stt = 1;
+                }
             }
+            
+
+            
+            // Cập nhật tổng tiền
+            $('#tongtien').text(tongtien.toLocaleString() + ' đ');
+            updateLocalStorage();
         });
+});
+
+</script>
+<?php
+    if(isset($_REQUEST["sub"])){
+        $_SESSION["TTHD"] = [];
+        if(isset($_REQUEST["chondatsan"])){
+            $_SESSION["TTHD"] = $_REQUEST["chondatsan"];
+            header("Location: ?page=order&masan=$diachi");
+            ob_end_flush();
+            exit();
+        }
     }
-
-    
-
-</script> -->
+?>
