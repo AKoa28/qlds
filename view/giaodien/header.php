@@ -38,13 +38,12 @@
         <?php
           if(isset($_SESSION["dangnhap"])){
               echo '<a href="#" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["tenkhachhang"].'</a>&nbsp;&nbsp;&nbsp;';
-              echo '<a href="?dangxuat"><button class="btn btn-danger">Đăng xuất</button></a>';
+              echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
           }else{
             
               echo '<a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>';
           }
         ?>
-        
       </div>
     </div>
   </nav>
