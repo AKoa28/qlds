@@ -1,0 +1,250 @@
+<?php
+include_once("controller/controller.php");
+$p = new ckhachhang();
+//$p1 = new ctaikhoan();
+$tblkhachhang = $p->getselectallkhachhang();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["action"])) {
+        if ($_POST["action"] == "addCustomer") {
+            $ten = $_POST["ten"];
+            $sdt = $_POST["sdt"];
+            $email = $_POST["email"];
+            $matkhau = md5($_POST["matkhau"]);
+            
+            // Kiểm tra email và số điện thoại đã tồn tại
+            // if ($p->kiemtraEmailSDT($email, $sdt)) {
+            //     echo "<script>alert('Email hoặc số điện thoại đã tồn tại'); window.location.href='index.php';</script>";
+            //     exit();
+            // }
+
+            // Thêm tài khoản vào bảng taikhoan
+            $p->themtaikhoan($ten, $sdt, $email, $matkhau);
+
+            // Lấy MaTaiKhoan vừa được thêm
+            $mataikhoan = $p->layMaTaiKhoan($sdt);
+
+            // Thêm khách hàng vào bảng khachhang
+            $p->themkhachhang($mataikhoan);
+            if($mataikhoan){
+                echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi thêm khách hàng'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+            }
+            echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+        
+        } elseif ($_POST["action"] == "verifyCustomer") {
+            $makhachhang = $_POST["makhachhang"];
+            $result = $p->xacThucKhachHang($makhachhang);
+            if ($result) {
+                echo "<script>alert('Xác thực khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+            } else {
+                echo "<script>alert('Xác thực khách hàng thất bại'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+            }
+        } elseif ($_POST["action"] == "deleteCustomer") {
+            $makhachhang = $_POST["makhachhang"];
+            $p->xoaKhachHang($makhachhang);
+        }
+        exit();
+    }
+}
+// if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["keyword"])) {
+//     $keyword = $_GET["keyword"];
+//     $tblkhachhang = $p->timKiemKhachHang($keyword);
+// }
+if(isset($_GET['keyword'])) {
+    $keyword = $_GET['keyword'];
+    $tblkhachhang = $p->timKiemKhachHang($keyword);
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .odd-row { background-color: #f2f2f2; }
+        .even-row { background-color: #ffffff; }
+        .fixed-button { position: fixed; bottom: 20px; right: 20px; z-index: 1000; color: #F8F8FF; background-color: #0D6EFD; }
+        .error { color: red; font-size: 0.875em; }
+        .search-input {
+            height: 60px;
+            border: 2px solid #0D6EFD; /* Màu viền nổi bật */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng đổ bóng */
+            }
+        .search-btn {
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Quản lý khách hàng</h2>
+
+        <!-- Form tìm kiếm -->
+        <form class="d-flex mb-4" method="GET" action="index.php">
+            <input type="hidden" name="page" value="xemkhachhang">
+            <input class="form-control mb-1 search-input" type="search" name="keyword" placeholder="Tìm kiếm khách hàng" aria-label="Search" required>
+            <button class="btn btn-info search-btn" type="submit"><i class="bi bi-search"></i>Tìm Kiếm</button>
+        </form>
+
+        <!-- Nút trở lại -->
+        <?php if (isset($_GET['keyword'])): ?>
+            <a href="index.php?page=xemkhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
+        <?php endif; ?>
+
+        <table class="table table-bordered" id="customerTable">
+            <thead>
+                <tr>
+                    <th>Mã khách hàng</th>
+                    <th>Mã tài khoản</th>
+                    <th>Tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                if ($tblkhachhang === -1) {
+                    echo "<tr><td colspan='7'>Lỗi kết nối cơ sở dữ liệu!</td></tr>";
+                } elseif ($tblkhachhang == 0) {
+                    if (isset($_GET['keyword'])) {
+                        echo "<tr><td colspan='7'>Không tìm thấy khách hàng nào!</td></tr>";
+                    } else {
+                        echo "<tr><td colspan='7'>Không có khách hàng nào!</td></tr>";
+                    }
+                } else {
+                    $row_count = 0;
+                    while ($r = $tblkhachhang->fetch_assoc()) {
+                        $row_class = ($row_count % 2 == 0) ? 'even-row' : 'odd-row';
+                        $isVerified = $r["TrangThai"] === 'Đã xác thực';
+                        $hasEmail = !empty($r["Email"]);
+                        echo "<tr class='$row_class'>";
+                        echo "<td>" . $r["MaKhachHang"] . "</td>";
+                        echo "<td>" . $r["MaTaiKhoan"] . "</td>";
+                        echo "<td>" . $r["Ten"] . "</td>";
+                        echo "<td>" . $r["SDT"] . "</td>";
+                        echo "<td>" . $r["Email"] . "</td>";
+                        echo "<td>" . $r["TrangThai"] . "</td>";
+                        echo "<td>
+                                <a href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a><br>
+                                <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
+                                    <input type='hidden' name='action' value='deleteCustomer'>
+                                    <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
+                                    <button type='submit' class='btn btn-danger btn-sm me-2'><i class='bi bi-trash'></i> Xóa</button><br>
+                                </form>";
+                        echo "  <form method='POST' action='' style='display:inline;' onsubmit='return confirmVerifyCustomer()'>
+                                    <input type='hidden' name='action' value='verifyCustomer'>
+                                    <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
+                                    <button type='submit' class='btn btn-success btn-sm' " . ($isVerified ? "disabled" : "") . "><i class='bi bi-check'></i> Xác Thực</button>
+                                </form>
+                            </td>";
+                        echo "</tr>";
+                        $row_count++;
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success fixed-button" data-bs-toggle="modal" data-bs-target="#addCustomerModal"><i class="bi bi-plus"></i> Thêm khách hàng</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addCustomerModal" tabindex="-1" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCustomerModalLabel">Thêm khách hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="addCustomerError" class="alert alert-danger d-none"></div>
+                    <form id="addCustomerForm" method="POST" action="">
+                        <input type="hidden" name="action" value="addCustomer">
+                        <div class="mb-3">
+                            <label for="ten" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="ten" name="ten" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sdt" class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control" id="sdt" name="sdt" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="matkhau" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="matkhau" name="matkhau" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Thêm khách hàng</button>
+                    </form>
+                </div>
+                
+                <!-- Kiểm tra email và số điện thoại tồn tại -->
+                <?php
+
+                ?>
+            </div>
+        </div>
+    </div>
+
+        
+    <script>
+        <?php
+        echo "
+            document.getElementById('addCustomerForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Ngăn chặn form submit mặc định
+
+                let ten = document.getElementById('ten').value;
+                let sdt = document.getElementById('sdt').value;
+                let email = document.getElementById('email').value;
+                let matkhau = document.getElementById('matkhau').value;
+
+                // Clear previous errors
+                document.getElementById('addCustomerError').classList.add('d-none');
+                document.getElementById('addCustomerError').textContent = '';
+
+                let errors = [];
+
+                // Validate email
+                if (!/^[a-zA-Z0-9._%+-]+@gmail\\.com$/.test(email)) {
+                    errors.push('Email không đúng định dạng');
+                    document.getElementById('email').value = ''; // Reset email field
+                }
+
+                // Validate phone number
+                if (!/^(0|\\+84)[3|5|7|8|9][0-9]{8}$/.test(sdt)) {
+                    errors.push('Số điện thoại không đúng định dạng');
+                    document.getElementById('sdt').value = ''; // Reset phone number field
+                }
+
+                // If there are errors, display them and stop form submission
+                if (errors.length > 0) {
+                    document.getElementById('addCustomerError').textContent = errors.join('. ');
+                    document.getElementById('addCustomerError').classList.remove('d-none');
+                    return;
+                }
+
+                // Submit the form if no errors
+                this.submit();
+            });
+        ";
+    ?>
+    
+
+    function confirmDeleteCustomer() {
+        return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?');
+    }
+    function confirmVerifyCustomer() {
+        return confirm('Bạn có chắc chắn muốn xác thực cho khách hàng này không?');
+    }
+</script>
+</body>
+</html>
