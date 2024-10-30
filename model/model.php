@@ -177,7 +177,7 @@
                 $kq = $con->query($sql);
                 if($kq){
                     $mataikhoan = $con->insert_id;
-                    $sql1="INSERT INTO `khachhang`(`MaTaiKhoan`,`TrangThai`) VALUES ('$mataikhoan',N'Có tài khoản')";
+                    $sql1="INSERT INTO `khachhang`(`MaTaiKhoan`,`TrangThai`,`XacNhan`) VALUES ('$mataikhoan',N'Có tài khoản',N'Chưa xác nhận')";
                     $kq1 = $con->query($sql1);
                     $p->dongketnoi($con);
                     if($kq1){

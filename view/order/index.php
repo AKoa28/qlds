@@ -56,7 +56,7 @@
                 if(empty($_SESSION["TTHD"])){
                     echo '<a href="?page=lichdatsan&masan='.$madiadiem.'"><button type="button" class="btn btn-danger">Quay lại trang lịch sân</button></a>';
                 }else{
-                    echo '<button type="submit" name="datsan" class="btn btn-Info">Đặt sân</button>';
+                    echo '<button type="submit" name="datsan" class="btn btn-info">Đặt sân</button>';
                 }
                 
                 echo '                  </td>
@@ -76,18 +76,22 @@
                     <div class="col-md-12">
                         <h1 class="mb-5" style="text-align:center;">Thông tin đặt sân</h1>
                         <form method="POST">
+                            <div class="form-floating mb-3">
+                                <input type="text" name="ten" class="form-control" id="floatingInput" placeholder="" required>
+                                <label for="floatingInput">Tên</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" name="sdt" id="sdt" class="form-control" id="floatingInput" placeholder="" required>
+                                <label for="floatingInput">Số điện thoại</label>
+                                <span id="errSDT" class="err text-danger"> </span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" name="email" class="form-control" id="floatingInput" placeholder="" required>
+                                <label for="floatingInput">Email</label>
+                            </div>
+                            
                             <table class="table"  style="text-align:center;">
-                                <tbody>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">Họ tên</span>
-                                        <input type="text" name="ten" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="inputGroup-sizing-default">Số điện thoại</span>
-                                        <input type="text" name="sdt" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" required>
-                                    </div>
-                                </tbody>
-                                <thead class="table-Success">
+                                <thead class="table-success">
                                     <tr>
                                     <th>Mã sân</th>
                                     <th>Khung giờ</th>
@@ -130,7 +134,7 @@
                 if(empty($_SESSION["TTHD"])){
                     echo '<a href="?page=lichdatsan&masan='.$madiadiem.'"><button type="button" class="btn btn-danger">Quay lại trang lịch sân</button></a>';
                 }else{
-                    echo '<button type="submit" name="datsan" class="btn btn-Info">Đặt sân</button>';
+                    echo '<button type="submit" name="datsan" class="btn btn-info">Đặt sân</button>';
                 }
                 
                 echo '                  </td>
@@ -165,7 +169,7 @@
         exit;
     }
     if(isset($_REQUEST["datsan"])){
-        if(isset($_SESSION["dangnhap"])){
+        if(isset($_SESSION["dangnhap"])){//đặt sân cho có tài khoản
             $makhachhang = $_SESSION["dangnhap"];
             $ngaydat = date("Y-m-d H:i:s");
             $trangthai = "Ưu tiên";
@@ -182,9 +186,10 @@
             }else{
                 echo "<script>alert('thất bại');</script>";
             }
-        }else{
+        }else{//đặt sân khách vãng lai
             $ten = $_REQUEST["ten"];
             $sdt = $_REQUEST["sdt"];
+            $email = $_REQUEST["email"];
             $trungsdt = new ctaikhoan;
             $tbltrungsdt = $trungsdt -> getselecttrungsdt($sdt);
             if($tbltrungsdt->num_rows > 0){
@@ -255,6 +260,22 @@
 ?>
                
 <script>
+    function ktSDT() {
+        let sdt = $('#sdt').val();
+        let btcq = /^(03|09|08|07)[0-9]\d{7}$/;
+        if (btcq.test(sdt) || sdt == "") {
+            $('#errSDT').html(" ");
+            $('#errSDT').addClass('err');
+            return true;
+        } else {
+            $("#errSDT").html("Số điện thoại gồm 10 con số trong đó bắt đầu là 03,05,07,08,09");
+            $('#errSDT').addClass('err');
+            return false;
+        }
+    }
+    $('#sdt').blur(function (e) {
+        ktSDT();
+    })
     $(document).ready(function() {
     // click nút "Xoá"
         $('.btn-xoa').click(function() {

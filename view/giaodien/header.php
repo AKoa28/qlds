@@ -35,7 +35,7 @@
             <a class="nav-link" href="">Điều khoản</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?dangnhapchochusan">Dành cho chủ sân</a>
+            <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">Liên hệ</a>

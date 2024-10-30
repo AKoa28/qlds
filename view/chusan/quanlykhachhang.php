@@ -1,11 +1,11 @@
 <?php
 include_once("controller/controller.php");
-$p = new ckhachhang();
+$pK = new ckhachhang();
+$p = new ctaikhoan();
 //$p1 = new ctaikhoan();
-$tblkhachhang = $p->getselectallkhachhang();
+$tblkhachhang = $pK->getselectallkhachhang();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     if (isset($_POST["action"])) {
         if ($_POST["action"] == "addCustomer") {
             if(isset($_REQUEST["subthemkh"])){
@@ -13,40 +13,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $sdt = $_POST["sdt"];
                 $email = $_POST["email"];
                 $matkhau = md5($_POST["matkhau"]);
-            
-                // $ten = $_POST["ten"];
-                // $sdt = $_POST["sdt"];
-                // $email = $_POST["email"];
-                // $matkhau = md5($_POST["matkhau"]);
-                
-                // Kiểm tra email và số điện thoại đã tồn tại
-                // if ($p->kiemtraEmailSDT($email, $sdt)) {
-                //     echo "<script>alert('Email hoặc số điện thoại đã tồn tại'); window.location.href='index.php';</script>";
-                //     exit();
-                // }
 
-                // Thêm tài khoản vào bảng taikhoan
-                $themtaikhoan = $p->themtaikhoan($ten, $sdt, $email, $matkhau);
-                if($themtaikhoan){
-                    echo "đúng";
+                $tbltrungsdt = $p->getselecttrungsdt($sdt);
+                if($tbltrungsdt->num_rows>0){
+                    while($rtt = $tbltrungsdt->fetch_assoc()){
+                        $remail = $rtt["Email"];
+                    }
+                    if($remail == NULL){
+                        $tbltrungemail = $p->getselecttrungemail($email);
+                        if($tbltrungemail->num_rows>0){
+                            echo "<script>alert('Email đã được đăng ký')</script>";
+                            header("refresh:0; url='?page=quanlykhachhang'");
+                        }else{
+                        
+    
+                            $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
+                            if($updatetaikhoan){
+                                echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }else{
+                                echo "<script>alert('Đăng ký thất bại')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }  
+                        }
+                    }else{
+                       echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
+                       header("refresh:0; url='?page=quanlykhachhang'");
+                    }
                 }else{
-                    echo "sai";
+                    //thêm gửi mail
+                    $tbltrungemail = $p->getselecttrungemail($email);
+                    if($tbltrungemail->num_rows>0){
+                        echo "<script>alert('Email đã được đăng ký')</script>";
+                        header("refresh:0; url='?page=quanlykhachhang'");
+                    }else{
+                            $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
+                            if($inserttaikhoan){
+                                echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }else{
+                                echo "<script>alert('Đăng ký thất bại')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }
+                        }
                 }
-                // Lấy MaTaiKhoan vừa được thêm
-                // $mataikhoan = $p->layMaTaiKhoan($sdt);
-
-                // // Thêm khách hàng vào bảng khachhang
-                // $p->themkhachhang($mataikhoan);
-                // if($mataikhoan){
-                //     echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
-                // } else {
-                //     echo "<script>alert('Lỗi khi thêm khách hàng'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
-                // }
-                // echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
             }
         } elseif ($_POST["action"] == "verifyCustomer") {
             $makhachhang = $_POST["makhachhang"];
-            $result = $p->xacThucKhachHang($makhachhang);
+            $result = $pK->xacThucKhachHang($makhachhang);
             if ($result) {
                 echo "<script>alert('Xác thực khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
             } else {
@@ -54,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } elseif ($_POST["action"] == "deleteCustomer") {
             $makhachhang = $_POST["makhachhang"];
-            $p->xoaKhachHang($makhachhang);
+            $pK->xoaKhachHang($makhachhang);
         }
         exit();
     }
@@ -65,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // }
 if(isset($_GET['keyword'])) {
     $keyword = $_GET['keyword'];
-    $tblkhachhang = $p->timKiemKhachHang($keyword);
+    $tblkhachhang = $pK->timKiemKhachHang($keyword);
 }
 ?>
 
@@ -216,7 +230,7 @@ if(isset($_GET['keyword'])) {
                         return false;
                     }
                     else if (btcq.test(sdt)) {
-                        $('#errSDT').html("(*)")
+                        $('#errSDT').html("")
                         $('#errSDT').addClass('err');
                         return true;
                     } else {

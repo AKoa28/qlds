@@ -18,16 +18,25 @@
             z-index: 1000;
         }
         .fixed-menu { 
-            /* margin-top: 0; */
-            width: 100%;
+            position: fixed;
+            top: 50px;
+            /* width: 220px; */
+            height:100%;
+            /* z-index: -1; */
         }
-        .content {
+        /* .content {
             margin-top: 2%;
-            margin-left: 20%; /* Khoảng trống cho menu cố định */
-            width: 80%; /* Chiếm 85% màn hình */
+            margin-left: 5%; 
+            width: 80%; 
             height: 100%;
             min-height: 100vh;
-        }
+        } */
+        /* nav {
+            float: left;
+            max-width: 160px;
+            margin: 0;
+            padding: 1em;
+        } */
     </style>
 </head>
 <style>
@@ -71,38 +80,54 @@
   
         <?php
             include_once('view/giaodien/header.php');
+            
         ?>
     <!-- <div class="d-flex fixed-menu"> -->
-        <div class="container-flex">
+        <div class="container-fluid">
             <div class="row">
         <?php
             if(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chusan"){
                 $_SESSION["chusan"] = 1;
-                echo '<div class="col-md-4">';
+                echo '<div class="col-md-2" style="">';
                 include_once("view/giaodien/menuchusan.php");
                 echo "</div>";
-                echo "<div class='col-md-8'>";
+                echo "<div class='col-md-10'>";
                 include_once("view/chusan/index.php");
                 echo "</div>";
             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
+                echo '<div class="col-md-2" style="">';
                 include_once("view/giaodien/menuchusan.php");
-                echo "<div class='content'>";
+                echo "</div>";
+                echo "<div class='col-md-10'>";
                 include_once("view/chusan/quanlykhachhang.php");
                 echo "</div>";
             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlynhanvien"){
+                echo '<div class="col-md-2" style="">';
                 include_once("view/giaodien/menuchusan.php");
-                echo "<div class='content'>";
+                echo "</div>";
+                echo "<div class='col-md-10'>";
                 include_once("view/quanlynhanvien/index.php");
                 echo "</div>";
             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan"){
+                echo '<div class="col-md-2" style="">';
                 include_once("view/giaodien/menuchusan.php");
-                echo "<div class='content'>";
+                echo "</div>";
+                echo "<div class='col-md-10'>";
                 include_once("view/quanlysan/index.php");
                 echo "</div>";
             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
+                echo '<div class="col-md-2" style="">';
                 include_once("view/giaodien/menuchusan.php");
-                echo "<div class='content'>";
+                echo "</div>";
+                echo "<div class='col-md-10'>";
                 include_once("view/quanlyloaisan/index.php");
+                echo "</div>";
+            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlydoanhthu"){
+                echo '<div class="col-md-2" style="">';
+                include_once("view/giaodien/menuchusan.php");
+                echo "</div>";
+                echo "<div class='col-md-10'>";
+                include_once("view/quanlydoanhthu/index.php");
                 echo "</div>";
             } else {
                 echo "<div class='container-fluid'>";

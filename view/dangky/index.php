@@ -28,6 +28,7 @@
                         <div class="group-input">
                             <label for="sdt">Số điện thoại *</label>
                             <input type="text" id="sdt" name="txtphone" required>
+                            <span id="errSDT" class="err text-danger"> </span>
                         </div>
                         <div class="group-input">
                             <label for="email">Email *</label>
@@ -42,6 +43,7 @@
                         <div class="group-input">
                             <label for="con-pass">Nhập lại mật khẩu *</label>
                             <input type="password" id="con-pass" name="txtconfirmpass" required>
+                            <span id="errPass" class="err text-danger"></span>
                         </div>
                         <span id="error-message" style="color:red; display:none;">Mật khẩu nhập lại không khớp</span>
                         <button type="submit" class="site-btn register-btn" name="subregister" >Đăng ký</button>
@@ -59,6 +61,39 @@
 </div>
 
 <script>
+    function ktSDT() {
+        let sdt = $('#sdt').val();
+        let btcq = /^(03|09|08|07)[0-9]\d{7}$/;
+        if (btcq.test(sdt) || sdt == "") {
+            $('#errSDT').html(" ");
+            $('#errSDT').addClass('err');
+            return true;
+        } else {
+            $("#errSDT").html("Số điện thoại gồm 10 con số trong đó bắt đầu là 03,05,07,08,09");
+            $('#errSDT').addClass('err');
+            return false;
+        }
+    }
+    $('#sdt').blur(function (e) {
+        ktSDT();
+    })
+
+    function ktMK() {
+        let conpass = $('#con-pass').val();
+        let pass = $("#pass").val();
+        if (conpass == pass) {
+            $('#errPass').html(" ")
+            $('#errPass').addClass('err');
+            return true;
+        } else {
+            $("#errPass").html("Xác nhận mật khẩu không đúng");
+            $('#errPass').addClass('err');
+            return false;
+        }
+    }
+    $('#con-pass').blur(function (e) {
+        ktMK();
+    })
     $(document).ready(function() {
         function hienthi() {
             // Hiển thị lớp phủ để chặn tương tác
