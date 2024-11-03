@@ -1,23 +1,48 @@
-<section class="cta-section text-center">
-    <h2>Bạn có muốn đăng ký tài khoản để hưởng được những quyền lợi tốt nhất khi đặt sân</h2>
+<style>
+  html, body {
+      height: 100%;
+      margin: 0;
+  }
+
+  .wrapper {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+  }
+
+  .content {
+      flex: 1;
+  }
+
+  footer {
+      background-color: #f8f9fa;
+      padding: 20px 0;
+      position: relative;
+      width: 100%;
+      bottom: 0;
+  }
+</style>
+<!-- <section class="cta-section text-center">
+    <h2>Đăng ký tài khoản để hưởng được những quyền lợi tốt nhất khi đặt sân</h2>
+    <h4>Bạn sẽ được ưu tiên xét duyệt đặt sân khi đặt sân bằng tài khoản của bạn</h4>
     <div class="container">
       <form class="row justify-content-center" method="POST">
         <div class="col-md-3">
-          <input type="text" class="form-control m-1" placeholder="Họ & tên *" name="txtname">
+          <input type="text" class="form-control m-1" placeholder="Họ & tên *" name="txtname" required>
         </div>
         <div class="col-md-3">
-          <input type="text" class="form-control m-1" placeholder="Số điện thoại *" name="txtpass">
+          <input type="text" class="form-control m-1" placeholder="Số điện thoại *" name="txtpass" required>
         </div>
         <div class="col-md-3">
-          <input type="email" class="form-control m-1" placeholder="Email" name="txtemail">
+          <input type="email" class="form-control m-1" placeholder="Email *" name="txtemail" required>
         </div>
         <div class="col-md-2">
           <button type="submit" class="btn btn-primary w-100 m-1" name="subregister">Gửi</button>
         </div>
       </form>
     </div>
-  </section>
-
+  </section> -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <footer class="text-center text-md-start bg-success">
     <div class="container">
       <div class="row">
@@ -50,11 +75,12 @@
             <li>Chăm sóc khách hàng: <a href="#">Trần Thị Diễm Phương</a></li>
             <li>Chăm sóc khách hàng: <a href="#">Nguyễn Phi Thiên</a></li>
           </ul>
-          <!-- <button class="btn btn-warning">Gọi ngay</button> -->
+          
         </div>
       </div>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </nav>
 </body>
 </html>

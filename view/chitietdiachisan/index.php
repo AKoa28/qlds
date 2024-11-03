@@ -3,12 +3,12 @@
     $p = new controller();
     $tbldiachi = $p->getselectdiachisan();
     while($r = $tbldiachi->fetch_assoc()){
-        $arraydiachi [] = $r["MaDiaChi"];
-        if($r["MaDiaChi"] == $masan){
-            $tendiachi = $r["TenDiaChi"];
-            $diadiem = $r["DiaDiem"];
+        $arraydiachi [] = $r["MaDiaDiem"];
+        if($r["MaDiaDiem"] == $masan){
+            $tendiachi = $r["TenDiaDiem"];
+            $diadiem = $r["DiaChi"];
             $hinhdaidien = $r["HinhDaiDien"];
-            $mota = $r["mota"];
+            $mota = $r["MoTa"];
         }
     }
     if(isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"],$arraydiachi)){
@@ -23,8 +23,8 @@
         <div class="col-md-7">
             <img src="image/<?= $hinhdaidien ?>" class="image-chitiet" alt="">
         </div>
-        <div class="col-md-5 bg-primary">
-            <p>âsdsadsdasdsad</p>
+        <div class="col-md-5">
+            <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
         </div>
        </div>      
     </div>
