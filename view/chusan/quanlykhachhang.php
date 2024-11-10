@@ -138,7 +138,7 @@ if(isset($_GET['keyword'])) {
             <?php
                 if ($tblkhachhang === -1) {
                     echo "<tr><td colspan='7'>Lỗi kết nối cơ sở dữ liệu!</td></tr>";
-                } elseif ($tblkhachhang == 0) {
+                } elseif ($tblkhachhang === 0) {
                     if (isset($_GET['keyword'])) {
                         echo "<tr><td colspan='7'>Không tìm thấy khách hàng nào!</td></tr>";
                     } else {

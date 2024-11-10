@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 23, 2024 lúc 01:09 PM
+-- Thời gian đã tạo: Th10 10, 2024 lúc 03:53 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -47,47 +47,27 @@ INSERT INTO `chitietdatsan` (`MaChiTiet`, `MaSan`, `MaDatSan`, `NgayDatSan`, `Kh
 (2, 2, 7, '2024-10-29', '15:00-16:30', NULL, NULL, 100000),
 (3, 3, 12, '2024-10-30', NULL, '07:00:00', '22:00:00', 1500000),
 (4, 4, 12, '2024-10-30', NULL, '07:00:00', '22:00:00', 1500000),
-(13, 1, 24, '2024-10-27', '7:00-8:30', NULL, NULL, 200000),
-(14, 1, 24, '2024-10-27', '17:00-18:30', NULL, NULL, 600000),
-(15, 3, 24, '2024-10-25', '17:00-18:30', NULL, NULL, 500000),
-(16, 1, 24, '2024-10-27', '19:00-20:30', NULL, NULL, 800000),
-(17, 1, 25, '2024-10-21', '7:00-8:30', NULL, NULL, 100000),
-(18, 2, 25, '2024-10-21', '7:00-8:30', NULL, NULL, 100000),
-(19, 3, 25, '2024-10-21', '7:00-8:30', NULL, NULL, 100000),
-(20, 4, 25, '2024-10-21', '7:00-8:30', NULL, NULL, 100000),
-(21, 5, 25, '2024-10-21', '7:00-8:30', NULL, NULL, 100000),
-(22, 1, 26, '2024-10-22', '7:00-8:30', NULL, NULL, 100000),
-(23, 2, 26, '2024-10-22', '7:00-8:30', NULL, NULL, 100000),
-(24, 3, 26, '2024-10-22', '7:00-8:30', NULL, NULL, 100000),
-(25, 4, 26, '2024-10-22', '7:00-8:30', NULL, NULL, 100000),
-(26, 1, 29, '2024-10-24', '7:00-8:30', NULL, NULL, 100000),
-(27, 2, 29, '2024-10-24', '7:00-8:30', NULL, NULL, 100000),
-(28, 3, 29, '2024-10-24', '7:00-8:30', NULL, NULL, 100000),
-(29, 4, 29, '2024-10-24', '7:00-8:30', NULL, NULL, 100000),
-(30, 5, 29, '2024-10-24', '7:00-8:30', NULL, NULL, 100000),
-(31, 1, 30, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(32, 1, 31, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(33, 2, 32, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(34, 3, 33, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(35, 4, 34, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(36, 4, 35, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(37, 4, 36, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(38, 5, 37, '2024-10-26', '7:00-8:30', NULL, NULL, 200000),
-(39, 2, 38, '2024-10-27', '7:00-8:30', NULL, NULL, 200000),
-(40, 3, 39, '2024-10-27', '7:00-8:30', NULL, NULL, 200000),
-(41, 1, 40, '2024-10-25', '7:00-8:30', NULL, NULL, 100000),
-(42, 1, 41, '2024-10-25', '7:00-8:30', NULL, NULL, 100000),
-(43, 2, 42, '2024-10-25', '7:00-8:30', NULL, NULL, 100000),
-(44, 2, 43, '2024-10-25', '7:00-8:30', NULL, NULL, 100000),
-(45, 1, 44, '2024-10-23', '7:00-8:30', NULL, NULL, 100000),
-(46, 2, 45, '2024-10-23', '7:00-8:30', NULL, NULL, 100000),
-(47, 3, 46, '2024-10-23', '7:00-8:30', NULL, NULL, 100000),
-(48, 3, 47, '2024-10-25', '7:00-8:30', NULL, NULL, 100000),
-(49, 2, 48, '2024-10-27', '9:00-10:30', NULL, NULL, 200000),
-(50, 3, 48, '2024-10-27', '9:00-10:30', NULL, NULL, 200000),
-(51, 4, 48, '2024-10-27', '9:00-10:30', NULL, NULL, 200000),
-(52, 5, 48, '2024-10-27', '9:00-10:30', NULL, NULL, 200000),
-(53, 1, 49, '2024-10-24', '7:00-8:30', NULL, NULL, 100000);
+(67, 1, 60, '2024-10-27', '7:00-8:30', NULL, NULL, 200000),
+(68, 2, 60, '2024-10-27', '7:00-8:30', NULL, NULL, 200000),
+(69, 1, 61, '2024-10-31', '7:00-8:30', NULL, NULL, 100000),
+(70, 2, 61, '2024-10-31', '7:00-8:30', NULL, NULL, 100000),
+(71, 3, 61, '2024-10-31', '7:00-8:30', NULL, NULL, 100000),
+(72, 1, 62, '2024-11-01', '7:00-8:30', NULL, NULL, 100000),
+(73, 2, 62, '2024-11-01', '7:00-8:30', NULL, NULL, 100000),
+(74, 3, 62, '2024-11-01', '7:00-8:30', NULL, NULL, 100000),
+(81, 6, 69, '2024-10-31', '7:00-8:30', NULL, NULL, 100000),
+(82, 3, 70, '2024-11-10', '7:00-8:30', NULL, NULL, 200000),
+(83, 4, 70, '2024-11-10', '7:00-8:30', NULL, NULL, 200000),
+(84, 6, 71, '2024-11-10', '7:00-8:30', NULL, NULL, 200000),
+(85, 6, 71, '2024-11-10', '9:00-10:30', NULL, NULL, 200000),
+(86, 5, 72, '2024-11-10', '7:00-8:30', NULL, NULL, 200000),
+(87, 1, 72, '2024-11-10', '9:00-10:30', NULL, NULL, 200000),
+(88, 4, 73, '2024-11-10', '17:00-18:30', NULL, NULL, 600000),
+(89, 5, 73, '2024-11-10', '17:00-18:30', NULL, NULL, 600000),
+(90, 4, 74, '2024-11-10', '21:00-22:30', NULL, NULL, 900000),
+(91, 5, 74, '2024-11-10', '21:00-22:30', NULL, NULL, 900000),
+(92, 1, 75, '2024-11-11', '7:00-8:30', NULL, NULL, 100000),
+(93, 2, 75, '2024-11-11', '7:00-8:30', NULL, NULL, 100000);
 
 -- --------------------------------------------------------
 
@@ -132,30 +112,16 @@ INSERT INTO `datsan` (`MaDatSan`, `MaKhachHang`, `MaNhanVien`, `NgayDat`, `Trang
 (4, 1, 1, '2024-10-01 00:00:00', 'Không duyệt', 100000, 1),
 (7, 1, 1, '2024-10-04 00:00:00', 'Ưu tiên', 100000, 1),
 (12, 1, 1, '2024-10-20 00:00:00', 'Chờ duyệt', 3000000, 1),
-(24, 12, 1, '2024-10-22 21:01:06', 'Chờ duyệt', 2100000, 1),
-(25, 13, 1, '2024-10-23 07:33:28', 'Chờ duyệt', 500000, 1),
-(26, 14, 1, '2024-10-23 07:52:04', 'Chờ duyệt', 400000, 1),
-(29, 16, NULL, '2024-10-23 07:59:56', 'Chờ duyệt', 500000, 1),
-(30, 5, NULL, '2024-10-23 08:37:38', 'Chờ duyệt', 200000, 1),
-(31, 5, NULL, '2024-10-23 08:40:00', 'Chờ duyệt', 200000, 1),
-(32, 5, NULL, '2024-10-23 08:40:19', 'Chờ duyệt', 200000, 1),
-(33, 5, NULL, '2024-10-23 08:40:53', 'Chờ duyệt', 200000, 1),
-(34, 5, NULL, '2024-10-23 08:41:21', 'Chờ duyệt', 200000, 1),
-(35, 5, NULL, '2024-10-23 08:41:52', 'Chờ duyệt', 200000, 1),
-(36, 5, NULL, '2024-10-23 08:42:28', 'Chờ duyệt', 200000, 1),
-(37, 5, NULL, '2024-10-23 08:43:02', 'Chờ duyệt', 200000, 1),
-(38, 5, NULL, '2024-10-23 08:43:55', 'Chờ duyệt', 200000, 1),
-(39, 5, NULL, '2024-10-23 08:44:17', 'Chờ duyệt', 200000, 1),
-(40, 5, NULL, '2024-10-23 08:45:16', 'Chờ duyệt', 100000, 1),
-(41, 5, NULL, '2024-10-23 08:45:49', 'Chờ duyệt', 100000, 1),
-(42, 5, NULL, '2024-10-23 08:46:07', 'Chờ duyệt', 100000, 1),
-(43, 5, NULL, '2024-10-23 08:46:17', 'Đã duyệt', 100000, 1),
-(44, 5, NULL, '2024-10-23 08:48:02', 'Chờ duyệt', 100000, 1),
-(45, 5, NULL, '2024-10-23 08:51:11', 'Chờ duyệt', 100000, 1),
-(46, 5, NULL, '2024-10-23 08:53:04', 'Chờ duyệt', 100000, 1),
-(47, 5, NULL, '2024-10-23 08:54:36', 'Chờ duyệt', 100000, 1),
-(48, 5, NULL, '2024-10-23 08:57:50', 'Ưu tiên', 800000, 1),
-(49, 5, NULL, '2024-10-23 12:59:42', 'Chờ duyệt', 100000, 1);
+(60, 1, NULL, '2024-10-26 14:10:30', 'Ưu tiên', 400000, 1),
+(61, 49, NULL, '2024-10-30 13:46:32', 'Chờ duyệt', 300000, 1),
+(62, 48, NULL, '2024-10-30 13:47:31', 'Ưu tiên', 300000, 1),
+(69, 57, NULL, '2024-10-30 23:40:34', 'Chờ duyệt', 100000, 2),
+(70, 56, NULL, '2024-11-10 00:15:14', 'Ưu tiên', 400000, 1),
+(71, 48, NULL, '2024-11-10 00:49:48', 'Ưu tiên', 400000, 2),
+(72, 48, NULL, '2024-11-10 00:56:22', 'Ưu tiên', 400000, 1),
+(73, 56, NULL, '2024-11-10 15:00:17', 'Đã duyệt', 1200000, 1),
+(74, 56, NULL, '2024-11-10 15:14:47', 'Ưu tiên', 1800000, 1),
+(75, 56, NULL, '2024-11-10 21:47:36', 'Đã duyệt', 200000, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +144,7 @@ CREATE TABLE `diadiem` (
 
 INSERT INTO `diadiem` (`MaDiaDiem`, `MaChuSan`, `TenDiaDiem`, `DiaChi`, `HinhDaiDien`, `MoTa`) VALUES
 (1, 1, 'Sân Bóng Nguyễn Văn Bảo', '4 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 'diachi1.jpg', ''),
-(2, 2, 'Sân Bóng IUH', '10 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 'diachi.jpg', '');
+(2, 2, 'Sân Bóng IUH', '10 Nguyễn Văn Bảo, Gò Vấp, Hồ Chí Minh', 'diachi2.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -236,21 +202,24 @@ INSERT INTO `hinh` (`MaHinh`, `Url`, `MoTa`) VALUES
 CREATE TABLE `khachhang` (
   `MaKhachHang` int(11) NOT NULL,
   `MaTaiKhoan` int(11) NOT NULL,
-  `TrangThai` varchar(255) NOT NULL
+  `TrangThai` varchar(255) NOT NULL,
+  `XacNhan` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `khachhang`
 --
 
-INSERT INTO `khachhang` (`MaKhachHang`, `MaTaiKhoan`, `TrangThai`) VALUES
-(1, 3, 'Có tài khoản'),
-(5, 23, 'Vãng lai'),
-(12, 37, 'Vãng lai'),
-(13, 39, 'Vãng lai'),
-(14, 41, 'Vãng lai'),
-(15, 42, 'Vãng lai'),
-(16, 43, 'Vãng lai');
+INSERT INTO `khachhang` (`MaKhachHang`, `MaTaiKhoan`, `TrangThai`, `XacNhan`) VALUES
+(1, 3, 'Có tài khoản', 'Đã xác nhận'),
+(27, 68, 'Có tài khoản', 'Chưa xác nhận'),
+(37, 78, 'Có tài khoản', 'Chưa xác nhận'),
+(40, 81, 'Có tài khoản', 'Chưa xác nhận'),
+(48, 102, 'Có tài khoản', 'Chưa xác nhận'),
+(49, 103, 'Có tài khoản', ''),
+(50, 104, 'Có tài khoản', 'Chưa xác nhận'),
+(56, 110, 'Có tài khoản', 'Chưa xác nhận'),
+(57, 111, 'Có tài khoản', 'Chưa xác nhận');
 
 -- --------------------------------------------------------
 
@@ -675,27 +644,28 @@ CREATE TABLE `taikhoan` (
   `MaTaiKhoan` int(11) NOT NULL,
   `Ten` varchar(255) NOT NULL,
   `SDT` char(11) NOT NULL,
-  `Email` varchar(255) DEFAULT NULL,
-  `MatKhau` varchar(255) DEFAULT NULL
+  `Email` varchar(255) NOT NULL,
+  `MatKhau` varchar(255) DEFAULT NULL,
+  `CapNhatLanCuoi` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `taikhoan`
 --
 
-INSERT INTO `taikhoan` (`MaTaiKhoan`, `Ten`, `SDT`, `Email`, `MatKhau`) VALUES
-(1, 'Chủ sân 1', '0919456789', 'chusan1@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(2, 'Chủ sân 2', '0387654321', 'chusan2@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(3, 'Nguyễn Văn Khách A', '0919999999', 'NguyenVKA@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(4, 'Nguyễn Một A', '0382468135', 'nhanviensan1a@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(23, 'Lý Anh Khoa', '0382034043', NULL, NULL),
-(37, 'Lý Anh Khoa', '0986745364', NULL, NULL),
-(38, 'Khoa Lý', '09354645233', NULL, NULL),
-(39, 'âsasasasas', '8564534465', NULL, NULL),
-(40, '1111111', '21321321312', NULL, NULL),
-(41, 'dsdswdsdscxcđ', '75463425364', NULL, NULL),
-(42, 'LKAKSJSDG', '0543342563', NULL, NULL),
-(43, 'âsasasasas', '0783452434', NULL, NULL);
+INSERT INTO `taikhoan` (`MaTaiKhoan`, `Ten`, `SDT`, `Email`, `MatKhau`, `CapNhatLanCuoi`) VALUES
+(1, 'Chủ sân 1', '0919456789', 'chusan1@gmail.com', '202cb962ac59075b964b07152d234b70', '0000-00-00 00:00:00'),
+(2, 'Chủ sân 2', '0387654321', 'chusan2@gmail.com', '202cb962ac59075b964b07152d234b70', '0000-00-00 00:00:00'),
+(3, 'Nguyễn Văn Khách A', '0919999999', 'NguyenVKA@gmail.com', '202cb962ac59075b964b07152d234b70', '0000-00-00 00:00:00'),
+(4, 'Nguyễn Một A', '0382468135', 'nhanviensan1a@gmail.com', '202cb962ac59075b964b07152d234b70', '0000-00-00 00:00:00'),
+(68, 'Lý Anh A', '0382034043', 'lyanhkhoa123@gmail.com', '289dff07669d7a23de0ef88d2f7129e7', '2024-10-24 19:54:56'),
+(78, 'Lý Anh Khoa', '03820340443', 'lyanhkhoa987@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', '2024-10-26 06:35:36'),
+(81, 'tết 2025', '0984445364', 'tet2025@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-26 14:14:05'),
+(102, 'Lý Anh Khoa', '0382034046', 'lyanhkhoa789@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-30 13:25:34'),
+(103, 'Lý Văn Khoa', '0908456123', 'lyanhkhoa8777@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-30 13:50:16'),
+(104, 'Lý Anh Khoa', '0984445360', 'lyanhkhoa788@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-30 13:49:23'),
+(110, 'Lý Anh Khoa', '0555555555', 'lyanhkhoa555@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-30 23:37:42'),
+(111, 'Người Dùng Mới', '0908456127', 'lyanhkhoa2k3@gmail.com', '202cb962ac59075b964b07152d234b70', '2024-10-30 23:41:12');
 
 -- --------------------------------------------------------
 
@@ -792,7 +762,8 @@ ALTER TABLE `loaisan`
 --
 ALTER TABLE `nhanvien`
   ADD PRIMARY KEY (`MaNhanVien`),
-  ADD KEY `fk_nv_tk` (`MaTaiKhoan`);
+  ADD KEY `fk_nv_tk` (`MaTaiKhoan`),
+  ADD KEY `fk_nv_dd` (`MaDiaDiem`);
 
 --
 -- Chỉ mục cho bảng `san`
@@ -834,7 +805,7 @@ ALTER TABLE `thutrongtuan`
 -- AUTO_INCREMENT cho bảng `chitietdatsan`
 --
 ALTER TABLE `chitietdatsan`
-  MODIFY `MaChiTiet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `MaChiTiet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT cho bảng `chusan`
@@ -846,7 +817,7 @@ ALTER TABLE `chusan`
 -- AUTO_INCREMENT cho bảng `datsan`
 --
 ALTER TABLE `datsan`
-  MODIFY `MaDatSan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `MaDatSan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT cho bảng `diadiem`
@@ -870,7 +841,7 @@ ALTER TABLE `hinh`
 -- AUTO_INCREMENT cho bảng `khachhang`
 --
 ALTER TABLE `khachhang`
-  MODIFY `MaKhachHang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `MaKhachHang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT cho bảng `khunggio`
@@ -900,7 +871,7 @@ ALTER TABLE `san`
 -- AUTO_INCREMENT cho bảng `taikhoan`
 --
 ALTER TABLE `taikhoan`
-  MODIFY `MaTaiKhoan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `MaTaiKhoan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT cho bảng `thutrongtuan`
@@ -949,6 +920,7 @@ ALTER TABLE `khachhang`
 -- Các ràng buộc cho bảng `nhanvien`
 --
 ALTER TABLE `nhanvien`
+  ADD CONSTRAINT `fk_nv_dd` FOREIGN KEY (`MaDiaDiem`) REFERENCES `diadiem` (`MaDiaDiem`),
   ADD CONSTRAINT `fk_nv_tk` FOREIGN KEY (`MaTaiKhoan`) REFERENCES `taikhoan` (`MaTaiKhoan`);
 
 --

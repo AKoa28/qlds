@@ -206,7 +206,7 @@ if($tbl===-1){
         </div>
     </div>
     <div class="container">
-        <table class="table table-bordered" style="text-align:center;">
+        <table class="table table-hover table-bordered" style="text-align:center;">
             <thead>
                 <tr>
                     <th>Giờ</th>
@@ -223,9 +223,7 @@ if($tbl===-1){
                 </tr>
             </thead>
             <tbody>
-                <div id="ketqua">
-
-                </div>
+                <div id="ketqua"></div>
                 <?php
                     $timestamp1 = strtotime($prevWeek);
                     $timestamp2 = strtotime($currentDate);

@@ -59,9 +59,9 @@
             }
         }
 
-        public function getselectdiachisan(){
+        public function getselectdiachisan($machusan=''){
             $p = new model();
-            $con = $p->selectdiachisan();
+            $con = $p->selectdiachisan($machusan);
             if(!$con){
                 return -1;
             }else{
@@ -103,10 +103,10 @@
             }
         }
 
-        public function getinsertkhachvanglai($ten,$sdt,$trangthai){
+        public function getinsertkhachvanglai($ten,$sdt,$email,$trangthaikhach){
             $capnhatlancuoi = date("Y-m-d H:i:s");
             $p = new mnguoidung();
-            $con = $p->insertkhachvanglai($ten,$sdt,$trangthai,$capnhatlancuoi);
+            $con = $p->insertkhachvanglai($ten,$sdt,$email,$trangthaikhach,$capnhatlancuoi);
             if(!$con){
                 return false;
             }else{
@@ -130,6 +130,37 @@
                     $_SESSION["dangnhap"] = $r["MaKhachHang"];
                     $_SESSION["tenkhachhang"] = $r["Ten"];
                 }
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+
+        public function getquanlysanDANGNHAP($sdt,$pass){
+            $pass = md5($pass);
+            $p = new mtaikhoan();
+            $con = $p->quanlysanDANGNHAP($sdt,$pass);
+            if($con->num_rows > 0){
+                while($r = $con->fetch_assoc()){
+                    if($r["MaNhanVien"] == ""){
+                        $_SESSION["chusan"] = $r["MaChuSan"];
+                        $_SESSION["ten"] = $r["Ten"];
+                    }else{
+                        $_SESSION["nhanvien"] = $r["MaNhanVien"];
+                        $_SESSION["ten"] = $r["Ten"];
+                    }
+                    
+                }
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+
+        public function getThongtinkhachhang($makhachhang){
+            $p = new mtaikhoan();
+            $con = $p->Thongtinkhachhang($makhachhang);
+            if($con->num_rows > 0){
                 return $con;
             }else{
                 return 0;
@@ -185,6 +216,36 @@
             $p = new mdatsan();
             $con = $p->insertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
             return $con;
+        }
+
+        public function getXemdoanhthutheongay($ngay){
+            $p = new mdatsan();
+            $con = $p->Xemdoanhthutheongay($ngay);
+            if(!$con){
+                return 0;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getXemdslichdat($madiadiem){ 
+            $p = new mdatsan();
+            $con = $p->Xemdslichdat($madiadiem);
+            if(!$con){
+                return 0;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getXemdslichdattheokhachhang($makhachhang){ 
+            $p = new mdatsan();
+            $con = $p->Xemdslichdattheokhachhang($makhachhang);
+            if(!$con){
+                return 0;
+            }else{
+                return $con;
+            }
         }
     }
 

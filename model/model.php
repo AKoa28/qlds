@@ -55,11 +55,16 @@
         }
 
         //select bảng địa chỉ
-        public function selectdiachisan(){
+        public function selectdiachisan($machusan){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select * from diadiem";
+                if($machusan){
+                    $sql="select * from diadiem where MaChuSan = '$machusan'";
+                }else{
+                    $sql="select * from diadiem";
+                }
+                
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -95,10 +100,10 @@
                 return false;
             }
         }
-        public function insertkhachvanglai($ten,$sdt,$trangthai,$capnhatlancuoi){
+        public function insertkhachvanglai($ten,$sdt,$email,$trangthai,$capnhatlancuoi){
             $p = new ketnoi();
             $con = $p->moketnoi();
-            $sql= "INSERT INTO `taikhoan`(`Ten`, `SDT`,`CapNhatLanCuoi`) VALUES ('$ten','$sdt','$capnhatlancuoi')";
+            $sql= "INSERT INTO `taikhoan`(`Ten`, `SDT`,`Email`,`CapNhatLanCuoi`) VALUES ('$ten','$sdt','$email','$capnhatlancuoi')";
             $kq = $con->query($sql);
             // $p->dongketnoi($con);
             if($kq){
@@ -143,6 +148,32 @@
                 return false;
             }
         }
+
+        public function quanlysanDANGNHAP($sdt,$pass){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `taikhoan` tk LEFT OUTER JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan LEFT OUTER JOIN chusan cs on cs.MaTaiKhoan = tk.MaTaiKhoan WHERE SDT = '$sdt' and MatKhau = '$pass'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function Thongtinkhachhang($makhachhang){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `taikhoan` tk  JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan WHERE MaKhachHang = '$makhachhang'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
         public function selecttrungsdt($sdt){
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -159,7 +190,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="SELECT * FROM `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan WHERE Email = '$email'";
+                $sql="SELECT * FROM `taikhoan` tk LEFT OUTER JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan LEFT OUTER JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan LEFT OUTER JOIN chusan cs on cs.MaTaiKhoan = tk.MaTaiKhoan WHERE Email = '$email'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -197,7 +228,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="UPDATE `taikhoan` SET `Ten`='$ten',`Email`='$email',`MatKhau`='$pass',CapNhatLanCuoi='$capnhatlancuoi' WHERE SDT='$sdt'";
+                $sql="UPDATE `taikhoan` SET `Ten`='$ten',`MatKhau`='$pass',CapNhatLanCuoi='$capnhatlancuoi' WHERE SDT='$sdt' and `Email`='$email'";
                 $kq = $con->query($sql);
                 if($kq){
                     $sql1 = "select MaTaiKhoan from taikhoan where Email='$email' and SDT='$sdt'";
@@ -207,7 +238,7 @@
                             while($r = $kq1->fetch_assoc()){
                                 $matk = $r['MaTaiKhoan'];
                             }
-                            $sql2="UPDATE `khachhang` SET `TrangThai`= N'Có tài khoản' WHERE `MaTaiKhoan` = '$matk'";
+                            $sql2="UPDATE `khachhang` SET `TrangThai`= N'Có tài khoản',`XacNhan`='Chưa xác nhận' WHERE `MaTaiKhoan` = '$matk'";
                             $kq2 = $con->query($sql2);
                             $p->dongketnoi($con);
                             if($kq2){
@@ -270,6 +301,45 @@
                     echo "Lỗi: " . $sql . "<br>" . $con->error;
                 }
             }else{
+                return false;
+            }
+        }
+
+        public function Xemdoanhthutheongay($ngay) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM datsan ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan where NgayDatSan = '$ngay'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        public function Xemdslichdat($madiadiem) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT ds.*, tk.Ten FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where MaDiaDiem = '$madiadiem'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        public function Xemdslichdattheokhachhang($makhachhang) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT ds.*, ctds.*, s.TenSan, dd.TenDiaDiem FROM `datsan` ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan join san s on ctds.MaSan = s.MaSan join diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem where MaKhachHang = '$makhachhang'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
                 return false;
             }
         }

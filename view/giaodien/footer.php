@@ -25,7 +25,11 @@
 <?php
   if(isset($_REQUEST["dangky"])){
     echo ''; 
+  }elseif(isset($_REQUEST["chusandangnhap"])){
+    echo '';
   }elseif(isset($_SESSION["chusan"])){
+    echo '';
+  }elseif(isset($_SESSION["dangnhap"])){
     echo '';
   }else{
     echo '

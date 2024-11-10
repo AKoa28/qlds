@@ -1,20 +1,31 @@
 <?php
-    if(isset($_SESSION["dangnhap"])){
+    if(isset($_SESSION["dangnhap"]) && isset($_SESSION["chusan"])){
         echo '<script>alert("Đã đăng nhập")</script>';
-        header("refresh:0 url='?danhsachdiachi'");
+        header("refresh:0 url='?chusan'");
     }
 ?>
-<div class="register-login-section spad">
+<style>
+    .err{
+        background-color: rgba(0,0,0,0.5);
+    }
+</style>
+<div class="chusan-section spad">
     <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" >
+                <h2 style="color:white;">Đăng Nhập</h2>
+                <h4 style="color:white;"><i>(dành cho chủ sân và cấp quản lý)</i></h4>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
                 <div class="register-form">
-                    <h2>Đăng Nhập</h2>
+                    
                     <form action="#" method="post" id="formdangnhap">
                         <div class="group-input">
                             <label for="sdt">Số điện thoại *</label>
                             <input type="text" id="sdt" name="txtphone" required>
-                            <span id="errSDT" class="err text-danger"> </span>
+                            <span id="errSDT" class="err text-danger"></span>
                         </div>
                         <div class="group-input">
                             <label for="pass">Mật khẩu *</label>
@@ -23,7 +34,7 @@
                         <button type="submit" class="site-btn register-btn" name="subregister" >Đăng Nhập</button>
                     </form>
                     <div class="switch-login">
-                        <a href="?dangky" class="or-login">Đăng ký</a>
+                        <a href="?dangky" class="or-login">Đăng ký mở sân</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +68,7 @@
 
             if(sdt !== null && pass !== null){
                 $.ajax({
-                    url: "view/dangnhap/ajax.php",
+                    url: "view/chusandangnhap/ajax.php",
                     type: "POST",
                     data: {sdt: sdt, pass: pass},
                     success: function(ketqua){

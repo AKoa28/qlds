@@ -38,18 +38,14 @@
             padding: 1em;
         } */
     </style>
+    
 </head>
-<style>
-    body{
-        /* background-image: url('image/nen1.jpg'), url('image/nen1.jpg');
-        background-size: 100%; */
-    }
-</style>
+
 <?php
 
     session_start();
     ob_start();
-    error_reporting(0);
+    // error_reporting(0);
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
@@ -75,86 +71,99 @@
 ?>
 
 
-
-<div class="">
   
         <?php
             include_once('view/giaodien/header.php');
             
         ?>
-    <!-- <div class="d-flex fixed-menu"> -->
-        <div class="container-fluid">
+    <div class="container-fluid">
             <div class="row">
-        <?php
-            if(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chusan"){
-                $_SESSION["chusan"] = 1;
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/chusan/index.php");
-                echo "</div>";
-            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/chusan/quanlykhachhang.php");
-                echo "</div>";
-            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlynhanvien"){
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/quanlynhanvien/index.php");
-                echo "</div>";
-            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan"){
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/quanlysan/index.php");
-                echo "</div>";
-            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/quanlyloaisan/index.php");
-                echo "</div>";
-            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlydoanhthu"){
-                echo '<div class="col-md-2" style="">';
-                include_once("view/giaodien/menuchusan.php");
-                echo "</div>";
-                echo "<div class='col-md-10'>";
-                include_once("view/quanlydoanhthu/index.php");
-                echo "</div>";
-            } else {
-                echo "<div class='container-fluid'>";
-                if(isset($_REQUEST['dangky'])) {
-                    include_once ("view/dangky/index.php");
-                } elseif(isset($_REQUEST['dangnhap'])) {
-                    include_once ("view/dangnhap/index.php");
-                } elseif(isset($_REQUEST['dangxuat'])) {
-                    include_once ("view/dangxuat/index.php");
-                } elseif(isset($_REQUEST['dangnhapchochusan'])) {
-                    include_once ("view/dangnhapchochusan/index.php");
-                }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "order"){
-                    include_once("view/order/index.php");
-                } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chitietdiachisan"){
-                    include_once("view/chitietdiachisan/index.php");
-                } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "lichdatsan"){
-                    include_once("view/lichdatsan/index.php");
-                } else {
-                    include_once("view/danhsachdiachi/index.php");
-                }
-                // echo "</div>";
-            }
+                    <?php
+                        if(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chusan"){
+                            // $_SESSION["chusan"] = 1;
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/chusan/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/chusan/quanlykhachhang.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlynhanvien"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlynhanvien/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlyloaisan/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlydoanhthu"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlydoanhthu/index.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlylichdatsan"){
+                            echo '<div class="col-md-2" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlylichdatsan/index.php");
+                            echo "</div>";
+                        } else {
+                            if(isset($_REQUEST['dangky'])) {
+                                include_once ("view/dangky/index.php");
+                            } elseif(isset($_REQUEST['dangnhap'])) {
+                                include_once ("view/dangnhap/index.php");
+                            } elseif(isset($_REQUEST['chusandangnhap'])) {
+                                include_once ("view/chusandangnhap/index.php");
+                            } elseif(isset($_REQUEST['dangxuat'])) {
+                                include_once ("view/dangxuat/index.php");
+                            } elseif(isset($_REQUEST['dangnhapchochusan'])) {
+                                include_once ("view/dangnhapchochusan/index.php");
+                            }elseif(isset($_REQUEST['thongtinkhachhang'])) {
+                                include_once ("view/thongtinkhachhang/index.php");
+                            }elseif(isset($_REQUEST['lichdadatsan'])) {
+                                include_once ("view/thongtinkhachhang/index.php");
+                            }elseif(isset($_REQUEST['doimatkhaukhachhang'])) {
+                                include_once ("view/thongtinkhachhang/index.php");
+                            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "order"){
+                                include_once("view/order/index.php");
+                            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chitietdiachisan"){
+                                include_once("view/chitietdiachisan/index.php");
+                            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "lichdatsan"){
+                                include_once("view/lichdatsan/index.php");
+                            } else {
+                                include_once("view/danhsachdiachi/index.php");
+                            }
+                        }
+                    ?>
+            </div>
+        </div>
+    </div>
+       <?php 
+            include_once("view/giaodien/footer.php"); 
         ?>
-        </div>
-        </div>
-    </div>
-        <?php include_once("view/giaodien/footer.php"); ?>
-    </div>
+
+    
 </body>
 </html>

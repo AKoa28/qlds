@@ -33,6 +33,7 @@
                         <div class="group-input">
                             <label for="email">Email *</label>
                             <input type="email" id="email" name="txtname" required>
+                            <span id="errEmail" class="err text-danger"> </span>
                         </div>
                         
                         <div class="group-input">
@@ -45,7 +46,6 @@
                             <input type="password" id="con-pass" name="txtconfirmpass" required>
                             <span id="errPass" class="err text-danger"></span>
                         </div>
-                        <span id="error-message" style="color:red; display:none;">Mật khẩu nhập lại không khớp</span>
                         <button type="submit" class="site-btn register-btn" name="subregister" >Đăng ký</button>
                     </form>
                     <div class="switch-login">
@@ -63,7 +63,7 @@
 <script>
     function ktSDT() {
         let sdt = $('#sdt').val();
-        let btcq = /^(03|09|08|07)[0-9]\d{7}$/;
+        let btcq = /^(03|09|08|07|05)[0-9]\d{7}$/;
         if (btcq.test(sdt) || sdt == "") {
             $('#errSDT').html(" ");
             $('#errSDT').addClass('err');
@@ -82,7 +82,7 @@
         let conpass = $('#con-pass').val();
         let pass = $("#pass").val();
         if (conpass == pass) {
-            $('#errPass').html(" ")
+            $('#errPass').html(" ");
             $('#errPass').addClass('err');
             return true;
         } else {
@@ -94,6 +94,7 @@
     $('#con-pass').blur(function (e) {
         ktMK();
     })
+    
     $(document).ready(function() {
         function hienthi() {
             // Hiển thị lớp phủ để chặn tương tác
@@ -114,10 +115,7 @@
             const email = $('#email').val();
             hienthi();
             // Kiểm tra xem mật khẩu có khớp hay không
-            if (password !== confirmPassword) {
-                $('#error-message').show();  // Hiển thị thông báo lỗi
-                andi();
-            } else {
+           
                 $('#error-message').hide();  // Ẩn thông báo lỗi nếu mật khẩu khớp
                 $.ajax({
                     url: "view/dangky/ajax.php",
@@ -167,7 +165,7 @@
                         andi();
                     }
                 });
-            }
+            
         });
         
     });
