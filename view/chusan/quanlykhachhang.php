@@ -1,49 +1,74 @@
 <?php
 include_once("controller/controller.php");
-$p = new ckhachhang();
+$pK = new ckhachhang();
+$p = new ctaikhoan();
 //$p1 = new ctaikhoan();
-$tblkhachhang = $p->getselectallkhachhang();
+$tblkhachhang = $pK->getselectallkhachhang();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"])) {
         if ($_POST["action"] == "addCustomer") {
-            $ten = $_POST["ten"];
-            $sdt = $_POST["sdt"];
-            $email = $_POST["email"];
-            $matkhau = md5($_POST["matkhau"]);
-            
-            // Kiểm tra email và số điện thoại đã tồn tại
-            // if ($p->kiemtraEmailSDT($email, $sdt)) {
-            //     echo "<script>alert('Email hoặc số điện thoại đã tồn tại'); window.location.href='index.php';</script>";
-            //     exit();
-            // }
+            if(isset($_REQUEST["subthemkh"])){
+                $ten = $_POST["ten"];
+                $sdt = $_POST["sdt"];
+                $email = $_POST["email"];
+                $password = $_POST["matkhau"];
 
-            // Thêm tài khoản vào bảng taikhoan
-            $p->themtaikhoan($ten, $sdt, $email, $matkhau);
-
-            // Lấy MaTaiKhoan vừa được thêm
-            $mataikhoan = $p->layMaTaiKhoan($sdt);
-
-            // Thêm khách hàng vào bảng khachhang
-            $p->themkhachhang($mataikhoan);
-            if($mataikhoan){
-                echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
-            } else {
-                echo "<script>alert('Lỗi khi thêm khách hàng'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+                $tbltrungsdt = $p->getselecttrungsdt($sdt);
+                if($tbltrungsdt->num_rows>0){
+                    while($rtt = $tbltrungsdt->fetch_assoc()){
+                        $remail = $rtt["Email"];
+                    }
+                    if($remail == NULL){
+                        $tbltrungemail = $p->getselecttrungemail($email);
+                        if($tbltrungemail->num_rows>0){
+                            echo "<script>alert('Email đã được đăng ký')</script>";
+                            header("refresh:0; url='?page=quanlykhachhang'");
+                        }else{
+                        
+    
+                            $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
+                            if($updatetaikhoan){
+                                echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }else{
+                                echo "<script>alert('Đăng ký thất bại')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }  
+                        }
+                    }else{
+                       echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
+                       header("refresh:0; url='?page=quanlykhachhang'");
+                    }
+                }else{
+                    //thêm gửi mail
+                    $tbltrungemail = $p->getselecttrungemail($email);
+                    if($tbltrungemail->num_rows>0){
+                        echo "<script>alert('Email đã được đăng ký')</script>";
+                        header("refresh:0; url='?page=quanlykhachhang'");
+                    }else{
+                            $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
+                            if($inserttaikhoan){
+                                echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }else{
+                                echo "<script>alert('Đăng ký thất bại')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }
+                        }
+                }
             }
-            echo "<script>alert('Thêm khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
-        
         } elseif ($_POST["action"] == "verifyCustomer") {
             $makhachhang = $_POST["makhachhang"];
-            $result = $p->xacThucKhachHang($makhachhang);
+            $result = $pK->xacThucKhachHang($makhachhang);
             if ($result) {
-                echo "<script>alert('Xác thực khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+                echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
             } else {
-                echo "<script>alert('Xác thực khách hàng thất bại'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+                echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
             }
         } elseif ($_POST["action"] == "deleteCustomer") {
             $makhachhang = $_POST["makhachhang"];
-            $p->xoaKhachHang($makhachhang);
+            $pK->xoaKhachHang($makhachhang);
         }
         exit();
     }
@@ -54,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // }
 if(isset($_GET['keyword'])) {
     $keyword = $_GET['keyword'];
-    $tblkhachhang = $p->timKiemKhachHang($keyword);
+    $tblkhachhang = $pK->timKiemKhachHang($keyword);
 }
 ?>
 
@@ -76,9 +101,6 @@ if(isset($_GET['keyword'])) {
             border: 2px solid #0D6EFD; /* Màu viền nổi bật */
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng đổ bóng */
             }
-        .search-btn {
-            height: 60px;
-        }
     </style>
 </head>
 <body>
@@ -87,14 +109,14 @@ if(isset($_GET['keyword'])) {
 
         <!-- Form tìm kiếm -->
         <form class="d-flex mb-4" method="GET" action="index.php">
-            <input type="hidden" name="page" value="xemkhachhang">
+            <input type="hidden" name="page" value="quanlykhachhang">
             <input class="form-control mb-1 search-input" type="search" name="keyword" placeholder="Tìm kiếm khách hàng" aria-label="Search" required>
             <button class="btn btn-info search-btn" type="submit"><i class="bi bi-search"></i>Tìm Kiếm</button>
         </form>
 
         <!-- Nút trở lại -->
         <?php if (isset($_GET['keyword'])): ?>
-            <a href="index.php?page=xemkhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
+            <a href="index.php?page=quanlykhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
         <?php endif; ?>
 
         <table class="table table-bordered" id="customerTable">
@@ -105,7 +127,7 @@ if(isset($_GET['keyword'])) {
                     <th>Tên</th>
                     <th>Số điện thoại</th>
                     <th>Email</th>
-                    <th>Trạng thái</th>
+                    <th>Xác nhận</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -113,7 +135,7 @@ if(isset($_GET['keyword'])) {
             <?php
                 if ($tblkhachhang === -1) {
                     echo "<tr><td colspan='7'>Lỗi kết nối cơ sở dữ liệu!</td></tr>";
-                } elseif ($tblkhachhang == 0) {
+                } elseif ($tblkhachhang === 0) {
                     if (isset($_GET['keyword'])) {
                         echo "<tr><td colspan='7'>Không tìm thấy khách hàng nào!</td></tr>";
                     } else {
@@ -123,15 +145,14 @@ if(isset($_GET['keyword'])) {
                     $row_count = 0;
                     while ($r = $tblkhachhang->fetch_assoc()) {
                         $row_class = ($row_count % 2 == 0) ? 'even-row' : 'odd-row';
-                        $isVerified = $r["TrangThai"] === 'Đã xác thực';
-                        $hasEmail = !empty($r["Email"]);
+                        $isVerified = $r["XacNhan"] === "Đã xác nhận";
                         echo "<tr class='$row_class'>";
                         echo "<td>" . $r["MaKhachHang"] . "</td>";
                         echo "<td>" . $r["MaTaiKhoan"] . "</td>";
                         echo "<td>" . $r["Ten"] . "</td>";
                         echo "<td>" . $r["SDT"] . "</td>";
                         echo "<td>" . $r["Email"] . "</td>";
-                        echo "<td>" . $r["TrangThai"] . "</td>";
+                        echo "<td>" . $r["XacNhan"] . "</td>";
                         echo "<td>
                                 <a href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a><br>
                                 <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
@@ -142,7 +163,7 @@ if(isset($_GET['keyword'])) {
                         echo "  <form method='POST' action='' style='display:inline;' onsubmit='return confirmVerifyCustomer()'>
                                     <input type='hidden' name='action' value='verifyCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
-                                    <button type='submit' class='btn btn-success btn-sm' " . ($isVerified ? "disabled" : "") . "><i class='bi bi-check'></i> Xác Thực</button>
+                                    <button type='submit' class='btn btn-success btn-sm' " . ($isVerified ? 'disabled' : '') . "><i class='bi bi-check'></i> Xác Nhận</button>
                                 </form>
                             </td>";
                         echo "</tr>";
@@ -165,7 +186,7 @@ if(isset($_GET['keyword'])) {
                 </div>
                 <div class="modal-body">
                     <div id="addCustomerError" class="alert alert-danger d-none"></div>
-                    <form id="addCustomerForm" method="POST" action="">
+                    <form id="addCustomerForm" method="POST" action="#">
                         <input type="hidden" name="action" value="addCustomer">
                         <div class="mb-3">
                             <label for="ten" class="form-label">Tên</label>
@@ -174,6 +195,7 @@ if(isset($_GET['keyword'])) {
                         <div class="mb-3">
                             <label for="sdt" class="form-label">Số điện thoại</label>
                             <input type="text" class="form-control" id="sdt" name="sdt" required>
+                            <span id="errSDT" class="err text-danger"></span>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -183,7 +205,7 @@ if(isset($_GET['keyword'])) {
                             <label for="matkhau" class="form-label">Mật khẩu</label>
                             <input type="password" class="form-control" id="matkhau" name="matkhau" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Thêm khách hàng</button>
+                        <button type="submit" class="btn btn-primary" name="subthemkh">Thêm khách hàng</button>
                     </form>
                 </div>
                 
@@ -194,56 +216,37 @@ if(isset($_GET['keyword'])) {
             </div>
         </div>
     </div>
-
+            <script>
+               function ktSDT() {
+                    let sdt = $('#sdt').val();
+                    let btcq = /^(03|09|08|07)[0-9]\d{7}$/;
+                    if (sdt == "") {
+                        $('#errSDT').html("Số điện thoại không được để trống")
+                        $('#errSDT').addClass('err');
+                        return false;
+                    }
+                    else if (btcq.test(sdt)) {
+                        $('#errSDT').html("")
+                        $('#errSDT').addClass('err');
+                        return true;
+                    } else {
+                        $("#errSDT").html("Số điện thoại có định dạng gồm 10 con số trong đó bắt đầu là 09,03,07,08");
+                        $('#errSDT').addClass('err');
+                        return false;
+                    }
+                }
+                $('#sdt').blur(function (e) {
+                    ktSDT();
+                })
+            </script>
         
     <script>
-        <?php
-        echo "
-            document.getElementById('addCustomerForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Ngăn chặn form submit mặc định
-
-                let ten = document.getElementById('ten').value;
-                let sdt = document.getElementById('sdt').value;
-                let email = document.getElementById('email').value;
-                let matkhau = document.getElementById('matkhau').value;
-
-                // Clear previous errors
-                document.getElementById('addCustomerError').classList.add('d-none');
-                document.getElementById('addCustomerError').textContent = '';
-
-                let errors = [];
-
-                // Validate email
-                if (!/^[a-zA-Z0-9._%+-]+@gmail\\.com$/.test(email)) {
-                    errors.push('Email không đúng định dạng');
-                    document.getElementById('email').value = ''; // Reset email field
-                }
-
-                // Validate phone number
-                if (!/^(0|\\+84)[3|5|7|8|9][0-9]{8}$/.test(sdt)) {
-                    errors.push('Số điện thoại không đúng định dạng');
-                    document.getElementById('sdt').value = ''; // Reset phone number field
-                }
-
-                // If there are errors, display them and stop form submission
-                if (errors.length > 0) {
-                    document.getElementById('addCustomerError').textContent = errors.join('. ');
-                    document.getElementById('addCustomerError').classList.remove('d-none');
-                    return;
-                }
-
-                // Submit the form if no errors
-                this.submit();
-            });
-        ";
-    ?>
-    
-
+        
     function confirmDeleteCustomer() {
         return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?');
     }
     function confirmVerifyCustomer() {
-        return confirm('Bạn có chắc chắn muốn xác thực cho khách hàng này không?');
+        return confirm('Bạn có chắc chắn muốn xác nhận thông tin tài khoản cho khách hàng này không?');
     }
 </script>
 </body>
