@@ -350,7 +350,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan";
+                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -361,6 +361,7 @@
         public function themtaikhoan($ten, $sdt, $email, $matkhau) {
             $p = new ketnoi();
             $con = $p->moketnoi();
+            $matkhau = md5($matkhau);
             $sql = "INSERT INTO taikhoan (Ten, SDT, Email, MatKhau) VALUES ('$ten', '$sdt', '$email', '$matkhau')";
             $result = $con->query($sql);
             $p->dongketnoi($con);
@@ -388,7 +389,7 @@
         public function themkhachhang($mataikhoan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
-            $sql = "INSERT INTO khachhang (MaTaiKhoan, TrangThai) VALUES ('$mataikhoan', 'Chưa xác thực')";
+            $sql = "INSERT INTO khachhang (MaTaiKhoan, XacNhan) VALUES ('$mataikhoan', 'Đã xác nhận')";
             $result = $con->query($sql);
             $p->dongketnoi($con);
             return $result;
@@ -441,7 +442,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "UPDATE khachhang SET TrangThai = N'Đã xác thực' WHERE MaKhachHang = '$makhachhang'";
+                $sql = "UPDATE khachhang SET XacNhan = N'Đã xác nhận' WHERE MaKhachHang = '$makhachhang'";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;

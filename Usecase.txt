@@ -1,4 +1,0 @@
-- Xem thông tin sân
-- Xác thực thông tin khách hàng đặt sân
-- Xóa khách hàng
-- Thêm thông tin khách hàng

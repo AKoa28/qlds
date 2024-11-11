@@ -282,9 +282,9 @@
             $p = new mkhachhang();
             $con = $p->xoaKhachHang($makhachhang);
             if ($con) {
-                echo "<script>alert('Xóa khách hàng thành công'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+                echo "<script>alert('Xóa khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
             } else {
-                echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=xemkhachhang';</script>";
+                echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
             }
         }
     

@@ -312,3 +312,8 @@ footer a:hover {
     display: none; /* Ẩn khi không cần */
     z-index: 1000; /* Đảm bảo ở trên cùng */
   }
+  
+  .btn[disabled] {
+    opacity: 0.5; /* Làm mờ nút khi bị disabled */
+    cursor: not-allowed; /* Thay đổi con trỏ khi nút bị disabled */
+  }
