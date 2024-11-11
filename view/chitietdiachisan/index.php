@@ -16,6 +16,7 @@
             header("refresh: 0; url='index.php'");
         }
 ?>
+<div class="container">
 <section class="hero-section">
     <div class="list-bar container">
       <h2><?= $tendiachi ?></h2><br>
@@ -25,7 +26,9 @@
         </div>
         <div class="col-md-5">
             <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
+            <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
         </div>
        </div>      
     </div>
-  </section>
+</section>
+</div>

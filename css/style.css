@@ -56,37 +56,264 @@ footer a:hover {
   text-decoration: underline;
 }
 
-.figure{
-  /* border: 1px solid lightgray; */
-  background-color: lightgray;
-}
-.figure:hover{
-    background-color: aliceblue;
-    /* border: 1px solid aliceblue; */
-    border-radius: 10px;
-    padding: 10px;
-    
-}
-.img-fluid {
-    width: 250px; 
-    height: 250px; 
-}
-.figure-caption{
-    height: 120px;
-    margin-top: 10px;
-}
-.limited-text {
-  max-width: 245px; 
-  word-wrap: break-word;
-  text-align: start;
-  color: black;
-}
-.image-chitiet{
-    width: 100%;
-    height: 500px;
-}
-.odd-row { background-color: #f2f2f2; }
-.even-row { background-color: #ffffff; }
-.fixed-button { position: fixed; bottom: 20px; right: 20px; z-index: 1000; color: #F8F8FF; background-color: #0D6EFD; }
-.error { color: red; font-size: 0.875em; }
+    .figure{
+      /* border: 1px solid lightgray; */
+      background-color: lightgray;
+    }
+    .figure:hover{
+        background-color: aliceblue;
+        /* border: 1px solid aliceblue; */
+        border-radius: 10px;
+        padding: 10px;
+        
+    }
+    .img-fluid {
+        width: 250px; 
+        height: 250px; 
+    }
+    .figure-caption{
+        height: 120px;
+        margin-top: 10px;
+    }
+    .limited-text {
+      max-width: 245px; 
+      word-wrap: break-word;
+      text-align: start;
+      color: black;
+    }
+    .image-chitiet{
+        width: 100%;
+        height: 500px;
+    }
+    .odd-row { background-color: #f2f2f2; }
+    .even-row { background-color: #ffffff; }
+    .fixed-button { position: fixed; bottom: 20px; right: 20px; z-index: 1000; color: #F8F8FF; background-color: #0D6EFD; }
+    .error { color: red; font-size: 0.875em; }
 
+
+    /* button lịch đặt sân ------------------------------------------------------------------------------------*/
+
+    .checkbox-label {
+      display: inline-block;
+      width: 100px;
+      padding: 10px;
+      background-color: #ddd;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .checkbox-label:hover {
+      background-color: #ccc;
+  }
+
+  .checkbox-input:checked + .checkbox-label {
+      background-color: darkslategray;
+      color: white;
+  }
+
+  .checkbox-label-choduyet {
+      display: inline-block;
+      width: 100px;
+      padding: 10px;
+      background-color: palegreen;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .checkbox-label-choduyet:hover {
+      background-color: #ccc;
+  }
+
+  .checkbox-input:checked + .checkbox-label-choduyet {
+      background-color: darkslategray;
+      color: white;
+  }
+
+  .checkbox-label-uutien {
+      display: inline-block;
+      width: 100px;
+      padding: 10px;
+      background-color: gold;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+
+  .checkbox-label-uutien:hover {
+      background-color: #ccc;
+  }
+
+  .checkbox-input:checked + .checkbox-label-uutien {
+      background-color: darkslategray;
+      color: white;
+  } 
+
+
+  /*Đăng ký - đăng nhập------------------------------------------------------------------------------------*/
+
+  .register-login-section {
+    background-image: url('https://media.bongda.com.vn/files/dang.nguyen/2024/03/27/olympiastadion-berlin-germany-0uyfjpg.jpg');
+    background-repeat: round;
+    padding-top: 72px;
+    padding-bottom: 80px;
+  }
+  .chusan-section {
+    background-image: url('../image/bg1.jpg');
+    background-repeat: round;
+    padding-top: 72px;
+    padding-bottom: 80px;
+  }
+  .register-form{
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    border-radius: 20px;
+  }
+  .register-form h2,
+  .login-form h2 {
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .register-form form .group-input,
+  .login-form form .group-input {
+    margin-bottom: 10px;
+  }
+  
+  .register-form form .group-input label,
+  .login-form form .group-input label {
+    /* background-color: rgba(0, 0, 0, 0.4); */
+    display: block;
+    font-size: 18px;
+    color: #3dff0d;
+    margin-bottom: 5px;
+  }
+  
+  .register-form form .group-input input,
+  .login-form form .group-input input {
+    border: 1px solid #3ce907;
+    height: 50px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 15px;
+  }
+  
+  .register-form form .register-btn,
+  .register-form form .login-btn,
+  .login-form form .register-btn,
+  .login-form form .login-btn {
+    width: 100%;
+    letter-spacing: 2px;
+    margin-top: 30px;
+    height:50px;
+    background-color: green;
+    border-width: 0em;
+  }
+  .register-form form .register-btn:hover{
+    border-radius: 10px;
+    color: white;
+  }
+  .register-form .switch-login,
+  .login-form .switch-login {
+    text-align: center;
+    margin-top: 22px;
+  }
+  
+  .register-form .switch-login .or-login,
+  .login-form .switch-login .or-login {
+    color: #f00a0a;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+  }
+  
+  .register-form .switch-login .or-login:before,
+  .login-form .switch-login .or-login:before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: #e70b0b;
+    content: "";
+  }
+  
+  .login-form .group-input.gi-check {
+    margin-bottom: 8px;
+  }
+  
+  .login-form .group-input .gi-more {
+    overflow: hidden;
+  }
+  
+  .login-form .group-input .gi-more label {
+    position: relative;
+    cursor: pointer;
+    padding-left: 28px;
+    font-size: 14px;
+    color: #6B6B6B;
+    float: left;
+  }
+  
+  .login-form .group-input .gi-more label input {
+    position: absolute;
+    visibility: hidden;
+  }
+  
+  .login-form .group-input .gi-more label input:checked~span {
+    border-color: #6C6C6C;
+  }
+  
+  .login-form .group-input .gi-more label input:checked~span:after {
+    border-color: #6c6c6c;
+  }
+  
+  .login-form .group-input .gi-more label .checkmark {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    height: 13px;
+    width: 13px;
+    border: 1px solid #6C6C6C;
+    border-radius: 2px;
+  }
+  
+  .login-form .group-input .gi-more label .checkmark:after {
+    left: 2px;
+    top: -2px;
+    width: 13px;
+    height: 6px;
+    border: solid #ffffff;
+    border-width: 2px 2px 0px 0px;
+    -webkit-transform: rotate(127deg);
+    -ms-transform: rotate(127deg);
+    transform: rotate(127deg);
+  }
+  
+  .login-form .group-input .gi-more .forget-pass {
+    float: right;
+    line-height: 20px;
+    margin-top: -2px;
+    font-size: 14px;
+    color: #6B6B6B;
+  }
+   /*Lớp phủ không cho bấm*/
+   #khongchobam {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    display: none; /* Ẩn khi không cần */
+    z-index: 1000; /* Đảm bảo ở trên cùng */
+  }
+  
+  .btn[disabled] {
+    opacity: 0.5; /* Làm mờ nút khi bị disabled */
+    cursor: not-allowed; /* Thay đổi con trỏ khi nút bị disabled */
+  }

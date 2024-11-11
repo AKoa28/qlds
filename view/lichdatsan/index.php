@@ -106,9 +106,9 @@ if($tbl===-1){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -146,67 +146,10 @@ if($tbl===-1){
         tr:hover{
             background-color: darkcyan;
         }
-
-        /* .checkbox-label {
-            display: inline-block;
-            width: 100px;
-            padding: 10px;
-            background-color: #ddd;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .checkbox-label:hover {
-            background-color: #ccc;
-        }
-
-        .checkbox-input:checked + .checkbox-label {
-            background-color: darkslategray;
-            color: white;
-        }
-
-        .checkbox-label-choduyet {
-            display: inline-block;
-            width: 100px;
-            padding: 10px;
-            background-color: palegreen;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .checkbox-label-choduyet:hover {
-            background-color: #ccc;
-        }
-
-        .checkbox-input:checked + .checkbox-label-choduyet {
-            background-color: darkslategray;
-            color: white;
-        }
-
-        .checkbox-label-uutien {
-            display: inline-block;
-            width: 100px;
-            padding: 10px;
-            background-color: gold;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .checkbox-label-uutien:hover {
-            background-color: #ccc;
-        }
-
-        .checkbox-input:checked + .checkbox-label-uutien {
-            background-color: darkslategray;
-            color: white;
-        } */
     </style>
 </head>
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
     <div class="container mt-3">
         <div align="center">
                 <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
@@ -263,7 +206,7 @@ if($tbl===-1){
         </div>
     </div>
     <div class="container">
-        <table class="table table-bordered" style="text-align:center;">
+        <table class="table table-hover table-bordered" style="text-align:center;">
             <thead>
                 <tr>
                     <th>Giờ</th>
@@ -280,9 +223,7 @@ if($tbl===-1){
                 </tr>
             </thead>
             <tbody>
-                <div id="ketqua">
-
-                </div>
+                <div id="ketqua"></div>
                 <?php
                     $timestamp1 = strtotime($prevWeek);
                     $timestamp2 = strtotime($currentDate);
@@ -308,10 +249,21 @@ if($tbl===-1){
                             // } else {
                             //     echo "Không có thời gian nào trùng lặp.";
                             //} 
+                                
+                            // mảng 2 chiều $lich như sau
+                            //Array ( 
+                                    // [0] => Array ( [0] => 7h-8h30    [1] => 1-Sân số 1 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [1] => Array ( [0] => 7h-8h30    [1] => 2-Sân số 2 (Sân 7)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [2] => Array ( [0] => 7h-8h30    [1] => 3-Sân số 3 (Sân 11)  [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [3] => Array ( [0] => 7h-8h30    [1] => 4-Sân số 4 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [4] => Array ( [0] => 7h-8h30    [1] => 5-Sân số 5 (Sân 11)  [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 ) 
+                                    // [5] => Array ( [0] => 9h-10h30   [1] => 1-Sân số 1 (Sân 5)   [2] => 100000   [3] => 100000   [4] => 100000   [5] => 100000   [6] => 100000   [7] => 200000   [8] => 200000 )  
+                                // )
                             $time_counts = array_count_values($duplicate_times);
                             $tam = [];
                             $mausac = 0;
-                            foreach ($lich as $index => $row) {
+                            foreach ($lich as $index => $row) { 
+                               
                                 echo "<tr>";
                                 // Kiểm tra nếu thời gian của hàng này khác với thời gian của hàng trước
                                 if (in_array($row[0],$duplicate_times) && !in_array($row[0],$tam)) {
@@ -366,32 +318,41 @@ if($tbl===-1){
                                     }
                                 
                                 
-                                
+                                // print_r($weekDays);
                                 // print_r($ngaydat); 
                                 // print_r($trangthai);
                                 // print_r($trangthai);
-                                for ($i = 2; $i < count($row); $i++) {
-                                    // echo "<td><button class='btn btn-custom'>".number_format($row[$i],0,'.',',')." đ</button></td>";
+                                for ($i = 2; $i < count($row); $i++) {// duyệt mảng bắt đầu từ phần tử thứ 2 trở về sau để lấy giá
                                     
                                     if($row[$i]==0){
                                         echo "<td></td>";
-                                    }else{
+                                    }else{ 
                                         if($i == 2){
-                                            $t = $row[$i];
-                                            $t -= $t;
-                                            $ngay = $weekDays[$t];
-                                        }else{
-                                            $t += 1;
-                                            $ngay = $weekDays[$t];
+                                            // mảng $weekDays có giá trị như sau Array( [0] => 21-10-2024 [1] => 22-10-2024 [2] => 23-10-2024 [3] => 24-10-2024 [4] => 25-10-2024 [5] => 26-10-2024 [6] => 27-10-2024 ) 
+                                            $t = $row[$i]; //nếu đúng $i = 2 thì gán $t = $row[$i] (giá) 
+                                            $t -= $t;  //sau đó cho $t = $t - $t để lấy giá trị 0
+                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[0] (lấy ngày đầu tiên của tuần hiện tại)
+                                        }else{ //sau khi hoàn thành một vòng for thì $i lúc này đã khác 2 nên sẽ thực hiện else
+                                            $t += 1; // $t lúc này bằng 0 nên $t = 0 + 1 => $t = 1
+                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[1] (lấy ngày thứ 2 của tuần hiện tại)
                                         } 
-                                            // echo $ngay;
-                                            // print_r($ngaydat);
-                                        foreach ($trangthai as $NDTT) {
+                                       
+                                        foreach ($trangthai as $NDTT) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
                                             if($ngay==$NDTT[0]){
                                                 $laytrangthai = $NDTT[1];
                                             }
-                                        }// Lấy trạng thái của Ngày đặt 
-                                            if(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
+                                        }
+                                        $giohientai = date('H:i:s');
+                                        $laygiocuakhunggio = explode("-",$row[0]);
+                                        // echo $giohientai;
+                                        // echo $laygiocuakhunggio[0];
+                                        if($timestamp2 > strtotime($ngay)){ // $timestamp2 là ngày hôm nay, strtotime($ngay) là ngày được in trên lịch. Nếu ngày strtotime($ngay) là quá khứ thì 
+                                            echo '<td> </td>'; // in ra khoảng trống
+                                        }else{
+                                            // Lấy trạng thái của Ngày đặt 
+                                            if(strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) && $timestamp2 == strtotime($ngay)){ // nếu strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) và ngày hôm nay = ngày trên lịch thì thực hiện 
+                                                echo '<td> </td>'; // in ra khoảng trống
+                                            }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                 $checkbox++;
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên"){
@@ -405,10 +366,10 @@ if($tbl===-1){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                 $checkbox++;
                                             }
-                                            
+                                        }    
                                             // print_r($ngaydat);
                                             // echo "<td><a href='?page=order&tt=".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";   
-                                        
+                                            
                                     } 
                                     
                                 }
@@ -431,7 +392,7 @@ if($tbl===-1){
     
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
 <script>
     window.onload = function() {
         var checkbox = document.getElementById('yourCheckboxId');

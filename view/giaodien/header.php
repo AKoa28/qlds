@@ -4,24 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   <title>Đặt Sân Đá Banh</title>
-  <style>
-    
-  </style>
 </head>
 <body>
-  <div  style="position: fixed; width:100%">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.php">Đặt Sân Đá Banh</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
@@ -42,8 +38,15 @@
             <a class="nav-link" href="">Liên hệ</a>
           </li>
         </ul>
-        <a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>
+        <?php
+          if(isset($_SESSION["dangnhap"])){
+              echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["tenkhachhang"].'</a>&nbsp;&nbsp;&nbsp;';
+              echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
+          }else{
+            
+              echo '<a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>';
+          }
+        ?>
       </div>
     </div>
   </nav>
-  </div>
