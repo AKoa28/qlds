@@ -287,17 +287,7 @@
                 echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
             }
         }
-    
-        // public function kiemtraEmailSDT($email, $sdt) {
-        //     $p = new mkhachhang();
-        //     $con = $p->kiemtraEmailSDT($email, $sdt);
-        //     if ($con) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // }
-    
+
         public function xacThucKhachHang($makhachhang) {
             $p = new mkhachhang();
             return $p->xacThucKhachHang($makhachhang);
