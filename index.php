@@ -71,13 +71,13 @@
 ?>
 
 <style>
-    /* .background{
+    .background{
        background-color: seagreen; 
        height:auto;
     }
     .section_phu{
         margin-top: 55px;
-    } */
+    }
 </style>
   
         <?php
@@ -162,8 +162,10 @@
                                 include_once("view/chitietdiachisan/index.php");
                             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "lichdatsan"){
                                 include_once("view/lichdatsan/index.php");
-                            } else {
+                            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "home") {
                                 include_once("view/danhsachdiachi/index.php");
+                            }else {
+                                echo "<img src='image/404error.jpg' style='width: 100%; height: 100%;'>";
                             }
                         }
                     ?>

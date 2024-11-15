@@ -1,5 +1,10 @@
 <div class="section_phu"><form method="post">
 <?php
+
+    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
+        header("Location: ?chusandangnhap");
+    }
+
     include_once("controller/controller.php");
     $p = new controller();
     if(isset($_SESSION["chusan"])){

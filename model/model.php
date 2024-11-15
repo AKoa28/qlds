@@ -72,54 +72,7 @@
                 return false;
             }
         }
-        public function diadiemsantheomadiadiem($madiadiem){
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if($con){
-                $sql="select * from diadiem where MaDiaDiem = '$madiadiem'";
-                $kq = $con->query($sql);
-                $p->dongketnoi($con);
-                return $kq;
-            }else{
-                return false;
-            }
-        }
-        public function demsoluongdiadiem(){
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if($con){
-                $sql="SELECT COUNT(*) as dem FROM `diadiem`";
-                $kq = $con->query($sql);
-                $p->dongketnoi($con);
-                return $kq;
-            }else{
-                return false;
-            }
-        }
-        public function diachisanPhanTrang($limit,$offset){
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if($con){
-                $sql="SELECT * FROM diadiem LIMIT $limit OFFSET $offset";
-                $kq = $con->query($sql);
-                $p->dongketnoi($con);
-                return $kq;
-            }else{
-                return false;
-            }
-        }
-        public function diachitheoTen($ten){
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if($con){
-                $sql="SELECT * FROM diadiem where TenDiaDiem like '%$ten%'";
-                $kq = $con->query($sql);
-                $p->dongketnoi($con);
-                return $kq;
-            }else{
-                return false;
-            }
-        }
+
         public function selectdatsan($masan,$khunggio){
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -307,24 +260,6 @@
             }
         }
 
-        public function suathongtinkhachhang($makhachhang,$ten,$sdt,$email,$capnhatlancuoi){
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if($con){
-                
-                $sql = "UPDATE `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan SET `Ten`='$ten',`SDT`='$sdt',`Email`='$email',`CapNhatLanCuoi`='$capnhatlancuoi',`XacNhan`='Chưa xác nhận' WHERE MaKhachHang = '$makhachhang'";
-                
-                $kq = $con->query($sql);
-                if($kq){
-                    return $kq;
-                }else{
-                    return false;
-                }
-            }else{
-                return false;
-            }
-        }
-
     }
     class mdatsan{
         public function insertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem){
@@ -415,7 +350,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang GROUP BY kh.MaKhachHang";
+                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang where kh.HienThi = 1 GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -459,26 +394,13 @@
             $p->dongketnoi($con);
             return $result;
         }
-        // public function themkhachhang($ten, $sdt, $email, $matkhau) {
-        //     $p = new ketnoi();
-        //     $con = $p->moketnoi();
-        //     $sql = "INSERT INTO khachhang (Ten, SDT, Email, MatKhau) VALUES ('$ten', '$sdt', '$email', '$matkhau')";
-        //     $result = $con->query($sql);
-        //     if ($result) {
-        //         $sql1 = "select MaTaiKhoan from taikhoan where Ten='$ten' and SDT='$sdt'";
-    
-        //         //$p->dongketnoi($con);
-        //         return $result;
-        //     } else {
-        //         return false;
-        //     }
-        // }
+
         public function xoaKhachHang($makhachhang) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             
             if ($con) {
-                $sql = "DELETE FROM khachhang WHERE MaKhachHang = $makhachhang";
+                $sql = "UPDATE khachhang SET HienThi = 0 WHERE MaKhachHang = '$makhachhang'";
                 $con->query($sql);
                 $p->dongketnoi($con);
                 
@@ -487,21 +409,6 @@
                 return false;
             }
         }
-        
-    
-    
-        // public function kiemtraEmailSDT($email, $sdt) {
-        //     $p = new ketnoi();
-        //     $con = $p->moketnoi();
-        //     if ($con) {
-        //         $sql = "SELECT * FROM khachhang WHERE Email = '$email' OR SDT = '$sdt'";
-        //         $result = $con->query($sql);
-        //         $p->dongketnoi($con);
-        //         return $result->num_rows > 0;
-        //     } else {
-        //         return false;
-        //     }
-        // }
     
         public function xacThucKhachHang($makhachhang) {
             $p = new ketnoi();
