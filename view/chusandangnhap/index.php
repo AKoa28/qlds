@@ -9,7 +9,7 @@
         background-color: rgba(0,0,0,0.5);
     }
 </style>
-<div class="chusan-section spad">
+<div class="chusan-section spad section_phu">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center" >

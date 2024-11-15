@@ -1,4 +1,10 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<?php
+    if(isset($_SESSION["dangnhap"]) || isset($_SESSION["chusan"])){
+        echo '<script>alert("Đã đăng nhập")</script>';
+        header("refresh:0 url='?danhsachdiachi'");
+    }
+?>
 <style>
     /* #khongchobam {
     position: fixed;
@@ -14,7 +20,7 @@
 <div id="khongchobam">
 
 </div>
-<div class="register-login-section spad ">
+<div class="register-login-section spad section_phu">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">

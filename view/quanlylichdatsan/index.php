@@ -1,4 +1,4 @@
-<form method="post">
+<div class="section_phu"><form method="post">
 <?php
     $machusan = "1";
     include_once("controller/controller.php");
@@ -31,7 +31,7 @@
     }
 
 ?>
-</form>
+</form></div>
 <script>
     
     function getdiachi(madiadiem,tencbx){

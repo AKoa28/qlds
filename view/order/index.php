@@ -7,7 +7,7 @@
         // print_r($dachon);
         if(isset($_SESSION["dangnhap"])){
             echo '
-            <div class="container p-5 mt-5 ">
+            <div class="container p-5 section_phu">
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="mb-5" style="text-align:center;">Thông tin đặt sân</h1>
@@ -71,7 +71,7 @@
             ';
         }else{
             echo '
-            <div class="container mt-5">
+            <div class="container section_phu">
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="mb-5" style="text-align:center;">Thông tin đặt sân</h1>

@@ -6,7 +6,7 @@
     <title>Quản lý doanh thu</title>
 </head>
 <body>
-<form method="post">
+<div  class="section_phu"><form method="post">
 <?php
     // if(!isset($_SESSION["quanly"])){
     //     echo "<script>alert('Bạn không có quyền truy cập');</script>";
@@ -46,7 +46,7 @@
 ?>
     <div id="div3">     
     </div>
-</form>
+</form></div>
 <script>
     function getdiachi(giatri,tencbx){
         $.ajax({

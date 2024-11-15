@@ -129,7 +129,7 @@ if($tbl===-1){
         }
         .table thead th {
             position: sticky;
-            top: 0;
+            top: 55px;
             background-color:cadetblue;
             z-index: 10;
         }
@@ -149,6 +149,9 @@ if($tbl===-1){
     </style>
 </head>
 <body>
+    <div class="section_phu">
+
+    
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
     <div class="container mt-3">
         <div align="center">
@@ -389,7 +392,7 @@ if($tbl===-1){
         
     </div>
 </form>
-    
+</div>
 </body>
 </html>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->

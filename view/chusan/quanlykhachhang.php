@@ -107,7 +107,7 @@ if(isset($_GET['keyword'])) {
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container section_phu">
         <h2 class="mb-4">Quản lý khách hàng</h2>
 
         <!-- Form tìm kiếm -->

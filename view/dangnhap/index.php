@@ -4,7 +4,7 @@
         header("refresh:0 url='?danhsachdiachi'");
     }
 ?>
-<div class="register-login-section spad">
+<div class="register-login-section spad section_phu">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">

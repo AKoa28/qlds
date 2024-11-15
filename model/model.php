@@ -72,7 +72,42 @@
                 return false;
             }
         }
-
+        public function demsoluongdiadiem(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT COUNT(*) as dem FROM `diadiem`";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function diachisanPhanTrang($limit,$offset){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM diadiem LIMIT $limit OFFSET $offset";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function diachitheoTen($ten){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM diadiem where TenDiaDiem like '%$ten%'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
         public function selectdatsan($masan,$khunggio){
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -255,6 +290,24 @@
                 }
                 // $p->dongketnoi($con);
                 // return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function suathongtinkhachhang($makhachhang,$ten,$sdt,$email,$capnhatlancuoi){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                
+                $sql = "UPDATE `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan SET `Ten`='$ten',`SDT`='$sdt',`Email`='$email',`CapNhatLanCuoi`='$capnhatlancuoi',`XacNhan`='Chưa xác nhận' WHERE MaKhachHang = '$makhachhang'";
+                
+                $kq = $con->query($sql);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
             }else{
                 return false;
             }
