@@ -227,30 +227,8 @@
                                 $tbltrungemail = $pt -> getselecttrungemail($emailTD);
                                 // $tbltrungsdt = $pt ->getselecttrungsdt($sdtTD);
                                 if($tbltrungemail->num_rows > 0){  // Nếu email có kết quả trả về
-                                    while($rtt = $tbltrungemail->fetch_assoc()){
-                                        $rmatkhau = $rtt["MatKhau"];
-                                        $remail = $rtt["Email"];
-                                    }
-                                    if($rmatkhau == NULL){
-                                        if (!isset($_POST["xacnhanmail"])){
-                                            $_SESSION["maxacnhan"] = rand(1000,9999);
-                                            $_SESSION["giotao"] = date("H:i:s", strtotime("+1 minutes")); // giờ lúc tạo mã xác nhận cộng thêm 1 phút
-                                            $mail = new sendmail();
-                                            $mail -> thaydoithongtinkhachhang($emailTD,$tenTD,$_SESSION["maxacnhan"]);
-                                            echo '
-                                                    <form actio  n="" method="post" id="formxacnhan">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="text" name="maxacnhan" class="form-control" id="floatingInput" placeholder="" required>
-                                                            <label for="floatingInput">Mã xác nhận</label>
-                                                        </div>
-                                                        <button type="submit" name="xacnhanmail" class="btn btn-success mb-3" >Xác nhận</button>
-                                                    </form>
-                                            ';
-                                        }
-                                    }else{
-                                        echo "Email đã đăng ký"; 
-                                    }
-                    
+                                    echo "<script>alert('Email đã đăng ký')</script>"; 
+                                    header("refresh:1");
                                 }else{
                                     if(!isset($_POST["xacnhanmail"])){
                                         $_SESSION["maxacnhan"] = rand(1000,9999);
@@ -273,28 +251,9 @@
                                 // $tbltrungemail = $pt -> getselecttrungemail($emailTD);
                                 $tbltrungsdt = $pt ->getselecttrungsdt($sdtTD);
                                 if($tbltrungsdt->num_rows > 0){  // Nếu email có kết quả trả về
-                                    while($rtt = $tbltrungsdt->fetch_assoc()){
-                                        $rmatkhau = $rtt["MatKhau"];
-                                    }
-                                    if($rmatkhau == NULL){
-                                        if (!isset($_POST["xacnhanmail"])){
-                                            $_SESSION["maxacnhan"] = rand(1000,9999);
-                                            $_SESSION["giotao"] = date("H:i:s", strtotime("+1 minutes")); // giờ lúc tạo mã xác nhận cộng thêm 1 phút
-                                            $mail = new sendmail();
-                                            $mail -> thaydoithongtinkhachhang($emailTD,$tenTD,$_SESSION["maxacnhan"]);
-                                            echo '
-                                                    <form actio  n="" method="post" id="formxacnhan">
-                                                        <div class="form-floating mb-3">
-                                                            <input type="text" name="maxacnhan" class="form-control" id="floatingInput" placeholder="" required>
-                                                            <label for="floatingInput">Mã xác nhận</label>
-                                                        </div>
-                                                        <button type="submit" name="xacnhanmail" class="btn btn-success mb-3" >Xác nhận</button>
-                                                    </form>
-                                            ';
-                                        }
-                                    }else{
-                                        echo "Số điện thoại đã đăng ký"; 
-                                    }
+                                    
+                                    echo "<script>alert('Số điện thoại đã đăng ký')</script>"; 
+                                    header("refresh:1");
                     
                                 }else{
                                     if(!isset($_POST["xacnhanmail"])){
@@ -319,44 +278,21 @@
                                 if($updatetaikhoan){
                                     header("refresh:0");
                                 }else{
-                                    echo "Sửa thất bại";
+                                    echo "<script>alert('Sửa thông tin thất bại')</script>";
+                                    header("refresh:1");
                                 }
                             }else{
                                 $tbltrungemail = $p -> getselecttrungemail($emailTD);
                                 $tbltrungsdt = $p->getselecttrungsdt($sdtTD);
                                 if($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows > 0){ 
-                                    while($rtt = $tbltrungsdt->fetch_assoc()){
-                                        $rmatkhau = $rtt["MatKhau"];
-                                        $remail = $rtt["Email"];
-                                    }
-                                    if($email == $remail){
-                                        if($rmatkhau == NULL){
-                                            if (!isset($_POST["xacnhanmail"])){
-                                                $_SESSION["maxacnhan"] = rand(1000,9999);
-                                                $_SESSION["giotao"] = date("H:i:s", strtotime("+1 minutes")); // giờ lúc tạo mã xác nhận cộng thêm 1 phút
-                                                $mail = new sendmail();
-                                                $mail -> thaydoithongtinkhachhang($emailTD,$tenTD,$_SESSION["maxacnhan"]);
-                                                echo '
-                                                        <form actio  n="" method="post" id="formxacnhan">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="text" name="maxacnhan" class="form-control" id="floatingInput" placeholder="" required>
-                                                                <label for="floatingInput">Mã xác nhận</label>
-                                                            </div>
-                                                            <button type="submit" name="xacnhanmail" class="btn btn-success mb-3" >Xác nhận</button>
-                                                        </form>
-                                                ';
-                                            }
-                                        }else{
-                                            echo "Số điện thoại và Email đã đăng ký"; 
-                                        }
-                                    }else{ //trường hợp nếu sdt khách nhập != (*) && email của khách nhập != (@)
-                                        // echo "Số điện thoại và Email đã tồn tại";
-                                        echo "Số điện thoại và Email đã tồn tại";
-                                    }
+                                    echo "<script>alert('Số điện thoại và Email đã tồn tại')</script>";
+                                    header("refresh:1");
                                 }elseif($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows == 0){ // trường hợp trùng sdt trả về có kết quả và trùng email không có kết quả 
-                                    echo "Số điện thoại đã được sử dụng.";
+                                    echo "<script>alert('Số điện thoại đã được sử dụng.')</script>";
+                                    header("refresh:1");
                                 }elseif($tbltrungsdt->num_rows == 0 && $tbltrungemail->num_rows > 0){ // trường hợp trùng sdt không có kết quả và trùng email trả về có kết quả
-                                    echo "Email đã được sử dụng.";
+                                    echo "<script>alert('Email đã được sử dụng.')</script>";
+                                    header("refresh:1");
                                 }else{
                                     if(!isset($_POST["xacnhanmail"])){
                                         $_SESSION["maxacnhan"] = rand(1000,9999);
@@ -388,40 +324,8 @@
                             $tbltrungemail = $pt -> getselecttrungemail( $_SESSION["emailTD"]);
                             // $tbltrungsdt = $pt ->getselecttrungsdt($sdtTD);
                             if($tbltrungemail->num_rows > 0){  // Nếu email có kết quả trả về
-                                while($rtt = $tbltrungemail->fetch_assoc()){
-                                    $rmatkhau = $rtt["MatKhau"];
-                                    $remail = $rtt["Email"];
-                                }
-                                if($rmatkhau == NULL){
-                                    $giohientai = date("H:i:s"); // giờ hiện tại
-                                    if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
-                                        $xacnhan = $_POST["maxacnhan"];
-                                        if($_SESSION["maxacnhan"] == $xacnhan){
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);;
-                                            if($updatetaikhoan){
-                                                unset($_SESSION["tenTD"]);
-                                                unset($_SESSION["emailTD"]);
-                                                unset($_SESSION["sdtTD"]);
-                                                header("refresh:0");
-                                            }else{
-                                                echo "Đăng ký thất bại";
-                                            }
-                                        }else{
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            echo "Mã xác nhận sai";
-                                        }
-                                    }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
-                                        unset($_SESSION["maxacnhan"]);
-                                        unset($_SESSION["giotao"]);
-                                        // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                        echo "Mã quá hiệu lực";
-                                    }
-                                }else{
-                                    echo "Email đã đăng ký"; 
-                                }
+                                echo "<script>alert('Email đã đăng ký')</script>";
+                                header("refresh:1"); 
                             }else{ //Trường hợp kiểm tra email mới không có kết quả tar về tức không trùng email
                                 $giohientai = date("H:i:s"); // giờ hiện tại
                                 if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
@@ -436,18 +340,21 @@
                                             unset($_SESSION["sdtTD"]);
                                             header("refresh:0");
                                         }else{
-                                            echo "Đăng ký thất bại";
+                                            echo "<script>alert('Đăng ký thất bại')</script>";
+                                            header("refresh:1");
                                         }
                                     }else{
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        echo "Mã xác nhận sai";
+                                        echo "<script>alert('Mã xác nhận sai')</script>";
+                                        header("refresh:1");
                                     }
                                 }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
                                     unset($_SESSION["maxacnhan"]);
                                     unset($_SESSION["giotao"]);
                                     // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                    echo "Mã quá hiệu lực";
+                                    echo "<script>alert('Mã quá hiệu lực')</script>";
+                                    header("refresh:1");
                                 }
                             }
             
@@ -456,39 +363,8 @@
                             // $tbltrungemail = $pt -> getselecttrungemail( $_SESSION["emailTD"]);
                             $tbltrungsdt = $pt ->getselecttrungsdt($_SESSION["sdtTD"]);
                             if($tbltrungsdt->num_rows > 0){  // Nếu email có kết quả trả về
-                                while($rtt = $tbltrungsdt->fetch_assoc()){
-                                    $rmatkhau = $rtt["MatKhau"];
-                                }
-                                if($rmatkhau == NULL){
-                                    $giohientai = date("H:i:s"); // giờ hiện tại
-                                    if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
-                                        $xacnhan = $_POST["maxacnhan"];
-                                        if($_SESSION["maxacnhan"] == $xacnhan){
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);;
-                                            if($updatetaikhoan){
-                                                unset($_SESSION["tenTD"]);
-                                                unset($_SESSION["emailTD"]);
-                                                unset($_SESSION["sdtTD"]);
-                                                header("refresh:0");
-                                            }else{
-                                                echo "Đăng ký thất bại";
-                                            }
-                                        }else{
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            echo "Mã xác nhận sai";
-                                        }
-                                    }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
-                                        unset($_SESSION["maxacnhan"]);
-                                        unset($_SESSION["giotao"]);
-                                        // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                        echo "Mã quá hiệu lực";
-                                    }
-                                }else{
-                                    echo "Số điện thoại đã đăng ký"; 
-                                }
+                                echo "<script>alert('Số điện thoại đã đăng ký')</script>"; 
+                                header("refresh:1");
                             }else{ 
                                 $giohientai = date("H:i:s"); // giờ hiện tại
                                 if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
@@ -503,97 +379,68 @@
                                             unset($_SESSION["sdtTD"]);
                                             header("refresh:0");
                                         }else{
-                                            echo "Đăng ký thất bại";
+                                            echo "<script>alert('Đăng ký thất bại')</script>";
+                                            header("refresh:1");
                                         }
                                     }else{
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        echo "Mã xác nhận sai";
+                                        echo "<script>alert('Mã xác nhận sai')</script>";
+                                        header("refresh:1");
                                     }
                                 }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
                                     unset($_SESSION["maxacnhan"]);
                                     unset($_SESSION["giotao"]);
                                     // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                    echo "Mã quá hiệu lực";
+                                    echo "<script>alert('Mã quá hiệu lực')</script>";
+                                    header("refresh:1");
                                 }
                             }
             
                         }else{
-                                $pt = new ctaikhoan();
-                                $tbltrungemail = $pt -> getselecttrungemail($_SESSION["emailTD"]);
-                                $tbltrungsdt = $pt->getselecttrungsdt($_SESSION["sdtTD"]);
-                                if($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows > 0){ 
-                                    while($rtt = $tbltrungsdt->fetch_assoc()){
-                                        $rmatkhau = $rtt["MatKhau"];
-                                        $remail = $rtt["Email"];
-                                    }
-                                    if($email == $remail){
-                                        if($rmatkhau == NULL){
-                                            $giohientai = date("H:i:s"); // giờ hiện tại
-                                            if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
-                                                $xacnhan = $_POST["maxacnhan"];
-                                                if($_SESSION["maxacnhan"] == $xacnhan){
-                                                    unset($_SESSION["maxacnhan"]);
-                                                    unset($_SESSION["giotao"]);
-                                                    $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);;
-                                                    if($updatetaikhoan){
-                                                        unset($_SESSION["tenTD"]);
-                                                        unset($_SESSION["emailTD"]);
-                                                        unset($_SESSION["sdtTD"]);
-                                                        header("refresh:0");
-                                                    }else{
-                                                        echo "Đăng ký thất bại";
-                                                    }
-                                                }else{
-                                                    unset($_SESSION["maxacnhan"]);
-                                                    unset($_SESSION["giotao"]);
-                                                    echo "Mã xác nhận sai";
-                                                }
-                                            }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
-                                                unset($_SESSION["maxacnhan"]);
-                                                unset($_SESSION["giotao"]);
-                                                // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                                echo "Mã quá hiệu lực";
-                                            }
-                                        }else{
-                                            echo "Số điện thoại và Email đã đăng ký"; 
-                                        }
-                                    }else{ //trường hợp nếu sdt khách nhập != (*) && email của khách nhập != (@)
-                                        // echo "Số điện thoại và Email đã tồn tại";
-                                        echo "Số điện thoại và Email đã tồn tại";
-                                    }
-                                }elseif($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows == 0){ // trường hợp trùng sdt trả về có kết quả và trùng email không có kết quả 
-                                    echo "Số điện thoại đã được sử dụng.";
-                                }elseif($tbltrungsdt->num_rows == 0 && $tbltrungemail->num_rows > 0){ // trường hợp trùng sdt không có kết quả và trùng email trả về có kết quả
-                                    echo "Email đã được sử dụng.";
-                                }else{
-                                    $giohientai = date("H:i:s"); // giờ hiện tại
-                                    if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
-                                        $xacnhan = $_REQUEST["maxacnhan"];
-                                        if($_SESSION["maxacnhan"] == $xacnhan){
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
-                                            if($updatetaikhoan){
-                                                unset($_SESSION["tenTD"]);
-                                                unset($_SESSION["emailTD"]);
-                                                unset($_SESSION["sdtTD"]);
-                                                header("refresh:0");
-                                            }else{
-                                                echo "Đăng ký thất bại";
-                                            }
-                                        }else{
-                                            unset($_SESSION["maxacnhan"]);
-                                            unset($_SESSION["giotao"]);
-                                            echo "Mã xác nhận sai";
-                                        }
-                                    }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
+                            $pt = new ctaikhoan();
+                            $tbltrungemail = $pt -> getselecttrungemail($_SESSION["emailTD"]);
+                            $tbltrungsdt = $pt->getselecttrungsdt($_SESSION["sdtTD"]);
+                            if($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows > 0){ 
+                                    echo "<script>alert('Số điện thoại và Email đã tồn tại')</script>";
+                                    header("refresh:1");
+                            }elseif($tbltrungsdt->num_rows > 0 && $tbltrungemail->num_rows == 0){ // trường hợp trùng sdt trả về có kết quả và trùng email không có kết quả 
+                                echo "<script>alert('Số điện thoại đã được sử dụng.')</script>";
+                                header("refresh:1");
+                            }elseif($tbltrungsdt->num_rows == 0 && $tbltrungemail->num_rows > 0){ // trường hợp trùng sdt không có kết quả và trùng email trả về có kết quả
+                                echo "<script>alert('Email đã được sử dụng.')</script>";
+                                header("refresh:1");
+                            }else{
+                                $giohientai = date("H:i:s"); // giờ hiện tại
+                                if(strtotime($_SESSION['giotao']) > strtotime($giohientai)){ // Nếu giờ hiện tại bé hơn giờ tạo + 1 phút thì thực hiện tiếp;
+                                    $xacnhan = $_REQUEST["maxacnhan"];
+                                    if($_SESSION["maxacnhan"] == $xacnhan){
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
-                                        echo "Mã quá hiệu lực";
+                                        $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
+                                        if($updatetaikhoan){
+                                            unset($_SESSION["tenTD"]);
+                                            unset($_SESSION["emailTD"]);
+                                            unset($_SESSION["sdtTD"]);
+                                            header("refresh:0");
+                                        }else{
+                                            echo "<script>alert('Đăng ký thất bại')</script>";
+                                            header("refresh:1");
+                                        }
+                                    }else{
+                                        unset($_SESSION["maxacnhan"]);
+                                        unset($_SESSION["giotao"]);
+                                        echo "<script>alert('Mã xác nhận sai')</script>";
+                                        header("refresh:1");
                                     }
+                                }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
+                                    unset($_SESSION["maxacnhan"]);
+                                    unset($_SESSION["giotao"]);
+                                    // echo "Mã quá hiệu lực giờ quy định ".$_SESSION["giotao"]."<br>"." - giờ hiện tại ".$giohientai;
+                                    echo "<script>alert('Mã quá hiệu lực')</script>";
+                                    header("refresh:1");
                                 }
+                            }
                         }
                     }
                 
