@@ -1,86 +1,81 @@
 <?php
-include_once("controller/controller.php");
-$pK = new ckhachhang();
-$p = new ctaikhoan();
-//$p1 = new ctaikhoan();
-$tblkhachhang = $pK->getselectallkhachhang();
+    include_once("controller/controller.php");
+    $pK = new ckhachhang();
+    $p = new ctaikhoan();
+    $tblkhachhang = $pK->getselectallkhachhang();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["action"])) {
-        if ($_POST["action"] == "addCustomer") {
-            if(isset($_REQUEST["subthemkh"])){
-                $ten = $_POST["ten"];
-                $sdt = $_POST["sdt"];
-                $email = $_POST["email"];
-                $password = $_POST["matkhau"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["action"])) {
+            if ($_POST["action"] == "addCustomer") {
+                if(isset($_REQUEST["subthemkh"])){
+                    $ten = $_POST["ten"];
+                    $sdt = $_POST["sdt"];
+                    $email = $_POST["email"];
+                    $password = $_POST["matkhau"];
 
-                $tbltrungsdt = $p->getselecttrungsdt($sdt);
-                if($tbltrungsdt->num_rows>0){
-                    while($rtt = $tbltrungsdt->fetch_assoc()){
-                        $remail = $rtt["Email"];
-                    }
-                    if($remail == NULL){
+                    $tbltrungsdt = $p->getselecttrungsdt($sdt);
+                    if($tbltrungsdt->num_rows>0){
+                        while($rtt = $tbltrungsdt->fetch_assoc()){
+                            $remail = $rtt["Email"];
+                        }
+                        if($remail == NULL){
+                            $tbltrungemail = $p->getselecttrungemail($email);
+                            if($tbltrungemail->num_rows>0){
+                                echo "<script>alert('Email đã được đăng ký')</script>";
+                                header("refresh:0; url='?page=quanlykhachhang'");
+                            }else{
+                            
+        
+                                $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
+                                if($updatetaikhoan){
+                                    echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                }else{
+                                    echo "<script>alert('Đăng ký thất bại')</script>";
+                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                }  
+                            }
+                        }else{
+                        echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
+                        header("refresh:0; url='?page=quanlykhachhang'");
+                        }
+                    }else{
+                        //thêm gửi mail
                         $tbltrungemail = $p->getselecttrungemail($email);
                         if($tbltrungemail->num_rows>0){
                             echo "<script>alert('Email đã được đăng ký')</script>";
                             header("refresh:0; url='?page=quanlykhachhang'");
                         }else{
-                        
-    
-                            $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
-                            if($updatetaikhoan){
-                                echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
-                            }else{
-                                echo "<script>alert('Đăng ký thất bại')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
-                            }  
-                        }
-                    }else{
-                       echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
-                       header("refresh:0; url='?page=quanlykhachhang'");
-                    }
-                }else{
-                    //thêm gửi mail
-                    $tbltrungemail = $p->getselecttrungemail($email);
-                    if($tbltrungemail->num_rows>0){
-                        echo "<script>alert('Email đã được đăng ký')</script>";
-                        header("refresh:0; url='?page=quanlykhachhang'");
-                    }else{
-                            $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
-                            if($inserttaikhoan){
-                                echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
-                            }else{
-                                echo "<script>alert('Đăng ký thất bại')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
+                                $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
+                                if($inserttaikhoan){
+                                    echo "<script>alert('Thêm tài khoản thành công')</script>";
+                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                }else{
+                                    echo "<script>alert('Đăng ký thất bại')</script>";
+                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                }
                             }
-                        }
+                    }
                 }
+            } elseif ($_POST["action"] == "verifyCustomer") {
+                $makhachhang = $_POST["makhachhang"];
+                $result = $pK->xacThucKhachHang($makhachhang);
+                if ($result) {
+                    echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                } else {
+                    echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                }
+            } elseif ($_POST["action"] == "deleteCustomer") {
+                $makhachhang = $_POST["makhachhang"];
+                $pK->xoaKhachHang($makhachhang);
             }
-        } elseif ($_POST["action"] == "verifyCustomer") {
-            $makhachhang = $_POST["makhachhang"];
-            $result = $pK->xacThucKhachHang($makhachhang);
-            if ($result) {
-                echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
-            } else {
-                echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
-            }
-        } elseif ($_POST["action"] == "deleteCustomer") {
-            $makhachhang = $_POST["makhachhang"];
-            $pK->xoaKhachHang($makhachhang);
+            exit();
         }
-        exit();
     }
-}
-// if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["keyword"])) {
-//     $keyword = $_GET["keyword"];
-//     $tblkhachhang = $p->timKiemKhachHang($keyword);
-// }
-if(isset($_GET['keyword'])) {
-    $keyword = $_GET['keyword'];
-    $tblkhachhang = $pK->timKiemKhachHang($keyword);
-}
+    if(isset($_GET['keyword'])) {
+        $keyword = $_GET['keyword'];
+        $tblkhachhang = $pK->timKiemKhachHang($keyword);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -208,11 +203,6 @@ if(isset($_GET['keyword'])) {
                         <button type="submit" class="btn btn-primary" name="subthemkh">Thêm khách hàng</button>
                     </form>
                 </div>
-                
-                <!-- Kiểm tra email và số điện thoại tồn tại -->
-                <?php
-
-                ?>
             </div>
         </div>
     </div>
@@ -241,13 +231,12 @@ if(isset($_GET['keyword'])) {
             </script>
         
     <script>
-        
-    function confirmDeleteCustomer() {
-        return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?');
-    }
-    function confirmVerifyCustomer() {
-        return confirm('Bạn có chắc chắn muốn xác nhận thông tin tài khoản cho khách hàng này không?');
-    }
-</script>
+        function confirmDeleteCustomer() {
+            return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?');
+        }
+        function confirmVerifyCustomer() {
+            return confirm('Bạn có chắc chắn muốn xác nhận thông tin tài khoản cho khách hàng này không?');
+        }
+    </script>
 </body>
 </html>
