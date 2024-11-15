@@ -16,7 +16,7 @@
             header("refresh: 0; url='index.php'");
         }
 ?>
-<div class="container">
+<div class="container section_phu">
 <section class="hero-section">
     <div class="list-bar container">
       <h2><?= $tendiachi ?></h2><br>

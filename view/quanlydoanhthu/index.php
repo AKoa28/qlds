@@ -6,16 +6,22 @@
     <title>Quản lý doanh thu</title>
 </head>
 <body>
-<form method="post">
+<div  class="section_phu"><form method="post">
 <?php
     // if(!isset($_SESSION["quanly"])){
     //     echo "<script>alert('Bạn không có quyền truy cập');</script>";
     //     header("Location: index.php");
     // }else{
-        $machusan = "1";
         include_once("controller/controller.php");
         $p = new controller();
-        $tbldiadiem = $p->getselectdiachisan($machusan);//sau này thay thế bằng $_SESSION["quanly"] lưu mã chủ sân khi đăng nhập
+        if(isset($_SESSION["chusan"])){
+            $machusan = $_SESSION["chusan"]; 
+            $tbldiadiem = $p->getselectdiachisan($machusan);
+        }else{
+            $madiadiem = $_SESSION["madiadiem"];
+            $tbldiadiem = $p->getdiadiemsantheomadiadiem($madiadiem);
+        }
+        
         if(!$tbldiadiem){
             echo "Lỗi";
         }elseif($tbldiadiem===0){
@@ -46,7 +52,7 @@
 ?>
     <div id="div3">     
     </div>
-</form>
+</form></div>
 <script>
     function getdiachi(giatri,tencbx){
         $.ajax({

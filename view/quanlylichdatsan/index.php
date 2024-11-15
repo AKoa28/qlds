@@ -1,9 +1,16 @@
-<form method="post">
+<div class="section_phu"><form method="post">
 <?php
-    $machusan = "1";
     include_once("controller/controller.php");
     $p = new controller();
-    $tbldiadiem = $p->getselectdiachisan($machusan);//sau này thay thế bằng $_SESSION["quanly"] lưu mã chủ sân khi đăng nhập
+    if(isset($_SESSION["chusan"])){
+        $machusan = $_SESSION["chusan"]; 
+        $tbldiadiem = $p->getselectdiachisan($machusan);
+    }else{
+        $madiadiem = $_SESSION["madiadiem"];
+        $tbldiadiem = $p->getdiadiemsantheomadiadiem($madiadiem);
+    }
+    
+   
     if(!$tbldiadiem){
         echo "Lỗi";
     }elseif($tbldiadiem===0){
@@ -31,7 +38,7 @@
     }
 
 ?>
-</form>
+</form></div>
 <script>
     
     function getdiachi(madiadiem,tencbx){
