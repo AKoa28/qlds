@@ -1,5 +1,5 @@
 <?php
-    if(!isset($_SESSION["chusan"])){
+    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
         header("Location: ?chusandangnhap");
     }
 

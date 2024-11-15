@@ -76,7 +76,7 @@
                             alert("Đăng nhập thất bại");
                         }else{
                             alert(ketqua);
-                            window.location.href = "?danhsachdiachi";
+                            window.location.href = "?page=chusan";
                         }
                     },
                     error: function(xhr, status, error){

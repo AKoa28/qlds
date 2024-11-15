@@ -8,11 +8,16 @@ require_once("../../mail/sendmail.php");
         $sdt = $_POST["sdt"];
         $pass = $_POST["pass"];
         $p = new ctaikhoan();
-        $tbldangnhap = $p->getkhachDANGNHAP($sdt,$pass);
-        if(!$tbldangnhap){
+        $tblchusandangnhap = $p->getquanlysanDANGNHAP($sdt,$pass);
+        if(!$tblchusandangnhap){
             echo "thatbai";
         }else{
-            echo "Xin chào quý khách " . $_SESSION["tenkhachhang"] . ". Bạn đã đăng nhập thành công";
+            if(isset($_SESSION["chusan"])){
+                echo "Xin chào Chủ sân " . $_SESSION["ten"];
+            }else{
+                echo "Xin chào Nhân viên " . $_SESSION["ten"];
+            }
+            
         }
 
     }

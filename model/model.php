@@ -72,6 +72,18 @@
                 return false;
             }
         }
+        public function diadiemsantheomadiadiem($madiadiem){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="select * from diadiem where MaDiaDiem = '$madiadiem'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
         public function demsoluongdiadiem(){
             $p = new ketnoi();
             $con = $p->moketnoi();

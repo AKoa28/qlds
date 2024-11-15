@@ -72,6 +72,19 @@
                 }
             }
         }
+        public function getdiadiemsantheomadiadiem($madiadiem){
+            $p = new model();
+            $con = $p->diadiemsantheomadiadiem($madiadiem);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
         public function getdemsoluongdiadiem(){
             $p = new model();
             $con = $p->demsoluongdiadiem();
@@ -186,6 +199,7 @@
                     }else{
                         $_SESSION["nhanvien"] = $r["MaNhanVien"];
                         $_SESSION["ten"] = $r["Ten"];
+                        $_SESSION["madiadiem"] = $r["MaDiaDiem"];
                     }
                     
                 }
