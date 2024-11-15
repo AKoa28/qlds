@@ -72,7 +72,58 @@
                 }
             }
         }
-
+        public function getdiadiemsantheomadiadiem($madiadiem){
+            $p = new model();
+            $con = $p->diadiemsantheomadiadiem($madiadiem);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdemsoluongdiadiem(){
+            $p = new model();
+            $con = $p->demsoluongdiadiem();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdiachisanPhanTrang($limit,$offset){
+            $p = new model();
+            $con = $p->diachisanPhanTrang($limit,$offset);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdiachitheoTen($ten){
+            $p = new model();
+            $con = $p->diachitheoTen($ten);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
         public function getdatsan($masan,$khunggio){
             $p = new model();
             $con = $p->selectdatsan($masan,$khunggio,);
