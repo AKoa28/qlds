@@ -199,6 +199,7 @@
                     }else{
                         $_SESSION["nhanvien"] = $r["MaNhanVien"];
                         $_SESSION["ten"] = $r["Ten"];
+                        $_SESSION["madiadiem"] = $r["MaDiaDiem"];
                     }
                     
                 }
@@ -301,9 +302,9 @@
     }
 
     class ckhachhang {
-        public function getselectallkhachhang() {
+        public function getselectallkhachhang($machusan) {
             $p = new mkhachhang();
-            $con = $p->xemkhachhang();
+            $con = $p->xemkhachhang($machusan);
             if (!$con) {
                 return -1;
             } else {
@@ -346,6 +347,21 @@
         public function timKiemKhachHang($keyword) {
             $p = new mkhachhang();
             return $p->timKiemKhachHang($keyword);
+        }
+    }
+    class cnhanvien{
+        public function getxemdanhsachkhachhang($madiadiem){
+            $p = new mnhanvien();
+            $con = $p->xemdskhachhang($madiadiem);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
         }
     }
 ?>

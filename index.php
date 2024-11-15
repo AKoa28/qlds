@@ -87,15 +87,24 @@
     <div class="container-fluid">
             <div class="row">
                     <?php
-                        if(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chusan"){
+                        if(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chusan" ){
                             // $_SESSION["chusan"] = 1;
-                            echo '<div class="col-md-2 background" style="">';
-                            include_once("view/giaodien/menuchusan.php");
-                            echo "</div>";
-                            echo "<div class='col-md-10'>";
-                            include_once("view/chusan/index.php");
-                            echo "</div>";
-                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
+                            if(isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
+                                echo '<div class="col-md-2 background" style="">';
+                                include_once("view/giaodien/menuchusan.php");
+                                echo "</div>";
+                                echo "<div class='col-md-10'>";
+                                include_once("view/chusan/index.php");
+                                echo "</div>";
+                            }else{
+                                echo '<div class="col-md-2 background" style="">';
+                                include_once("view/giaodien/menunhanvien.php");
+                                echo "</div>";
+                                echo "<div class='col-md-10'>";
+                                include_once("view/nhanvien/index.php");
+                                echo "</div>";
+                            }
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
@@ -109,14 +118,28 @@
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlynhanvien/index.php");
                             echo "</div>";
-                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan"){
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan" && isset($_SESSION["chusan"])){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlysan/index.php");
                             echo "</div>";
-                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan" && isset($_SESSION["nhanvien"])){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menunhanvien.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/index.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "danhsachkhachhang"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menunhanvien.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/nhanvien/danhsachkhachhang.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
@@ -137,7 +160,7 @@
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlylichdatsan/index.php");
                             echo "</div>";
-                        } else {
+                        } else {                        
                             if(isset($_REQUEST['dangky'])) {
                                 include_once ("view/dangky/index.php");
                             } elseif(isset($_REQUEST['dangnhap'])) {

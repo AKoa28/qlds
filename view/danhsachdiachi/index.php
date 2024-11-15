@@ -93,19 +93,19 @@
                         <nav aria-label="Page navigation example">
                           <ul class="pagination justify-content-center" id="pagination">
                           <li class="page-item">
-                            <a class="page-link" href="?trang=1"><<</a>
+                            <a class="page-link" href="?page=home&trang=1"><<</a>
                           </li>
                   ';
                   for ($i = 1; $i <= $sotrang; $i++) {
                     echo '
                           <li class="page-item">
-                            <a class="page-link" href="?trang='.$i.'">'.$i.'</a>
+                            <a class="page-link" href="?page=home&trang='.$i.'">'.$i.'</a>
                           </li>
                     ';
                   }
                   echo '
                             <li class="page-item">
-                              <a class="page-link" href="?trang='.$sotrang.'">>></a>
+                              <a class="page-link" href="?page=home&trang='.$sotrang.'">>></a>
                             </li>
                           </ul>
                         </nav>

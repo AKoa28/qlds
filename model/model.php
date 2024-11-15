@@ -393,11 +393,11 @@
     }
     
     class mkhachhang {
-        public function xemkhachhang() {
+        public function xemkhachhang($machusan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang where kh.HienThi = 1 GROUP BY kh.MaKhachHang";
+                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan JOIN chusan cs on cs.MaChuSan = dd.MaChuSan where kh.HienThi = 1 and cs.MaChuSan = $machusan GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -482,6 +482,20 @@
                 $p->dongketnoi($con);
                 return $result;
             } else {
+                return false;
+            }
+        }
+    }
+    class mnhanvien{
+        public function xemdskhachhang($madiadiem){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where kh.HienThi = 1 and MaDiaDiem = $madiadiem group by kh.MaKhachHang";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            }else{
                 return false;
             }
         }

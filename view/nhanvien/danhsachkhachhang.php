@@ -4,10 +4,11 @@
     }
 
     include_once("controller/controller.php");
-    $pK = new ckhachhang();
+    $pK = new cnhanvien();
     $p = new ctaikhoan();
-    $machusan = $_SESSION["chusan"];
-    $tblkhachhang = $pK->getselectallkhachhang($machusan);
+    $madiadiem = $_SESSION["madiadiem"];
+    $tblkhachhang = $pK->getxemdanhsachkhachhang($madiadiem);
+    
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["action"])) {
@@ -125,9 +126,9 @@
 
         <table class="table table-bordered" id="customerTable">
             <thead>
-                <tr style="text-align: center">
+                <tr>
                     <th>Mã khách hàng</th>
-                    <th>Địa điểm</th>
+                    <th>Mã tài khoản</th>
                     <th>Tên</th>
                     <th>Số điện thoại</th>
                     <th>Email</th>
@@ -152,7 +153,7 @@
                         $isVerified = $r["XacNhan"] === "Đã xác nhận";
                         echo "<tr class='$row_class'>";
                         echo "<td>" . $r["MaKhachHang"] . "</td>";
-                        echo "<td>" . $r["TenDiaDiem"] . "</td>";
+                        echo "<td>" . $r["MaTaiKhoan"] . "</td>";
                         echo "<td>" . $r["Ten"] . "</td>";
                         echo "<td>" . $r["SDT"] . "</td>";
                         echo "<td>" . $r["Email"] . "</td>";
