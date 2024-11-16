@@ -1,5 +1,5 @@
 <?php
-    if(isset($_SESSION["dangnhap"]) && isset($_SESSION["chusan"])){
+    if(isset($_SESSION["dangnhap"]) || isset($_SESSION["chusan"])){
         echo '<script>alert("Đã đăng nhập")</script>';
         header("refresh:0 url='?chusan'");
     }

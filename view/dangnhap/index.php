@@ -65,6 +65,7 @@
                             alert("Đăng nhập thất bại");
                         }else{
                             alert(ketqua);
+                            // $("#formdangnhap").html(ketqua);
                             window.location.href = "?danhsachdiachi";
                         }
                     },

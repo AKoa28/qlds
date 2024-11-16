@@ -26,9 +26,7 @@
         margin-top: 55px;
     }
 </style>
-<div id="khongchobam">
-    
-</div>
+
 <?php
     if(!isset($_SESSION["dangnhap"])){
         header("Location: index.php");
@@ -177,7 +175,33 @@
                 }
                 
             }elseif(isset($_REQUEST["doimatkhaukhachhang"])){
-                echo "22222";
+                echo '
+                        <div class="col-md-10 section_phu">
+                            <div class="row justify-content-center mt-5">
+                                <h3 class="text-center">Thay đổi thông tin</h3>
+                                <div class="col-md-7">
+                                    <form action="" method="post" id="formsuathongtin">
+                                                   
+                ';
+                if(!isset($_REQUEST["subTDTT"])){
+                    echo ' 
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="mkhientai" class="form-control" id="floatingInput" placeholder="" required>
+                                        <label for="floatingInput">Mật khẩu hiện tại</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="mkmoi" class="form-control" id="floatingInput" placeholder=""  required>
+                                        <label for="floatingInput">Mật khẩu hiện tại</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="xacnhanmk" class="form-control" id="floatingInput" placeholder=""  required>
+                                        <label for="floatingInput">Xác nhận mật khẩu</label>
+                                    </div>
+                            <button type="submit" name="subTDTT" class="btn btn-info mb-3" onclick="return confirm(\'Bạn chắc chắn muốn thay đổi thông tin. Vì khi thay đổi thông tin của bạn cần được xác nhận lại\')">Lưu thông tin</button>
+                        </form>
+                    ';
+                }
             }elseif(isset($_REQUEST["thaydoithongtin"])){
                 
                 echo '

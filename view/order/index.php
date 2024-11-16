@@ -1,5 +1,14 @@
+
 <?php
     $madiadiem = $_REQUEST["masan"];
+    $pdc = new controller();
+    $tbldc = $pdc->getdiadiemsantheomadiadiem($madiadiem);
+    if($tbldc){
+        while($r=$tbldc->fetch_assoc()){
+            $tendiadiem = $r["TenDiaDiem"];
+            $diachidd= $r["DiaChi"];
+        }
+    }
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     if (isset($_SESSION["TTHD"])) {
         $dachon = $_SESSION["TTHD"];
@@ -75,7 +84,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="mb-5" style="text-align:center;">Thông tin đặt sân</h1>
-                        <form method="POST" class="row justify-content-center">
+                        <form method="POST" class="row justify-content-center" id="datsan">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
                                 <input type="text" name="ten" class="form-control" id="floatingInput" placeholder="" required>
@@ -152,7 +161,7 @@
             ';
         }
 
-    
+    print_r($_SESSION["TTHD"]);
     }else{
         echo "lỗi";
     }  
@@ -181,6 +190,8 @@
             $themdatsan = new cdatsan();
             $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makhachhang,$ngaydat,$trangthai,$tongtien,$diadiem);
             if($tblthemdatsan){
+                $mail = new sendmail();
+                $mail -> guithongtindatsan($_SESSION["emailkhachhang"],$_SESSION["tenkhachhang"], $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd);
                 unset($_SESSION["TTHD"]);
                 echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
                 header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
@@ -218,6 +229,8 @@
                         $themdatsan = new cdatsan();
                         $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makhachhangcosan,$ngaydat,$trangthai,$tongtien,$diadiem);
                         if($tblthemdatsan){
+                            $mail = new sendmail();
+                            $mail -> guithongtindatsan($email,$ten, $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd, $trangthaikhach);
                             unset($_SESSION["TTHD"]);
                             echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
                             header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
@@ -249,6 +262,8 @@
                     $themdatsan = new cdatsan();
                     $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
                     if($tblthemdatsan){
+                        $mail = new sendmail();
+                        $mail -> guithongtindatsan($email,$ten, $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd, $trangthaikhach);
                         echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt');</script>";
                         header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
                     }else{
@@ -280,6 +295,7 @@
         ktSDT();
     })
     $(document).ready(function() {
+        
     // click nút "Xoá"
         $('.btn-xoa').click(function() {
             $(this).closest('tr').xoa();
@@ -297,5 +313,7 @@
             // Cập nhật số tiền tổng hiển thị
             $('#capnhatgia').text(total.toLocaleString('vi-VN') + ' đ');
         }
+
     });
+    
 </script>

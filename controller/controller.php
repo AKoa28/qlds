@@ -180,6 +180,8 @@
                 while($r = $con->fetch_assoc()){
                     $_SESSION["dangnhap"] = $r["MaKhachHang"];
                     $_SESSION["tenkhachhang"] = $r["Ten"];
+                    $_SESSION["emailkhachhang"] = $r["Email"];
+
                 }
                 return $con;
             }else{
@@ -368,6 +370,12 @@
         public function timKiemKhachHang($keyword) {
             $p = new mkhachhang();
             return $p->timKiemKhachHang($keyword);
+        }
+    }
+
+    class csan{
+        public function getselectallsan($madiadiem){
+            
         }
     }
 ?>

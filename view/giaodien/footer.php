@@ -27,7 +27,7 @@
     echo ''; 
   }elseif(isset($_REQUEST["chusandangnhap"])){
     echo '';
-  }elseif(isset($_SESSION["chusan"])){
+  }elseif(isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
     echo '';
   }elseif(isset($_SESSION["dangnhap"])){
     echo '';

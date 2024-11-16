@@ -1,0 +1,65 @@
+<?php
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    $today = date('Y-m-d');
+    session_start();
+    include_once("../../controller/controller.php");
+    include_once("../../model/model.php");
+    require_once("../../mail/sendmail.php");
+    if($_REQUEST["madiadiem"] != 0){
+        if($_REQUEST["tencbx"]=="cbxdiadiem" ){
+            $ketqua = "";
+            $madiadiem = $_REQUEST["madiadiem"];
+            $p = new cdatsan();
+            $dsdatsan = $p -> getXemdslichdat($madiadiem);
+            if($dsdatsan->num_rows > 0){
+                $ketqua .='<table class="table table-striped align-middle" id="customerTable">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Mã Đặt Sân</th>
+                                    <th>Tên Khách Hàng</th>
+                                    <th>Mã Nhân Viên</th>
+                                    <th>Ngày Đặt</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Tổng Tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ';
+
+                while($r = $dsdatsan->fetch_assoc()){
+                    $ketqua .= '<tr>
+                                    <td>' . $r["MaDatSan"] . '</td>
+                                    <td>' . $r["Ten"] . '</td>
+                                    <td>' . $r["MaNhanVien"] . '</td>
+                                    <td>' . $r["NgayDat"] . '</td>
+                    ';
+                    if($r["TrangThai"] == "Ưu tiên"){
+                        $ketqua.='<td style="color: green"><b>' . $r["TrangThai"] . '</b></td>';
+                    }elseif($r["TrangThai"] == "Không duyệt"){
+                        $ketqua.='<td style="color: red">' . $r["TrangThai"] . '</td>';
+                    }else{
+                        $ketqua.='<td>' . $r["TrangThai"] . '</td>';
+                    }
+                    $ketqua .= '
+                                    <td>' . number_format($r["TongTien"],0,".",",") . ' đ</td>
+                                </tr>
+                    ';
+                }
+                $ketqua .= '
+                                
+                            </tbody>
+                        </table>
+                ';
+                
+                echo $ketqua;
+            }else{
+                echo "Không có ai đặt lịch sân";
+            }
+            
+            
+        }
+    }else{
+        echo "";
+    }
+
+?>

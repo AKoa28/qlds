@@ -57,10 +57,11 @@
                     <div class="switch-login">
                         <a href="?dangnhap" class="or-login">Đăng nhập</a>
                     </div>
-                </div>
-                <div id="show">
+                    <div id="show">
 
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -134,6 +135,7 @@
                         email: email
                     },
                     success: function(ketqua){
+                        // $('#show').html(ketqua);
                         // Xử lý phản hồi từ server
                         if (ketqua === "successmail") {
                             let xacnhanmail = prompt("Nhập mã xác nhận đã gửi qua mail của bạn", '');

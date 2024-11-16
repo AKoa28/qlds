@@ -44,6 +44,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
             </li>
+            <?php
+                if(isset($_SESSION["chusan"])){
+                    echo '<li class="nav-item">
+                            <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                        </li>';
+                }
+            ?>
         </ul>
 </div>
 <!-- <nav>
