@@ -1,3 +1,8 @@
+<?php
+    if(!isset($_SESSION["chusan"])){
+        header("Location: ?page=chusan");
+    }
+?>
 <div class="container">
     <div class="row">
         <div class="col-md-12 section_phu bg-body-secondary">

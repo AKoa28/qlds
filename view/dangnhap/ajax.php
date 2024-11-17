@@ -10,7 +10,7 @@ require_once("../../mail/sendmail.php");
         $p = new ctaikhoan();
         $tbldangnhap = $p->getkhachDANGNHAP($sdt,$pass);
         if(!$tbldangnhap){
-            echo "thatbai";
+            echo trim("thatbai");
         }else{
             $str = "Xin chào quý khách " . $_SESSION["tenkhachhang"] . ". Bạn đã đăng nhập thành công";
             echo $str;

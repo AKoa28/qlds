@@ -5,12 +5,12 @@
     include_once("../../controller/controller.php");
     include_once("../../model/model.php");
     require_once("../../mail/sendmail.php");
-    if($_REQUEST["madiadiem"] != 0){
+    if($_REQUEST["madiadiem"] != null){
         if($_REQUEST["tencbx"]=="cbxdiadiem" ){
             $ketqua = "";
             $madiadiem = $_REQUEST["madiadiem"];
-            $p = new cdatsan();
-            $dsdatsan = $p -> getXemdslichdat($madiadiem);
+            $p = new controller();
+            $dsdatsan = $p -> getselectallsan($madiadiem);
             if($dsdatsan->num_rows > 0){
                 $ketqua .='<table class="table table-striped align-middle" id="customerTable">
                             <thead class="table-success">
@@ -28,22 +28,11 @@
 
                 while($r = $dsdatsan->fetch_assoc()){
                     $ketqua .= '<tr>
-                                    <td>' . $r["MaDatSan"] . '</td>
-                                    <td>' . $r["Ten"] . '</td>
-                                    <td>' . $r["MaNhanVien"] . '</td>
-                                    <td>' . $r["NgayDat"] . '</td>
+                                    <td>' . $r["MaSan"] . '</td>
+                                    <td>' . $r["TenSan"] . '</td>
+                                    
                     ';
-                    if($r["TrangThai"] == "Ưu tiên"){
-                        $ketqua.='<td style="color: green"><b>' . $r["TrangThai"] . '</b></td>';
-                    }elseif($r["TrangThai"] == "Không duyệt"){
-                        $ketqua.='<td style="color: red">' . $r["TrangThai"] . '</td>';
-                    }else{
-                        $ketqua.='<td>' . $r["TrangThai"] . '</td>';
-                    }
-                    $ketqua .= '
-                                    <td>' . number_format($r["TongTien"],0,".",",") . ' đ</td>
-                                </tr>
-                    ';
+                    
                 }
                 $ketqua .= '
                                 

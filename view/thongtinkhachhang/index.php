@@ -21,9 +21,14 @@
         border-radius: 10px;
         height: auto;
     }
-
     .section_phu{
         margin-top: 55px;
+    }
+    .menu_phu ul .active-a{
+        background-color: rgba(66, 214, 52, 0.75);
+        color: black;
+        border-radius: 10px;
+        height: auto;
     }
 </style>
 
@@ -52,9 +57,28 @@
         <div class="col-md-2 pt-3 background">
             <div class="menu_phu">
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
-                    <li><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
-                    <li><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                    <?php
+                        if(isset($_REQUEST["lichdadatsan"])){
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link active-a">Lịch đã đặt</a></li>
+                            ';
+                        }elseif(isset($_REQUEST["doimatkhaukhachhang"])){
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link active-a">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                            ';
+                        }else{
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link active-a">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                            ';
+                        }
+                    ?>
+                    
                 </ul>
             </div>
             

@@ -181,7 +181,6 @@
                     $_SESSION["dangnhap"] = $r["MaKhachHang"];
                     $_SESSION["tenkhachhang"] = $r["Ten"];
                     $_SESSION["emailkhachhang"] = $r["Email"];
-
                 }
                 return $con;
             }else{
@@ -312,6 +311,7 @@
                 return $con;
             }
         }
+
     }
 
     class ckhachhang {
@@ -373,9 +373,9 @@
         }
     }
 
-    class csan{
-        public function getselectallsan($madiadiem){
+    // class csan{
+    //     public function getselectallsan($madiadiem){
             
-        }
-    }
+    //     }
+    // }
 ?>

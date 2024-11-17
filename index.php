@@ -144,6 +144,13 @@
                             echo "<div class='col-md-10'>";
                             include_once("view/themdiadiem/index.php");
                             echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themsan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/themsan.php");
+                            echo "</div>";
                         } else {
                             if(isset($_REQUEST['dangky'])) {
                                 include_once ("view/dangky/index.php");
@@ -163,6 +170,8 @@
                                 include_once ("view/thongtinkhachhang/index.php");
                             }elseif(isset($_REQUEST['thaydoithongtin'])) {
                                 include_once ("view/thongtinkhachhang/index.php");
+                            }elseif(isset($_REQUEST['chinhsach'])) {
+                                include_once ("view/chinhsach/index.php");
                             }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "order"){
                                 include_once("view/order/index.php");
                             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "chitietdiachisan"){

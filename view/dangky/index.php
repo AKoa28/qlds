@@ -137,7 +137,7 @@
                     success: function(ketqua){
                         // $('#show').html(ketqua);
                         // Xử lý phản hồi từ server
-                        if (ketqua === "successmail") {
+                        if (ketqua.trim() === "successmail") {
                             let xacnhanmail = prompt("Nhập mã xác nhận đã gửi qua mail của bạn", '');
                             if(xacnhanmail !== null){
                                 $.ajax({
@@ -151,11 +151,11 @@
                                         email: email,
                                         xacnhanmail: xacnhanmail},
                                     success: function(ketqua){
-                                        if(ketqua === "thanhcongroi") {
+                                        if(ketqua.trim() === "thanhcongroi") {
                                             alert("Đăng ký thành công!");
                                             window.location.href = '?dangnhap';
                                         }else{
-                                            alert("Lỗi mã xác nhận: " + ketqua);
+                                            alert("Lỗi mã xác nhận: " + ketqua.trim());
                                         } 
                                     }
                                 });

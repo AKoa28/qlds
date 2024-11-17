@@ -50,9 +50,11 @@
 } */
 
 .cta-section {
+  position: relative;
   background-color: #222;
   color: white;
   padding: 40px;
+  /* z-index: 1000; */
 }
 
 .cta-section input {

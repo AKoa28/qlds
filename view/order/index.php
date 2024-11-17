@@ -1,5 +1,6 @@
 
 <?php
+
     $madiadiem = $_REQUEST["masan"];
     $pdc = new controller();
     $tbldc = $pdc->getdiadiemsantheomadiadiem($madiadiem);
@@ -161,7 +162,7 @@
             ';
         }
 
-    print_r($_SESSION["TTHD"]);
+    // print_r($_SESSION["TTHD"]);
     }else{
         echo "lỗi";
     }  

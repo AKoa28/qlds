@@ -21,6 +21,7 @@
       width: 100%;
       bottom: 0;
   }
+  
 </style>
 <?php
   if(isset($_REQUEST["dangky"])){
@@ -33,10 +34,11 @@
     echo '';
   }else{
     echo '
+    
       <section class="cta-section text-center">
           <h2>Đăng ký tài khoản để hưởng được những quyền lợi tốt nhất khi đặt sân</h2>
           <h4>Bạn sẽ được ưu tiên xét duyệt đặt sân khi đặt sân bằng tài khoản của bạn</h4>
-          <div class="container">
+          <div class="z-3 container">
             <div class="row justify-content-center">
               <div class="col-md-2">
                 <a href="?dangky"><button type="submit" class="btn btn-primary w-100 m-1" name="subregister">Đăng ký ngay</button></a>
@@ -44,6 +46,7 @@
             </div>
           </div>
       </section>
+    </div>
     ';
   }
 ?>

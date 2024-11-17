@@ -19,24 +19,67 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Giới thiệu</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Chính sách</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Điều khoản</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">Liên hệ</a>
-          </li>
+          <?php
+            if(isset($_REQUEST["page"]) && $_REQUEST["page"]=="chusan" || isset($_REQUEST["chusandangnhap"])){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["dangnhap"]) || isset($_REQUEST["dangky"])){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["chinhsach"])){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_SESSION["dangnhap"])){
+                echo '
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?chinhsach">Chính sách</a>
+                  </li>
+                ';
+            }else{
+                echo '
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?chinhsach">Chính sách</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+                  </li>
+                ';
+            }
+          ?>
+          
         </ul>
         <?php
           if(isset($_SESSION["dangnhap"])){
@@ -45,6 +88,8 @@
           }elseif(isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
               echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
               echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
+          }elseif(isset($_REQUEST['dangnhap'])){
+              echo '<a href="?dangnhap"><button class="btn btn-outline-warning">Đăng nhập</button></a>';
           }else{
               echo '<a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>';
           }
@@ -52,3 +97,21 @@
       </div>
     </div>
   </nav>
+  <!-- <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">Giới thiệu</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">Chính sách</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">Điều khoản</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="">Liên hệ</a>
+  </li> -->

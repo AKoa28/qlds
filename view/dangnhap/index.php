@@ -61,10 +61,10 @@
                     type: "POST",
                     data: {sdt: sdt, pass: pass},
                     success: function(ketqua){
-                        if(ketqua == "thatbai"){
+                        if(ketqua.trim() === "thatbai"){
                             alert("Đăng nhập thất bại");
                         }else{
-                            alert(ketqua);
+                            alert(ketqua.trim());
                             // $("#formdangnhap").html(ketqua);
                             window.location.href = "?danhsachdiachi";
                         }

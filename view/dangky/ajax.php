@@ -5,7 +5,8 @@ include_once("../../controller/controller.php");
 include_once("../../model/model.php");
 require_once("../../mail/sendmail.php");
 $p = new ctaikhoan();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+$pds = new cdatsan()
+;if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 unset($_SESSION["maxacnhan"]);
                                 unset($_SESSION["giotao"]);
                                 $updatetaikhoan = $p->getupdatetaikhoan($username,$sdt,$email,$password);
+                                // $updatetrangthaidatsan = $pds->getupdatetrangthaidatsan($makh);
                                 if($updatetaikhoan){
                                     echo "thanhcongroi";
                                 }else{

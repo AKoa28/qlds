@@ -287,12 +287,31 @@
                             }
                             $sql2="UPDATE `khachhang` SET `TrangThai`= N'Có tài khoản',`XacNhan`='Chưa xác nhận' WHERE `MaTaiKhoan` = '$matk'";
                             $kq2 = $con->query($sql2);
-                            $p->dongketnoi($con);
                             if($kq2){
-                                return $kq2;
+                                $sql3="SELECT ds.* FROM `datsan` ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan where kh.MaTaiKhoan = '$matk'";
+                                $kq3 = $con->query($sql3);
+                                if($kq3){
+                                    while($r = $kq3->fetch_assoc()){
+                                        $trangthai = $r["TrangThai"];
+                                        $madatsan = $r["MaDatSan"];
+                                        if($trangthai=="Chờ duyệt"){
+                                            $sql4="UPDATE `datsan` SET `TrangThai`='Ưu tiên' WHERE MaDatSan = '$madatsan'";
+                                            $kq4 = $con->query($sql4);
+                                        }
+                                    }
+                                    $p->dongketnoi($con);
+                                    if($kq4){
+                                        return $kq4;
+                                    }else{
+                                        return false;
+                                    }
+                                }else{
+                                    return false;
+                                }
                             }else{
                                 return false;
                             }
+                            
                         }else{
                             return false;
                         }
@@ -408,6 +427,8 @@
                 return false;
             }
         }
+
+        
     }
     
     class mkhachhang {
