@@ -9,18 +9,17 @@
         if($_REQUEST["tencbx"]=="cbxdiadiem" ){
             $ketqua = "";
             $madiadiem = $_REQUEST["madiadiem"];
+            $madiadiemmahoa = md5($madiadiem);
             $p = new controller();
             $dsdatsan = $p -> getselectallsan($madiadiem);
-            if($dsdatsan->num_rows > 0){
+            if($dsdatsan){
                 $ketqua .='<table class="table table-striped align-middle" id="customerTable">
                             <thead class="table-success">
                                 <tr>
-                                    <th>Mã Đặt Sân</th>
-                                    <th>Tên Khách Hàng</th>
-                                    <th>Mã Nhân Viên</th>
-                                    <th>Ngày Đặt</th>
-                                    <th>Trạng Thái</th>
-                                    <th>Tổng Tiền</th>
+                                    <th>Mã Sân</th>
+                                    <th>Tên Sân</th>
+                                    <th>Loại sân</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,7 +29,8 @@
                     $ketqua .= '<tr>
                                     <td>' . $r["MaSan"] . '</td>
                                     <td>' . $r["TenSan"] . '</td>
-                                    
+                                    <td>' . $r["TenLoaiSan"] . '</td>
+                                    <td><a type="button" class="btn btn-primary" href="?page=xemchitietsan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Xem chi tiết</a></td>
                     ';
                     
                 }

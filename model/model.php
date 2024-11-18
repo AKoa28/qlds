@@ -6,8 +6,22 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
-                // $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai";
+                // $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
+                $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai where MaDiaDiem = '$diachi'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function selectsan($masan){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                // $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
+                $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai where MaSan = '$masan'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -45,7 +59,8 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
+                // $sql="select gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
+                $sql="select Gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -548,6 +563,24 @@
                 $p->dongketnoi($con);
                 return $result;
             } else {
+                return false;
+            }
+        }
+    }
+
+    class msan_gia_thu_khunggio{
+        public function thaydoigiasan($masan,$gia,$makhunggio,$mathu) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "UPDATE `san_gia_thu_khunggio` SET `Gia`='$gia' WHERE `MaSan`='$masan' and `KhungGio`='$makhunggio' and `MaThu`='$mathu'";
+                $kq = $con->query($sql);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
                 return false;
             }
         }

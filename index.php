@@ -151,7 +151,21 @@
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlysan/themsan.php");
                             echo "</div>";
-                        } else {
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xemchitietsan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/xemchitietsan.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "suagiasan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/suagiasan/index.php");
+                            echo "</div>";
+                        }  else {
                             if(isset($_REQUEST['dangky'])) {
                                 include_once ("view/dangky/index.php");
                             } elseif(isset($_REQUEST['dangnhap'])) {
