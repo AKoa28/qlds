@@ -1,6 +1,7 @@
 <div class="section_phu">
     <form method="post" action="?page=themsan">
         <?php
+        // header("refresh:0");
         include_once("controller/controller.php");
         $p = new controller();
         if (isset($_SESSION["chusan"])) {
@@ -25,7 +26,7 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-md-6 pt-3 pb-3">
-                            <select name="cbxdiadiem" id="cbxdiadiem"  onchange="getdiachi(this.value,this.name)" class="form-select" aria-label="Default select example" required>
+                            <select name="cbxdiadiem" id="cbxdiadiem"  onclick="getdiachi(this.value,this.name)" class="form-select" aria-label="Default select example" required>
                                 <option value="" selected disabled>Chọn địa chỉ</option>';
             while ($r = $tbldiadiem->fetch_assoc()) {
                 echo '<option value="' . $r["MaDiaDiem"] . '">' . $r["TenDiaDiem"] . '</option>';

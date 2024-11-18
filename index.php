@@ -149,7 +149,7 @@
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
                             echo "<div class='col-md-10'>";
-                            include_once("view/quanlysan/themsan.php");
+                            include_once("view/themsan/index.php");
                             echo "</div>";
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xemchitietsan"){
                             echo '<div class="col-md-2 background" style="">';

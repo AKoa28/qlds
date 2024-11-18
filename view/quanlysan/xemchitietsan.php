@@ -2,8 +2,7 @@
     if(!isset($_SESSION["chusan"])){
         header("Location: ?page=chusan");
     }
-?>
-<?php
+
 $diachi = $_REQUEST["madd"];
 $masanurl = $_REQUEST["mas"];
 $p = new controller();
@@ -260,13 +259,8 @@ if($tbl===-1){
                                 // echo "<td>{$parts[1]}</td>";
                                 echo "<td>{$row[1]}</td>";
                                 for ($i = 2; $i < count($row); $i++) {// duyệt mảng bắt đầu từ phần tử thứ 2 trở về sau để lấy giá
-                                    
-                                    if($row[$i]==0){
-                                        echo "<td></td>";
-                                    }else{ 
-                                        echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$masanurl.'_'.$row[1].'_'.$row[$i].'_'.$i.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-gia="'.$row[$i].'" data-thu="'.$i.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
-                                        $checkbox++;
-                                    } 
+                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$masanurl.'_'.$row[1].'_'.$row[$i].'_'.$i.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-gia="'.$row[$i].'" data-thu="'.$i.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                    $checkbox++;
                                 }
                                 echo "</tr>";
                             }

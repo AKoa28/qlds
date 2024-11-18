@@ -9,7 +9,6 @@
         if($_REQUEST["tencbx"]=="cbxdiadiem" ){
             $ketqua = "";
             $madiadiem = $_REQUEST["madiadiem"];
-            $madiadiemmahoa = md5($madiadiem);
             $p = new controller();
             $dsdatsan = $p -> getselectallsan($madiadiem);
             if($dsdatsan){

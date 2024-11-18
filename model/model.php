@@ -349,6 +349,7 @@
                 $sql = "UPDATE `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan SET `Ten`='$ten',`SDT`='$sdt',`Email`='$email',`CapNhatLanCuoi`='$capnhatlancuoi',`XacNhan`='Chưa xác nhận' WHERE MaKhachHang = '$makhachhang'";
                 
                 $kq = $con->query($sql);
+                $p->dongketnoi($con);
                 if($kq){
                     return $kq;
                 }else{
@@ -575,6 +576,7 @@
             if($con){   
                 $sql = "UPDATE `san_gia_thu_khunggio` SET `Gia`='$gia' WHERE `MaSan`='$masan' and `KhungGio`='$makhunggio' and `MaThu`='$mathu'";
                 $kq = $con->query($sql);
+                $p->dongketnoi($con);
                 if($kq){
                     return $kq;
                 }else{

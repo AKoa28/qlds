@@ -26,8 +26,7 @@
         header("Location: ?page=chusan");
     }
     if(sizeof($_SESSION["TTHD"])==1){
-        for ($i = 0; $i < sizeof($_SESSION["TTHD"]); $i++) {
-            $thongtin = $_SESSION["TTHD"][$i];
+            $thongtin = $_SESSION["TTHD"][0];
             $catTTTD = explode("_",$thongtin);
             echo  '
                     <fieldset disabled>
@@ -60,7 +59,6 @@
                     </div>
                     <button type="submit" name="subTD1TT" class="btn btn-info mb-3">Lưu thông tin</button>
             ';
-        }
     }else{
         $soluongmang = sizeof($_SESSION["TTHD"]);
         echo '
@@ -79,7 +77,7 @@
         ';
     }
     echo '<div id="showchinhgiarieng"></div>';
-    print_r($_SESSION["TTHD"]);
+    // print_r($_SESSION["TTHD"]);
     // echo "<br>".$chuoids;
     echo '<div id="showchinhgiachung"></div>';
     
@@ -135,9 +133,31 @@
         header("Location: ?page=xemchitietsan&madd=".$_REQUEST['madd']."&mas=".$_REQUEST['mas']);
     }elseif(isset($_REQUEST["subTDTTR"])){//chỉnh giá riêng
         for($i=0;$i<sizeof($_SESSION["TTHD"]);$i++){
-            echo $_REQUEST["giamoi$i"];
+            $tt = $_SESSION["TTHD"][$i];
+            $catmangtt = explode("_",$tt);
+            $makhunggio = $catmangtt[1];
+            $masan = $catmangtt[3];
+            $gia = $_REQUEST["giamoi$i"];;
+            $mathu = $catmangtt[6]-1;
+            $tblthaydoigiasan = $p -> getthaydoigiasan($masan,$gia,$makhunggio,$mathu);
+            if(!$tblthaydoigiasan){
+                echo "Lỗi ở vị trí số".$i;
+            }
         }
-    }else{//chỉnh giá 1 thông tin
-
+        header("Location: ?page=xemchitietsan&madd=".$_REQUEST['madd']."&mas=".$_REQUEST['mas']);
+    }elseif(isset($_REQUEST["subTD1TT"])){//chỉnh giá 1 thông tin
+            $tt = $_SESSION["TTHD"][0];
+            $catmangtt = explode("_",$tt);
+            $makhunggio = $catmangtt[1];
+            $masan = $catmangtt[3];
+            $gia = $_REQUEST["giamoiTD1TT"];;
+            $mathu = $catmangtt[6]-1;
+            $tblthaydoigiasan = $p -> getthaydoigiasan($masan,$gia,$makhunggio,$mathu);
+            if($tblthaydoigiasan){
+                header("Location: ?page=xemchitietsan&madd=".$_REQUEST['madd']."&mas=".$_REQUEST['mas']);
+            }else{
+                echo "Thất bại";
+            }
+        
     }
 ?>
