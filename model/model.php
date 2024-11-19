@@ -29,11 +29,39 @@
                 return false;
             }
         }
-        public function selectkhunggio(){
+        public function selectkhunggio($maloaikhunggio){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="SELECT * FROM KhungGio";
+                if($maloaikhunggio){
+                    $sql="SELECT * FROM KhungGio where MaLoaiKhungGio='$maloaikhunggio'";
+                }else{
+                    $sql="SELECT * FROM KhungGio";
+                }
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectthutrongtuan(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM thutrongtuan";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectloaisan(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM LoaiSan";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -60,7 +88,7 @@
             $con = $p->moketnoi();
             if($con){
                 // $sql="select gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
-                $sql="select Gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
+                $sql="select t.* from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -584,6 +612,34 @@
                 }
             }else{
                 return false;
+            }
+        }
+    }
+
+    class msan{
+        public function insertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            $sql = "INSERT INTO `san`(`TenSan`, `MaLoaiSan`, `Hinh`, `MaDiaDiem`) 
+                            VALUES ('$tensan','$maloaisan','$filehinh','$madiadiem')";
+            $kq = $con->query($sql);
+            if($kq){
+                $masan = $con->insert_id;
+                $mangkhunggio =explode("-",$khunggio);
+                for($i=0;$i<sizeof($mangkhunggio);$i++){
+                    $makhunggio = $mangkhunggio[$i];
+                    for($j=1;$j<=7;$j++){
+                        $sql1 = "INSERT INTO `san_gia_thu_khunggio`(`MaSan`, `KhungGio`, `MaThu`) VALUES ('$masan','$makhunggio','$j')";
+                        $kq1 = $con->query($sql1);
+                    }
+                }
+                $p->dongketnoi($con);
+                if($kq1){
+                    return $masan;
+                }else{
+                    return false;
+                }
+                
             }
         }
     }

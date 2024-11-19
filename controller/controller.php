@@ -30,9 +30,37 @@
             }
         }
 
-        public function getselectkhunggio(){
+        public function getselectkhunggio($maloaikhunggio=''){ //có lỗi là ở đây
             $p = new model();
-            $con = $p->selectkhunggio();
+            $con = $p->selectkhunggio($maloaikhunggio);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        public function getselectthutrongtuan(){ //có lỗi là ở đây
+            $p = new model();
+            $con = $p->selectthutrongtuan();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        public function getselectloaisan(){
+            $p = new model();
+            $con = $p->selectloaisan();
             if(!$con){
                 return -1;
             }else{
@@ -56,6 +84,24 @@
                 }
             }
         }
+        // public function getselectsanbykhunggio_san_thu($khunggio,$san,$thu){
+        //     $p = new model();
+        //     $con = $p->selectsanbykhunggio_san_thu($khunggio,$san,$thu);
+        //     if(!$con){
+        //         return -1;
+        //     }else{
+        //         if($con->num_rows > 0){
+        //             while($r = $con->fetch_assoc()){
+        //                 // $gia = $r["gia"];
+        //                 $gia = $r["Gia"];
+        //             }
+        //             return $gia;
+        //         }else{
+        //             return 0;
+        //         }
+        //     }
+        // }
+
         public function getselectsanbykhunggio_san_thu($khunggio,$san,$thu){
             $p = new model();
             $con = $p->selectsanbykhunggio_san_thu($khunggio,$san,$thu);
@@ -63,17 +109,12 @@
                 return -1;
             }else{
                 if($con->num_rows > 0){
-                    while($r = $con->fetch_assoc()){
-                        // $gia = $r["gia"];
-                        $gia = $r["Gia"];
-                    }
-                    return $gia;
+                    return $con;
                 }else{
                     return 0;
                 }
             }
         }
-
         public function getselectdiachisan($machusan=''){
             $p = new model();
             $con = $p->selectdiachisan($machusan);
@@ -397,6 +438,27 @@
             }else{
                 return $con;
             }
+        }
+    }
+
+    class csan{
+        public function getinsertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem){
+            if($filehinh["tmp_name"]!=""){
+                $p = new clskiemtraupload();
+                $kq = $p->uploadhinh($filehinh, $tensan,$filehinh);
+                if(!$kq){
+                    return 0;
+                }
+            }
+            $p = new msan();
+            $kq = $p->insertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem);
+            if($kq){
+                return $kq;
+            }else{
+                return false;
+            }
+            
+
         }
     }
 ?>

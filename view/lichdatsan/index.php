@@ -16,6 +16,7 @@ if($tbl===-1){
     $dem = 0;
     $lich = [];
     $giatheothu = [];
+    $giatheongay = [];
     echo "<table width='100%' align='center' >";
     while($r = $tbl->fetch_assoc()){
         $makhunggio = $r["MaKhungGio"];
@@ -26,40 +27,52 @@ if($tbl===-1){
             $d = $makhunggio;
             $khunggio = $r["TenKhungGio"];
             // $khunggio = $d. "_" .$r["TenKhungGio"];
-            while($r1 = $tblmasan->fetch_assoc()){
-
-                $masan = $r1["MaSan"];
-                
-                for($i=1; $i<8; $i++){
-                    $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masan ,$i); 
-                    $giatheothu[] = $tblgia;
-                } 
-                // print_r($giatheothu);
-                // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
-                $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
-                foreach ($giatheothu as $value) {
-                    if ($value !== 0) {
-                        $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
-                        break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
+            if($tblmasan){
+                while($r1 = $tblmasan->fetch_assoc()){
+                    $masan = $r1["MaSan"];
+                    for($i=1; $i<8; $i++){
+                        $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masan ,$i); 
+                        if($tblgia){
+                            while($rn=$tblgia->fetch_assoc()){
+                                if($rn["Ngay"]==NULL){
+                                    $giatheothu[] = $rn["Gia"];
+                                }else{
+                                    $giatheongay[] = [$rn["MaSan"],$rn["Gia"],$rn["KhungGio"],$rn["Ngay"]];
+                                }
+                            }
+                        }
+                        
+                    } 
+                    // print_r($giatheothu);
+                    // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
+                    $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
+                    foreach ($giatheothu as $value) {
+                        if ($value !== 0) {
+                            $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
+                            break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
+                        }
                     }
-                }
-                if(!$all_zero){
-                    $dem++;
-                    if($dem==1){
-
-                        $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
-                        // $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
-                        $array1= [$khunggio,$tensan];
-                        $row1 = array_merge($array1,$giatheothu);
-                        $lich[] = $row1;
-                        $array1 = [];
+                    if(!$all_zero){
+                        $dem++;
+                        if($dem==1){
+                            $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
+                            // $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
+                            // $array1= [$khunggio,$tensan];
+                            $array1= [$khunggio,$tensan];
+                            $row1 = array_merge($array1,$giatheothu);
+                            $lich[] = $row1;
+                            $array1 = [];
+                            $giatheothu = [];
+                            $dem=0;
+                        }
+                    }else{
                         $giatheothu = [];
-                        $dem=0;
                     }
-                }else{
-                    $giatheothu = [];
-                }
-            } 
+                } 
+            }else{
+                echo "không có";
+            }
+            
         }
     };
     
@@ -150,7 +163,7 @@ if($tbl===-1){
 </head>
 <body>
     <div class="section_phu">
-
+        
     
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
     <div class="container mt-3">
@@ -352,6 +365,15 @@ if($tbl===-1){
                                         if($timestamp2 > strtotime($ngay)){ // $timestamp2 là ngày hôm nay, strtotime($ngay) là ngày được in trên lịch. Nếu ngày strtotime($ngay) là quá khứ thì 
                                             echo '<td> </td>'; // in ra khoảng trống
                                         }else{
+                                            echo $ngay;
+                                            $laygia=0;
+                                            foreach($giatheongay as $pt => $dong){
+                                                $ngaycogiakhac = date('d-m-Y', strtotime($dong[3]));
+                                                if($ngay==$ngaycogiakhac){
+                                                    $laygia = $dong[0];
+                                                    break;
+                                                }
+                                            }
                                             // Lấy trạng thái của Ngày đặt 
                                             if(strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) && $timestamp2 == strtotime($ngay)){ // nếu strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) và ngày hôm nay = ngày trên lịch thì thực hiện 
                                                 echo '<td> </td>'; // in ra khoảng trống
@@ -365,9 +387,17 @@ if($tbl===-1){
                                                 echo '<td></td>';
                                                
                                             }else{
+                                                if($laygia!=0){
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
+                                                    $checkbox++;
+                                                    $laygia=0;
+                                                   
+                                                }else{
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                    $checkbox++;
+                                                }
                                                 // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
-                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
-                                                $checkbox++;
+                                                
                                             }
                                         }    
                                             // print_r($ngaydat);
@@ -384,7 +414,7 @@ if($tbl===-1){
                         echo "<tr><td colspan = '9'>Tuần này đã qua</td></tr>";
                     }
                     header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
-                    
+                    print_r($giatheongay);
                 ?>
                 
             </tbody>

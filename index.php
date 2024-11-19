@@ -49,6 +49,7 @@
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
+    include_once("controller/upload.php");
     require_once("mail/sendmail.php");
     // include_once("view/lichdatsan/index.php");
     // include_once("view/giaodien/header.php");

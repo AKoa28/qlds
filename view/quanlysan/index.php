@@ -1,5 +1,5 @@
 <div class="section_phu">
-    <form method="post" action="?page=themsan">
+    <form method="post" action="">
         <?php
         // header("refresh:0");
         include_once("controller/controller.php");
@@ -26,18 +26,16 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-md-6 pt-3 pb-3">
-                            <select name="cbxdiadiem" id="cbxdiadiem"  onclick="getdiachi(this.value,this.name)" class="form-select" aria-label="Default select example" required>
+                            <select name="cbxdiadiem" id="cbxdiadiem"  onclick="getdiachi(this.value,this.name),getbutton(this.value,this.name)" class="form-select" aria-label="Default select example" required>
                                 <option value="" selected disabled>Chọn địa chỉ</option>';
             while ($r = $tbldiadiem->fetch_assoc()) {
                 echo '<option value="' . $r["MaDiaDiem"] . '">' . $r["TenDiaDiem"] . '</option>';
             }
             echo '</select>
                     </div>
-                    <div class="col-md-3 pt-3 pb-3">';
+                    <div class="col-md-3 pt-3 pb-3" id="buttonthemsan">';
 
-            if(isset($_SESSION["chusan"])){
-                echo '<button type="submit" class="btn btn-success "><i class="bi bi-plus"></i>Thêm sân</button>';
-            }
+            
             
             echo  '</div></div>
                 ';
@@ -62,5 +60,14 @@
             }
         });
     }
-
+    function getbutton(madiadiem, tencbx){
+        $.ajax({
+            url: "view/quanlysan/ajaxbutton.php",
+            type: "POST",
+            data:{madiadiem: madiadiem, tencbx: tencbx},
+            success: function (ketqua){
+                $("#buttonthemsan").html(ketqua);
+            }
+        });
+    }
 </script>
