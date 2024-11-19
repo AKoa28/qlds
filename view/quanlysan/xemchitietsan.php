@@ -25,6 +25,7 @@ if($tbl===-1){
     $dem = 0;
     $lich = [];
     $giatheothu = [];
+    $giatheongay = [];
     echo "<table width='100%' align='center'>";
     while($r = $tbl->fetch_assoc()){
         $makhunggio = $r["MaKhungGio"];
@@ -36,7 +37,16 @@ if($tbl===-1){
             // $khunggio = $d. "_" .$r["TenKhungGio"];
             for($i=1; $i<8; $i++){
                 $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masanurl ,$i); 
-                $giatheothu[] = $tblgia;
+                // $giatheothu[] = $tblgia;
+                if($tblgia){
+                    while($rn=$tblgia->fetch_assoc()){
+                        if($rn["Ngay"]==NULL){
+                            $giatheothu[] = $rn["Gia"];
+                        }else{
+                            $giatheongay[] = [$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"]];
+                        }
+                    }
+                }
             } 
             // print_r($giatheothu);
             // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
@@ -121,6 +131,13 @@ if($tbl===-1){
             background-color:cadetblue;
             z-index: 10;
         }
+        .table, .lichkhac thead th {
+            /* position: sticky; */
+            /* top: 55px; */
+            background-color:maroon;
+            z-index: 1;
+            color:#fff;
+        }
         .btn-custom {
             width: 100%;
             color: #fff;
@@ -131,9 +148,9 @@ if($tbl===-1){
             background-color: aliceblue;
             color:#333;
         }
-        tr:hover{
+        /* tr:hover{
             background-color: darkcyan;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -142,8 +159,42 @@ if($tbl===-1){
     <div class="container mt-5 mb-5 p-3">
         <div class="row justify-content-center">
             <div class="col-md-6" >
-                
+                <table class="table lichkhac"  style="text-align:center;">
+                    <h4>Những ngày có giá khác</h4>
+                    <thead>
+                        <th>Khung giờ</th>
+                        <th>Tên sân</th>
+                        <th>Ngày</th>
+                        <th>Giá</th>
+                        <th>Giá</th>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if(sizeof($giatheongay)>0){
+                             // print_r($giatheongay);
+                            foreach($giatheongay as $gtn => $dong){
+                                $formatngay = date("d-m-Y",strtotime($dong[5]));
+                                echo '
+                                    <tr>
+                                        <td>'.$dong[4].'</td>
+                                        <td>'.$dong[1].'</td>
+                                        <td>'.$formatngay.'</td>
+                                        <td>'.number_format($dong[2],0,".",",").' đ</td>
+                                        <td><button class="btn btn-danger">Xoá</button></td>
+                                    </tr>
+                                ';
+                            }
+                        }else{
+                            echo "";
+                        }
+                        ?>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6" >
                 <table class="table"  style="text-align:center;">
+                    <h4>Giá bạn đã chọn</h4>
                     <thead>
                         <th>STT</th>
                         <th>Khung giờ</th>

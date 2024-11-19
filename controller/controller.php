@@ -449,6 +449,9 @@
                 if(!$kq){
                     return 0;
                 }
+            }else{
+                $filehinh = implode($filehinh);
+                $filehinh = "";
             }
             $p = new msan();
             $kq = $p->insertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem);
@@ -457,8 +460,6 @@
             }else{
                 return false;
             }
-            
-
         }
     }
 ?>

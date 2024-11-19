@@ -58,7 +58,7 @@ if($tbl===-1){
                             $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
                             // $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
                             // $array1= [$khunggio,$tensan];
-                            $array1= [$khunggio,$tensan];
+                            $array1= [$makhunggio."_".$khunggio,$tensan];
                             $row1 = array_merge($array1,$giatheothu);
                             $lich[] = $row1;
                             $array1 = [];
@@ -279,7 +279,7 @@ if($tbl===-1){
                             $tam = [];
                             $mausac = 0;
                             foreach ($lich as $index => $row) { 
-                               
+                               $catkhunggio = explode("_", $row[0]); // 0 là mã khung gio, 1 là khung gio
                                 echo "<tr>";
                                 // Kiểm tra nếu thời gian của hàng này khác với thời gian của hàng trước
                                 if (in_array($row[0],$duplicate_times) && !in_array($row[0],$tam)) {
@@ -290,10 +290,10 @@ if($tbl===-1){
                                     }
                                     // Màu sắc cho column giờ
                                     if($mausac==0){
-                                        echo "<td rowspan='".$dem + 1 ."' style='background-color: #ddd;'>{$row[0]}</td>";
+                                        echo "<td rowspan='".$dem + 1 ."' style='background-color: #ddd;'>{$catkhunggio[1]}</td>";
                                         $mausac++;
                                     }else{
-                                        echo "<td rowspan='".$dem + 1 ."' style='background-color: silver;'>{$row[0]}</td>";
+                                        echo "<td rowspan='".$dem + 1 ."' style='background-color: silver;'>{$catkhunggio[1]}</td>";
                                         $mausac = 0;
                                     }
                                     $tam[] = $row[0];
@@ -302,15 +302,16 @@ if($tbl===-1){
                                 }else{
                                     // Màu sắc cho column giờ
                                     if($mausac==0){
-                                        echo "<td style='background-color: #ddd;'>{$row[0]}</td>";
+                                        // echo "<td style='background-color: #ddd;'>{$row[0]}</td>";
+                                        echo "<td style='background-color: #ddd;'>{$catkhunggio[1]}</td>";
                                         $mausac++;
                                     }else{
-                                        echo "<td style='background-color: silver;'>{$row[0]}</td>";
+                                        // echo "<td style='background-color: silver;'>{$row[0]}</td>";
+                                        echo "<td style='background-color: silver;'>{$catkhunggio[1]}</td>";
                                         $mausac = 0;
                                     }
                                 }
                                 // Second column: Field
-    
                                 $parts = explode("-", $row[1]);
                                 // $parts1 = explode("_", $row[0]);
                                 $ms = $parts[0];
@@ -320,7 +321,7 @@ if($tbl===-1){
                                     
     // Kiểm tra xem đã có người đặt chưa
                                     
-                                    $tbldatsan = $p->getdatsan($ms,$row[0]);
+                                    $tbldatsan = $p->getdatsan($ms,$catkhunggio[1]);
                                     if($tbldatsan===-1){
                                         echo "Không có";
                                     }elseif(!$tbldatsan){
@@ -359,18 +360,18 @@ if($tbl===-1){
                                             }
                                         }
                                         $giohientai = date('H:i:s');
-                                        $laygiocuakhunggio = explode("-",$row[0]);
+                                        $laygiocuakhunggio = explode("-",$catkhunggio[1]);
                                         // echo $giohientai;
                                         // echo $laygiocuakhunggio[0];
                                         if($timestamp2 > strtotime($ngay)){ // $timestamp2 là ngày hôm nay, strtotime($ngay) là ngày được in trên lịch. Nếu ngày strtotime($ngay) là quá khứ thì 
                                             echo '<td> </td>'; // in ra khoảng trống
                                         }else{
-                                            echo $ngay;
+                                            
                                             $laygia=0;
-                                            foreach($giatheongay as $pt => $dong){
+                                            foreach($giatheongay as $pt => $dong){//Kiểm tra giá theo ngày vd Array ( [0] => Array ( [0] => 1 [1] => 900000 [2] => 1 [3] => 2024-11-25 ) )
                                                 $ngaycogiakhac = date('d-m-Y', strtotime($dong[3]));
-                                                if($ngay==$ngaycogiakhac){
-                                                    $laygia = $dong[0];
+                                                if($ngay==$ngaycogiakhac && $catkhunggio[0]==$dong[2] && $ms==$dong[0]){
+                                                    $laygia = $dong[1];
                                                     break;
                                                 }
                                             }
@@ -378,8 +379,16 @@ if($tbl===-1){
                                             if(strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) && $timestamp2 == strtotime($ngay)){ // nếu strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) và ngày hôm nay = ngày trên lịch thì thực hiện 
                                                 echo '<td> </td>'; // in ra khoảng trống
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
-                                                echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
-                                                $checkbox++;
+                                                if($laygia!=0){
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
+                                                    $checkbox++;
+                                                    $laygia=0;
+                                                   
+                                                }else{
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                    $checkbox++;
+                                                }
+                                                
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên"){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                
@@ -388,12 +397,12 @@ if($tbl===-1){
                                                
                                             }else{
                                                 if($laygia!=0){
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                     $laygia=0;
                                                    
                                                 }else{
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$row[0].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$row[0].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                 }
                                                 // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
