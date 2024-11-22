@@ -43,7 +43,7 @@
               echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["tenkhachhang"].'</a>&nbsp;&nbsp;&nbsp;';
               echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
           }elseif(isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
-              echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
+              echo '<a href="?thongtinchusan" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
               echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
           }else{
               echo '<a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>';

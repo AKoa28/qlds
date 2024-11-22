@@ -187,6 +187,12 @@
                                 include_once("view/lichdatsan/index.php");
                             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "home") {
                                 include_once("view/danhsachdiachi/index.php");
+                            }elseif(isset($_REQUEST["thongtinchusan"])) {
+                                include_once("view/chusan/thongtinchusan.php");
+                            }elseif(isset($_REQUEST['thaydoithongtinchusan'])) {
+                                include_once ("view/chusan/thongtinchusan.php");
+                            }elseif(isset($_REQUEST['doimatkhauchusan'])) {
+                                include_once ("view/chusan/thongtinchusan.php");
                             }else {
                                 echo "<img src='image/404error.jpg' style='width: 100%; height: 100%;'>";
                             }

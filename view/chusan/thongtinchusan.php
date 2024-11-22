@@ -30,19 +30,18 @@
     
 </div>
 <?php
-    if(!isset($_SESSION["dangnhap"])){
-        header("Location: index.php?page=home&trang=1");
+    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
+        header("Location: ?chusandangnhap");
     }else{
-        $makhachhang = $_SESSION["dangnhap"];
-        $p = new ctaikhoan();
-        $ttkh = $p->getThongtinkhachhang($makhachhang);
-        if($ttkh->num_rows>0){
-            while($r = $ttkh->fetch_assoc()){
-                $tenkhachhang = $r["Ten"];
+        $machusan = $_SESSION["chusan"];
+        $p = new cchusan();
+        $ttcs = $p->getThongtinchusan($machusan);
+        if($ttcs->num_rows>0){
+            while($r = $ttcs->fetch_assoc()){
+                $tenchusan = $r["Ten"];
                 $email = $r["Email"];
                 $sdt = $r["SDT"];
                 $matkhau = $r["MatKhau"];
-                $xacnhan = $r["XacNhan"];
             }
         }else{
             echo "Không có kết quả";
@@ -54,16 +53,14 @@
         <div class="col-md-2 pt-3 background">
             <div class="menu_phu">
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
-                    <li><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
-                    <li><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                    <li class="nav-item"><a href="?thongtinchusan" class="nav-link">Thông tin tài khoản</a> </li>
+                    <li><a href="?doimatkhauchusan" class="nav-link">Đổi mật khẩu</a> </li>
                 </ul>
             </div>
-            
         </div>
         <?php
-            if(isset($_REQUEST["doimatkhaukhachhang"])){
-                $pM = new ckhachhang();
+            if(isset($_REQUEST["doimatkhauchusan"])){
+                $pM = new cchusan();
                 if(!isset($_POST['subDMK'])){
                     echo '
                         <div class="col-md-10 section_phu">
@@ -92,8 +89,8 @@
                     ';
                 }
                 if (isset($_POST["subDMK"])) {
-                    $makhachhang = $_SESSION["dangnhap"];
-                    $tenTD = $_SESSION["tenkhachhang"];
+                    $machusan = $_SESSION["chusan"];
+                    $tenTD = $_SESSION["ten"];
                     $confirmMatkhaucu = md5($_POST['confirmMatkhaucu']);
                     $matkhaumoi = md5($_POST['matkhaumoi']);
                     $_SESSION["matkhaumoi"] = $matkhaumoi;
@@ -113,7 +110,7 @@
                         $_SESSION["maxacnhan"] = rand(1000,9999);
                         $_SESSION["giotao"] = date("H:i:s", strtotime("+1 minutes")); // giờ lúc tạo mã xác nhận cộng thêm 1 phút
                         $mail = new sendmail();
-                        $laymail = $pM -> getlaymailkhachhang($makhachhang);
+                        $laymail = $pM -> getlaymailchusan($machusan);
                         $mail -> thaydoithongtinkhachhang($laymail,$tenTD,$_SESSION["maxacnhan"]);
                         if($mail){
                             if(!isset($_POST['xacnhanmail'])){
@@ -147,10 +144,9 @@
                                         $xacnhan = $_POST["maxacnhan"];
                                         $capnhatlancuoi = date("Y-m-d H:i:s");
                                         if($_SESSION["maxacnhan"] == $xacnhan){
-                                           // echo $_SESSION["matkhaumoi"];
                                             unset($_SESSION["maxacnhan"]);
                                             unset($_SESSION["giotao"]);
-                                            $doimatkhaukhachhang = $pM->getdoimatkhaukhachhang($makhachhang, $_SESSION["matkhaumoi"], $capnhatlancuoi);
+                                            $doimatkhauchusan = $pM->getdoimatkhauchusan($machusan, $_SESSION["matkhaumoi"], $capnhatlancuoi);
                                             unset ($_SESSION["matkhaumoi"]);
                                          }else{
                                             unset($_SESSION["maxacnhan"]);
@@ -170,121 +166,7 @@
                                 
                             
                 }
-            }elseif(isset($_REQUEST["lichdadatsan"])){
-                $array = [];
-                $today = date('Y-m-d');
-                $time = date('H:i:s');
-                $pttds = new cdatsan();
-                $tttds = $pttds->getXemdslichdattheokhachhang($makhachhang);
-                if($tttds->num_rows>0){
-                    echo '
-                        <div class="col-md-10 pt-3 section_phu">
-                            <h3>Sắp diễn ra</h3>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover table-borderless table-success align-middle">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Địa điểm</th>
-                                            <th>Tên sân</th>
-                                            <th>Ngày đặt sân</th>
-                                            <th>Bắt đầu</th>
-                                            <th>Kết thúc</th>
-                                            <th>Giá</th>
-                                            <th>Trạng thái</th>
-                                            <th>Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                    ';
-                    while($r = $tttds->fetch_assoc()){
-                        $diadiem = $r["TenDiaDiem"];
-                        $tensan = $r["TenSan"];
-                        $khunggio = $r["KhungGio"];
-                        $dongia = $r["DonGia"];
-                        $trangthai = $r["TrangThai"];
-                        $ngaydatsan = $r["NgayDatSan"];
-                        $catkg = explode("-",$khunggio);
-
-                        if(strtotime($today) > strtotime($ngaydatsan)){
-                            $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
-                        }else{
-                            if(strtotime($today) == strtotime($ngaydatsan) && strtotime($time) > strtotime($catkg[0])){
-                                $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
-                            }else{
-                                echo '
-                                    <tr >
-                                        <td class="col-2">'.$diadiem.'</td>
-                                        <td class="col-2">'.$tensan.'</td>
-                                        <td class="col-2"> '.$ngaydatsan.'</td>
-                                        <td class="col-1">'.$catkg[0].'</td>
-                                        <td class="col-1">'.$catkg[1].'</td>
-                                        <td class="col-1">'.number_format($dongia,0,".",",").' đ</td>
-                                        <td class="col-1">'.$trangthai.'</td>';
-                                if($trangthai == "Đã duyệt"){
-                                    echo '
-                                            <td class="col-1"></td>
-                                        </tr>
-                                    ';
-                                }else{
-                                    echo '
-                                            <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
-                                        </tr>
-                                    ';
-                                }
-                                
-                            }
-                        }
-                        
-                    }
-                    echo '
-                                    </tbody>
-                                </table>
-                    ';
-                    echo '
-                           <h3>Đã kết thúc</h3>
-                                <table class="table table-striped table-hover table-borderless table-danger align-middle">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th>Địa điểm</th>
-                                            <th>Tên sân</th>
-                                            <th>Ngày đặt sân</th>
-                                            <th>Bắt đầu</th>
-                                            <th>Kết thúc</th>
-                                            <th>Giá</th>
-                                            <th>Trạng thái</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody >
-                    ';
-                    foreach($array as $tt){
-                        if(strtotime($today) >= strtotime($tt[2])){
-                            echo '
-                                <tr >
-                                    <td class="col-2">'.$tt[0].'</td>
-                                    <td class="col-2">'.$tt[1].'</td>
-                                    <td class="col-2">'.$tt[2].'</td>
-                                    <td class="col-1">'.$tt[3].'</td>
-                                    <td class="col-1">'.$tt[4].'</td>
-                                    <td class="col-2">'.number_format($tt[5],0,".",",").' đ</td>
-                                    <td class="col-2">'.$tt[6].'</td>
-                                </tr>
-                            ';
-                        }
-                        
-                    }    
-                    echo '
-                                    </tbody>
-                                </table>
-                    ';
-                    echo '
-                        </div>
-                        </div>
-                    ';
-                }else{
-                    echo 'Không có dữ liệu';
-                }
-                
-            }elseif(isset($_REQUEST["thaydoithongtin"])){
+            }elseif(isset($_REQUEST["thaydoithongtinchusan"])){
                 
                 echo '
                         <div class="col-md-10 section_phu">
@@ -299,7 +181,7 @@
 
                         echo ' 
                                     <div class="form-floating mb-3">
-                                            <input type="text" name="ten" class="form-control" id="floatingInput" placeholder="" value="'.$tenkhachhang.'" required>
+                                            <input type="text" name="ten" class="form-control" id="floatingInput" placeholder="" value="'.$tenchusan.'" required>
                                             <label for="floatingInput">Tên</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -325,7 +207,7 @@
 
                         if($tenTD=="" || $emailTD=="" || $sdtTD=="" ){ //Một trong 3 nếu có cái nào để trống thì không cần cập nhật csdl
                             header("refresh:0");
-                        }elseif($tenTD==$tenkhachhang && $emailTD==$email && $sdtTD==$sdt ){ //Cả 3 đều không được thay đổi
+                        }elseif($tenTD==$tenchusan && $emailTD==$email && $sdtTD==$sdt ){ //Cả 3 đều không được thay đổi
                             header("refresh:0");
                         }else{
                             if($emailTD != $email && $sdtTD==$sdt){            //Nếu thay đổi là email                    
@@ -378,9 +260,9 @@
                                         ';
                                     }
                                 }
-                            }elseif($tenTD != $tenkhachhang && $sdtTD == $sdt && $emailTD == $email){           //Nếu thay đổi là Tên. Không cần gửi mail xác nhận                 
+                            }elseif($tenTD != $tenchusan && $sdtTD == $sdt && $emailTD == $email){           //Nếu thay đổi là Tên. Không cần gửi mail xác nhận                 
                                 $pt = new ctaikhoan();
-                                $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $tenTD, $sdtTD,$emailTD);
+                                $updatetaikhoan = $p->getsuathongtinchusan($machusan, $tenTD, $sdtTD,$emailTD);
                                 if($updatetaikhoan){
                                     header("refresh:0");
                                 }else{
@@ -439,7 +321,7 @@
                                     if($_SESSION["maxacnhan"] == $xacnhan){
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
+                                        $updatetaikhoan = $p->getsuathongtinchusan($machusan, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
                                         if($updatetaikhoan){
                                             unset($_SESSION["tenTD"]);
                                             unset($_SESSION["emailTD"]);
@@ -478,7 +360,7 @@
                                     if($_SESSION["maxacnhan"] == $xacnhan){
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
+                                        $updatetaikhoan = $p->getsuathongtinchusan($machusan, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
                                         if($updatetaikhoan){
                                             unset($_SESSION["tenTD"]);
                                             unset($_SESSION["emailTD"]);
@@ -523,7 +405,7 @@
                                     if($_SESSION["maxacnhan"] == $xacnhan){
                                         unset($_SESSION["maxacnhan"]);
                                         unset($_SESSION["giotao"]);
-                                        $updatetaikhoan = $p->getsuathongtinkhachhang($makhachhang, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
+                                        $updatetaikhoan = $p->getsuathongtinchusan($machusan, $_SESSION["tenTD"],$_SESSION["sdtTD"],$_SESSION["emailTD"]);
                                         if($updatetaikhoan){
                                             unset($_SESSION["tenTD"]);
                                             unset($_SESSION["emailTD"]);
@@ -563,10 +445,10 @@
                                     <table class="table mt-3">
                                         <tr>
                                             <td>Tên:</td>
-                                            <td>'.$tenkhachhang.'</td>
+                                            <td>'.$tenchusan.'</td>
                                         </tr>
                                         <tr>
-                                            <td>email:</td>
+                                            <td>Email:</td>
                                             <td>'.$email.'</td>
                                         </tr>
                                         <tr>
@@ -574,7 +456,7 @@
                                             <td>'.$sdt.'</td>
                                         </tr>
                                     </table>
-                                    <a class="btn btn-info mt-3 mb-5" href="?thaydoithongtin" >Sửa thông tin</a>
+                                    <a class="btn btn-info mt-3 mb-5" href="?thaydoithongtinchusan" >Sửa thông tin</a>
                                 </div>
                             </div>
                         </div>
