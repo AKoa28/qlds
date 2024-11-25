@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-5">
             <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
-            <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
+            <a href="?page=datsantheongay&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
         </div>
        </div>      
     </div>

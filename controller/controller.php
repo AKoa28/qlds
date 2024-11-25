@@ -43,6 +43,19 @@
                 }
             }
         }
+        public function getselectkhunggiotheomakg($makhunggio=''){ //có lỗi là ở đây
+            $p = new model();
+            $con = $p->selectkhunggiotheomakg($makhunggio);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
 
         public function getselectthutrongtuan(){ //có lỗi là ở đây
             $p = new model();
@@ -250,13 +263,17 @@
             $con = $p->quanlysanDANGNHAP($sdt,$pass);
             if($con->num_rows > 0){
                 while($r = $con->fetch_assoc()){
-                    if($r["MaNhanVien"] == ""){
+                    if($r["MaNhanVien"] == "" && $r["MaChuSan"] == ""){
+                        return 0;
+                    }elseif($r["MaNhanVien"] == ""){
                         $_SESSION["chusan"] = $r["MaChuSan"];
                         $_SESSION["ten"] = $r["Ten"];
+                        $_SESSION["emailchusan"] = $r["Email"];
                     }else{
                         $_SESSION["nhanvien"] = $r["MaNhanVien"];
                         $_SESSION["ten"] = $r["Ten"];
                         $_SESSION["madiadiem"] = $r["MaDiaDiem"];
+                        $_SESSION["emailnhanvien"] = $r["Email"];
                     }
                     
                 }
@@ -337,7 +354,11 @@
             $con = $p->insertdatsankhachvl($makh,$ngaydat,$trangthai,$tongtien,$diadiem);
             return $con;
         }
-
+        public function getinsertdatsantheongay($total){
+            $p = new mdatsan();
+            $con = $p->insertdatsantheongay($total);
+            return $con;
+        }
         public function getXemdoanhthutheongay($ngay){
             $p = new mdatsan();
             $con = $p->Xemdoanhthutheongay($ngay);
@@ -435,6 +456,25 @@
             $con = $p->thaydoigiasan($masan,$gia,$makhunggio,$mathu);
             if(!$con){
                 return -1;
+            }else{
+                return $con;
+            }
+        }
+        public function getgiatheothuvsmasan($masan,$mathu){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->giatheothuvsmasan($masan,$mathu);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getkhunggiotheothuvsmasan($masan,$mathu){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->khunggiotheothuvsmasan($masan,$mathu);
+            if(!$con){
+                return false;
             }else{
                 return $con;
             }

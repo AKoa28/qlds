@@ -217,7 +217,7 @@ if($tbl===-1){
     
     <div class="container mt-5">
         <?php
-            echo "<h2 class='mt-5'>Chọn giá bạn muốn thay đổi</h2>";
+            echo "<div class='row d-flex align-items-center mb-1'><h2 >Chọn giá bạn muốn thay đổi</h2><i >Giá này sẽ mặc định cho các tuần sau đó. Nếu bạn muốn thay đổi giá theo ngày thì bấm <button class='btn btn-success'>vào đây</button></i></div>";
         ?>
         <table class="table table-hover table-bordered" style="text-align:center;">
             <thead>

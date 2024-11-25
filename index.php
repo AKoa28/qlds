@@ -181,6 +181,8 @@
                                 include_once ("view/thongtinkhachhang/index.php");
                             }elseif(isset($_REQUEST['lichdadatsan'])) {
                                 include_once ("view/thongtinkhachhang/index.php");
+                            }elseif(isset($_REQUEST['datsantheongay'])) {
+                                include_once ("view/datsantheongay/index.php");
                             }elseif(isset($_REQUEST['doimatkhaukhachhang'])) {
                                 include_once ("view/thongtinkhachhang/index.php");
                             }elseif(isset($_REQUEST['thaydoithongtin'])) {
@@ -193,6 +195,8 @@
                                 include_once("view/chitietdiachisan/index.php");
                             } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "lichdatsan"){
                                 include_once("view/lichdatsan/index.php");
+                            } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "datsantheongay"){
+                                include_once("view/datsantheongay/index.php");
                             } else {
                                 include_once("view/danhsachdiachi/index.php");
                             }

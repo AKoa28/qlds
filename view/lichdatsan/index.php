@@ -1,4 +1,5 @@
 <?php
+
 $diachi = $_REQUEST["masan"];
 include_once("controller/controller.php");
 $p = new controller();
@@ -333,7 +334,7 @@ if($tbl===-1){
                                             $trangthai[] = [date('d-m-Y', strtotime($rn["NgayDatSan"])),$rn["TrangThai"]];
                                         }
                                     }
-                                
+                                    
                                 
                                 // print_r($weekDays);
                                 // print_r($ngaydat); 
@@ -417,13 +418,13 @@ if($tbl===-1){
                                 }
                                 echo "</tr>";
                                 $ngaydat=[];
-                               
+                                // $trangthai = [];
                             }
                     }else{
                         echo "<tr><td colspan = '9'>Tuần này đã qua</td></tr>";
                     }
                     header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
-                    print_r($giatheongay);
+                    // print_r($giatheongay);
                 ?>
                 
             </tbody>
