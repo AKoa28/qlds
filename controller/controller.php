@@ -349,13 +349,13 @@
             }
         }
 
-        public function xacThucKhachHang($makhachhang) {
+        public function getXacNhanKhachHang($makhachhang) {
             $p = new mkhachhang();
-            return $p->xacThucKhachHang($makhachhang);
+            return $p->xacNhanKhachHang($makhachhang);
         }
-        public function timKiemKhachHang($keyword) {
+        public function timKiemKhachHang($keyword, $machusan) {
             $p = new mkhachhang();
-            return $p->timKiemKhachHang($keyword);
+            return $p->timKiemKhachHang($keyword, $machusan);
         }
         public function getdoimatkhaukhachhang($makhachhang, $matkhaumoi, $capnhatlancuoi) {
             $p = new mkhachhang();
@@ -398,7 +398,28 @@
                 }
             }
         }
-        
+        public function getThongtinnhanvien($manhanvien){
+            $p = new mnhanvien();
+            $con = $p->thongtinnhanvien($manhanvien);
+            if($con->num_rows > 0){
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+        public function gettimKiemKhachHang($keyword, $madiadiem) {
+            $p = new mkhachhang();
+            return $p->timKiemKhachHang($keyword, $madiadiem);
+        }
+        public function xoaKhachHang($makhachhang) {
+            $p = new mnhanvien();
+            $con = $p->xoaKhachHang($makhachhang);
+            if ($con) {
+                echo "<script>alert('Xóa khách hàng thành công'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
+            }
+        }
     }
     class cchusan{
         public function getThongtinchusan($machusan){

@@ -193,6 +193,8 @@
                                 include_once ("view/chusan/thongtinchusan.php");
                             }elseif(isset($_REQUEST['doimatkhauchusan'])) {
                                 include_once ("view/chusan/thongtinchusan.php");
+                            }elseif(isset($_REQUEST["thongtinnhanvien"])) {
+                                include_once("view/nhanvien/thongtinnhanvien.php");
                             }else {
                                 echo "<img src='image/404error.jpg' style='width: 100%; height: 100%;'>";
                             }

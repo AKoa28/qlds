@@ -64,7 +64,7 @@
                 }
             } elseif ($_POST["action"] == "verifyCustomer") {
                 $makhachhang = $_POST["makhachhang"];
-                $result = $pK->xacThucKhachHang($makhachhang);
+                $result = $pK->getXacNhanKhachHang($makhachhang);
                 if ($result) {
                     echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
                 } else {
@@ -79,7 +79,8 @@
     }
     if(isset($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
-        $tblkhachhang = $pK->timKiemKhachHang($keyword);
+        $keyword = mb_convert_encoding($keyword, 'UTF-8', 'auto');
+        $tblkhachhang = $pK->timKiemKhachHang($keyword, $machusan);
     }
 ?>
 
@@ -109,7 +110,7 @@
         <h2 class="mb-4">Quản lý khách hàng</h2>
 
         <!-- Form tìm kiếm -->
-        <form class="d-flex mb-4" method="GET" action="index.php">
+        <form class="d-flex mb-4" method="GET" action="">
             <input type="hidden" name="page" value="quanlykhachhang">
             <input class="form-control mb-1 search-input" type="search" name="keyword" placeholder="Tìm kiếm khách hàng" aria-label="Search" required>
             <button class="btn btn-info search-btn" type="submit"><i class="bi bi-search"></i>Tìm Kiếm</button>
@@ -140,11 +141,7 @@
                 if ($tblkhachhang === -1) {
                     echo "<tr><td colspan='7'>Lỗi kết nối cơ sở dữ liệu!</td></tr>";
                 } elseif ($tblkhachhang === 0) {
-                    if (isset($_GET['keyword'])) {
-                        echo "<tr><td colspan='7'>Không tìm thấy khách hàng nào!</td></tr>";
-                    } else {
-                        echo "<tr><td colspan='7'>Không có khách hàng nào!</td></tr>";
-                    }
+                        echo "<tr style='text-align: center'><td colspan='7'><h5>Không có khách hàng nào!</h5></td></tr>";
                 } else {
                     $row_count = 0;
                     while ($r = $tblkhachhang->fetch_assoc()) {

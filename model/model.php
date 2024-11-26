@@ -414,7 +414,12 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan JOIN chusan cs on cs.MaChuSan = dd.MaChuSan where kh.HienThi = 1 and cs.MaChuSan = $machusan GROUP BY kh.MaKhachHang";
+                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang 
+                        JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem 
+                        JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan 
+                        JOIN chusan cs on cs.MaChuSan = dd.MaChuSan 
+                        where kh.HienThi = 1 and cs.MaChuSan = '$machusan' 
+                        GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -474,7 +479,7 @@
             }
         }
     
-        public function xacThucKhachHang($makhachhang) {
+        public function xacNhanKhachHang($makhachhang) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
@@ -486,15 +491,18 @@
                 return false;
             }
         }
-        public function timKiemKhachHang($keyword) {
+        public function timKiemKhachHang($keyword ,$machusan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh 
-                        JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan 
-                        WHERE tk.Ten LIKE '%$keyword%' 
-                        OR tk.SDT LIKE '%$keyword%' 
-                        OR tk.Email LIKE '%$keyword%'";
+                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang 
+                        JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem 
+                        JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan 
+                        JOIN chusan cs on cs.MaChuSan = dd.MaChuSan 
+                        WHERE kh.HienThi = 1 
+                        AND cs.MaChuSan = $machusan 
+                        AND (tk.Ten LIKE '%$keyword%' OR tk.SDT LIKE '%$keyword%' OR tk.Email LIKE '%$keyword%' OR dd.TenDiaDiem LIKE '%$keyword%')
+                        GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -542,11 +550,56 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where kh.HienThi = 1 and MaDiaDiem = $madiadiem group by kh.MaKhachHang";
+                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang 
+                join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan 
+                where kh.HienThi = 1 and MaDiaDiem = $madiadiem 
+                group by kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
             }else{
+                return false;
+            }
+        }
+        public function thongtinnhanvien($manhanvien){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `taikhoan` tk  JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan WHERE MaNhanVien = '$manhanvien'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function timKiemKhachHang($keyword ,$madiadiem) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang 
+                        join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan 
+                        where kh.HienThi = 1 and MaDiaDiem = $madiadiem 
+                        and (tk.Ten LIKE '%$keyword%' OR tk.SDT LIKE '%$keyword%' OR tk.Email LIKE '%$keyword%')
+                        GROUP BY kh.MaKhachHang";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function xoaKhachHang($makhachhang) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            
+            if ($con) {
+                $sql = "UPDATE khachhang SET HienThi = 0 WHERE MaKhachHang = '$makhachhang'";
+                $con->query($sql);
+                $p->dongketnoi($con);
+                
+                return $con;
+            } else {
                 return false;
             }
         }
