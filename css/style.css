@@ -50,9 +50,11 @@
 } */
 
 .cta-section {
+  position: relative;
   background-color: #222;
   color: white;
   padding: 40px;
+  /* z-index: 1000; */
 }
 
 .cta-section input {
@@ -112,12 +114,13 @@ footer a:hover {
 
     .checkbox-label {
       display: inline-block;
-      width: 100px;
+      width: 104px;
       padding: 10px;
       background-color: #ddd;
       text-align: center;
       border-radius: 5px;
       cursor: pointer;
+      /* width:auto; */
   }
 
   .checkbox-label:hover {
@@ -127,6 +130,7 @@ footer a:hover {
   .checkbox-input:checked + .checkbox-label {
       background-color: darkslategray;
       color: white;
+      
   }
 
   .checkbox-label-choduyet {

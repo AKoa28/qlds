@@ -22,11 +22,12 @@
       <h2><?= $tendiachi ?></h2><br>
       <div class="row">
         <div class="col-md-7">
+            <input type="time" name="" id="">
             <img src="image/<?= $hinhdaidien ?>" class="image-chitiet" alt="">
         </div>
         <div class="col-md-5">
             <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
-            <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
+            <a href="?page=datsantheongay&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
         </div>
        </div>      
     </div>

@@ -57,10 +57,11 @@
                     <div class="switch-login">
                         <a href="?dangnhap" class="or-login">Đăng nhập</a>
                     </div>
-                </div>
-                <div id="show">
+                    <div id="show">
 
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -124,7 +125,7 @@
            
                 $('#error-message').hide();  // Ẩn thông báo lỗi nếu mật khẩu khớp
                 $.ajax({
-                    url: "view/dangky/ajax.php",
+                    url: "view/dangky/ajax.php",  
                     type: "POST",
                     data: {
                         password: password,
@@ -134,8 +135,9 @@
                         email: email
                     },
                     success: function(ketqua){
+                        // $('#show').html(ketqua);
                         // Xử lý phản hồi từ server
-                        if (ketqua === "successmail") {
+                        if (ketqua.trim() === "successmail") {
                             let xacnhanmail = prompt("Nhập mã xác nhận đã gửi qua mail của bạn", '');
                             if(xacnhanmail !== null){
                                 $.ajax({
@@ -149,11 +151,11 @@
                                         email: email,
                                         xacnhanmail: xacnhanmail},
                                     success: function(ketqua){
-                                        if(ketqua === "thanhcongroi") {
+                                        if(ketqua.trim() === "thanhcongroi") {
                                             alert("Đăng ký thành công!");
                                             window.location.href = '?dangnhap';
                                         }else{
-                                            alert("Lỗi mã xác nhận: " + ketqua);
+                                            alert("Lỗi mã xác nhận: " + ketqua.trim());
                                         } 
                                     }
                                 });

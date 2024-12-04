@@ -1,5 +1,5 @@
 <?php
-    if(isset($_SESSION["dangnhap"]) && isset($_SESSION["chusan"])){
+    if(isset($_SESSION["dangnhap"]) || isset($_SESSION["chusan"])){
         echo '<script>alert("Đã đăng nhập")</script>';
         header("refresh:0 url='?chusan'");
     }
@@ -72,10 +72,10 @@
                     type: "POST",
                     data: {sdt: sdt, pass: pass},
                     success: function(ketqua){
-                        if(ketqua == "thatbai"){
+                        if(ketqua.trim() == "thatbai"){
                             alert("Đăng nhập thất bại");
                         }else{
-                            alert(ketqua);
+                            alert(ketqua.trim());
                             window.location.href = "?page=chusan";
                         }
                     },

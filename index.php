@@ -49,6 +49,7 @@
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
+    include_once("controller/upload.php");
     require_once("mail/sendmail.php");
     // include_once("view/lichdatsan/index.php");
     // include_once("view/giaodien/header.php");
@@ -161,6 +162,40 @@
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlylichdatsan/index.php");
                             echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themdiadiem"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/themdiadiem/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themsan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/themsan/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xemchitietsan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/xemchitietsan.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "suagiasan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/suagiasan/index.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST['datsantheongay'])) {
+                            include_once ("view/datsantheongay/index.php");
+                        }elseif(isset($_REQUEST['chinhsach'])) {
+                            include_once ("view/chinhsach/index.php");
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "datsantheongay"){
+                            include_once("view/datsantheongay/index.php");
                         } elseif(isset($_REQUEST['dangky'])) {
                             include_once ("view/dangky/index.php");
                         } elseif(isset($_REQUEST['dangnhap'])) {

@@ -81,6 +81,102 @@ class sendmail{
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
         }
     }
+
+    public function guithongtindatsan($maildangky,$ten,$thongtin,$ngaydat,$tendiadiem, $diachidd, $trangthaikhach=""){
+        $mail = new PHPMailer(true);
+        $mail -> CharSet = 'UTF-8';
+        try {
+            //Server settings
+            $mail->SMTPDebug = 0;                     
+            $mail->isSMTP();                                            
+            $mail->Host       = 'smtp.gmail.com';                    
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = 'nhom9.ptud.2024@gmail.com';                     
+            $mail->Password   = 'efrp slzb shpp zeqc';                              
+            $mail->SMTPSecure = 'tls';            
+            $mail->Port       = 587;       
+            //Recipients
+            $mail->setFrom('nhom9.ptud.2024@gmail.com', 'DatSanNhom9');
+
+            $mail->addAddress($maildangky, $ten);    
+            // $mail->addAddress('ellen@example.com');               //Name is optional
+            // $mail->addReplyTo('info@example.com', 'Information');
+            $mail->addCC('nhom9.ptud.2024@gmail.com');
+            // $mail->addBCC('bcc@example.com');
+            //Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Thông tin đặt sân ngày '.$ngaydat;
+            $tongtien=0;
+            $str = "";
+            $str .= '
+                        <table class="table"  style="text-align:center;">
+                                <thead class="table-success">
+                                    <tr>
+                                    <th>Mã sân</th>
+                                    <th>Khung giờ</th>
+                                    <th>Tên sân</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            ';
+            for ($i = 0; $i < sizeof($thongtin); $i++) {
+                $tt = $thongtin[$i];
+                $parts = explode("_", $tt);
+                $diachi = $parts[0];
+                $partsMS = explode("-", $parts[2]);
+                $ms = $partsMS[0];
+                $khunggio = $parts[1];
+                $tensan = $partsMS[1];
+                $ngay = $parts[3];
+                $gia = (int)$parts[4];
+        
+                $str .= '<tr><td>' . $ms . '</td>
+                    <td>' . $khunggio . '</td>
+                    <td>' . $tensan . '</td>
+                    <td>' . $ngay . '</td>
+                    <td class="gia">' . number_format($gia, 0, ".", ",") . ' đ</td><tr>';
+                $tongtien += $gia;
+            }
+            $str .= '
+                            </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td class="table-Warning"><b>Thành tiền:</b> </td>
+                                        <td class="table-Warning"><b id="capnhatgia">'.number_format($tongtien, 0, ".", ",").' đ</b></td>
+                                        <td>
+                                        </td>
+                                        
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            ';
+            if($trangthaikhach==""){
+                $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã thực hiện đặt sân tại DatSanNhom9 và đây là thông tin bạn đã đặt. <br>Địa điểm: '.$tendiadiem.'<br>Địa chỉ: '.$diachidd.'<br>'. $str.'</p><p style="color: red"><i>Lưu ý: Hiện tại đơn chưa được nhân viên xác nhận bạn vui lòng chú ý <b>điện thoại</b>, nhân viên của chúng tôi sẽ gọi điện để xác nhận.<i></p>';
+            }else{
+                $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã thực hiện đặt sân tại DatSanNhom9 và đây là thông tin bạn đã đặt. <br>Địa điểm: '.$tendiadiem.'<br>Địa chỉ: '.$diachidd.'<br>'. $str.'</p><p style="color: red">Lưu ý: Bạn đang là khách <b>VÃNG LAI</b> chưa tạo tài khoản trên website của chúng tôi nên sân bạn đặt có thể sẽ bị những khách hàng đã đăng ký tài khoản đặt trùng và tất nhiên <b><i>chúng tôi sẽ ưu tiên duyệt đơn đặt sân của những khách hàng đã đăng ký tài khoản</i><b>
+                .Để tránh trường hợp này bạn vui lòng tạo tài khoản trên website của chúng tôi để bảo đảm quyền lợi của mình.</p>';
+            }
+            // $mail->AltBody = $str;
+            $mail->send();
+            // echo 'Message has been sent';
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
+        }
+    }
 }
     
 ?>
+
+                                
+                

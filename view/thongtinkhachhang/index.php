@@ -21,14 +21,17 @@
         border-radius: 10px;
         height: auto;
     }
-
     .section_phu{
         margin-top: 55px;
     }
+    .menu_phu ul .active-a{
+        background-color: rgba(66, 214, 52, 0.75);
+        color: black;
+        border-radius: 10px;
+        height: auto;
+    }
 </style>
-<div id="khongchobam">
-    
-</div>
+
 <?php
     if(!isset($_SESSION["dangnhap"])){
         header("Location: index.php?page=home&trang=1");
@@ -54,9 +57,28 @@
         <div class="col-md-2 pt-3 background">
             <div class="menu_phu">
                 <ul class="nav flex-column">
-                    <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
-                    <li><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
-                    <li><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                    <?php
+                        if(isset($_REQUEST["lichdadatsan"])){
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link active-a">Lịch đã đặt</a></li>
+                            ';
+                        }elseif(isset($_REQUEST["doimatkhaukhachhang"])){
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link active-a">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                            ';
+                        }else{
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link active-a">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?doimatkhaukhachhang" class="nav-link">Đổi mật khẩu</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                            ';
+                        }
+                    ?>
+                    
                 </ul>
             </div>
             
@@ -284,6 +306,34 @@
                     echo 'Không có dữ liệu';
                 }
                 
+            }elseif(isset($_REQUEST["doimatkhaukhachhang"])){
+                echo '
+                        <div class="col-md-10 section_phu">
+                            <div class="row justify-content-center mt-5">
+                                <h3 class="text-center">Thay đổi thông tin</h3>
+                                <div class="col-md-7">
+                                    <form action="" method="post" id="formsuathongtin">
+                                                   
+                ';
+                if(!isset($_REQUEST["subTDTT"])){
+                    echo ' 
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="mkhientai" class="form-control" id="floatingInput" placeholder="" required>
+                                        <label for="floatingInput">Mật khẩu hiện tại</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="mkmoi" class="form-control" id="floatingInput" placeholder=""  required>
+                                        <label for="floatingInput">Mật khẩu hiện tại</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3">
+                                        <input type="password" name="xacnhanmk" class="form-control" id="floatingInput" placeholder=""  required>
+                                        <label for="floatingInput">Xác nhận mật khẩu</label>
+                                    </div>
+                            <button type="submit" name="subTDTT" class="btn btn-info mb-3" onclick="return confirm(\'Bạn chắc chắn muốn thay đổi thông tin. Vì khi thay đổi thông tin của bạn cần được xác nhận lại\')">Lưu thông tin</button>
+                        </form>
+                    ';
+                }
             }elseif(isset($_REQUEST["thaydoithongtin"])){
                 
                 echo '

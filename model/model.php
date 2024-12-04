@@ -6,8 +6,8 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
-                // $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai";
+                // $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
+                $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai where MaDiaDiem = '$diachi'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -15,11 +15,65 @@
                 return false;
             }
         }
-        public function selectkhunggio(){
+
+        public function selectsan($masan){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="SELECT * FROM KhungGio";
+                // $sql="select s.*, TenLoaiSan, tt.TrangThai, TenKhungGio, k.MaKhungGio  from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio join diadiem c on s.MaDiaDiem = c.MaDiaDiem join loaisan l on l.MaLoai = s.MaLoaiSan where s.MaDiaDiem = '$diachi'";
+                $sql = "select * from san s join loaisan l on s.MaLoaiSan = l.MaLoai where MaSan = '$masan'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectkhunggio($maloaikhunggio){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                if($maloaikhunggio){
+                    $sql="SELECT * FROM KhungGio where MaLoaiKhungGio='$maloaikhunggio'";
+                }else{
+                    $sql="SELECT * FROM KhungGio";
+                }
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectkhunggiotheomakg($makhunggio){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM KhungGio where MaKhungGio='$makhunggio'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectthutrongtuan(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM thutrongtuan";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function selectloaisan(){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM LoaiSan";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -45,7 +99,8 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
+                // $sql="select gia from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join gia g on t.MaGia = g.MaGia join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
+                $sql="select t.*, k.TenKhungGio, s.TenSan from san s join san_gia_thu_khunggio t on s.MaSan = t.MaSan join khunggio k on t.KhungGio = k.MaKhungGio where t.MaSan = '$san' and t.KhungGio = '$khunggio' and t.MaThu = '$thu'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -125,6 +180,19 @@
             $con = $p->moketnoi();
             if($con){
                 $sql="select NgayDatSan, TrangThai from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where MaSan = '$masan' and KhungGio = '$khunggio'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function selectdatsanbyngay($ngay){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -287,12 +355,31 @@
                             }
                             $sql2="UPDATE `khachhang` SET `TrangThai`= N'Có tài khoản',`XacNhan`='Chưa xác nhận' WHERE `MaTaiKhoan` = '$matk'";
                             $kq2 = $con->query($sql2);
-                            $p->dongketnoi($con);
                             if($kq2){
-                                return $kq2;
+                                $sql3="SELECT ds.* FROM `datsan` ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan where kh.MaTaiKhoan = '$matk'";
+                                $kq3 = $con->query($sql3);
+                                if($kq3){
+                                    while($r = $kq3->fetch_assoc()){
+                                        $trangthai = $r["TrangThai"];
+                                        $madatsan = $r["MaDatSan"];
+                                        if($trangthai=="Chờ duyệt"){
+                                            $sql4="UPDATE `datsan` SET `TrangThai`='Ưu tiên' WHERE MaDatSan = '$madatsan'";
+                                            $kq4 = $con->query($sql4);
+                                        }
+                                    }
+                                    $p->dongketnoi($con);
+                                    if($kq4){
+                                        return $kq4;
+                                    }else{
+                                        return false;
+                                    }
+                                }else{
+                                    return false;
+                                }
                             }else{
                                 return false;
                             }
+                            
                         }else{
                             return false;
                         }
@@ -314,6 +401,7 @@
                 $sql = "UPDATE `taikhoan` tk join khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan SET `Ten`='$ten',`SDT`='$sdt',`Email`='$email',`CapNhatLanCuoi`='$capnhatlancuoi',`XacNhan`='Chưa xác nhận' WHERE MaKhachHang = '$makhachhang'";
                 
                 $kq = $con->query($sql);
+                $p->dongketnoi($con);
                 if($kq){
                     return $kq;
                 }else{
@@ -369,6 +457,54 @@
             }
         }
 
+        public function insertdatsantheongay($total){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                if(empty($_SESSION["TTDS"]) && !isset($_SESSION["TTDS"])){
+                    return 0;
+                }else{
+                    $trangthai = "Chờ duyệt";
+                    $makhachhang = $_SESSION["TTDS"][0][1];
+                    $ngaylap = $_SESSION["TTDS"][0][2];
+                    $madiadiem = $_SESSION["TTDS"][0][4];
+                    //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc ) 
+                    
+                    if($makhachhang==""){
+                        $sql="INSERT INTO `datsan`(`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
+                                     VALUES ('$ngaylap','$trangthai','$total','$madiadiem')";
+                    }else{
+                        $sql="INSERT INTO `datsan`(`MaKhachHang`,`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
+                                     VALUES ('$makhachhang','$ngaylap','$trangthai','$total','$madiadiem')";
+                    }
+                    if ($con->query($sql) === TRUE) {
+                        // Lấy ID của bản ghi vừa chèn
+                        $madatsan = mysqli_insert_id($con);
+                        foreach($_SESSION["TTDS"] as $ttds => $pt){
+                            $masan = $pt[0];
+                            $tongtien = $pt[3];
+                            $ngaythue = $pt[5];
+                            $giobatdau = $pt[6];
+                            $gioketthuc = $pt[7];
+                            $sql1 = "INSERT INTO `chitietdatsan`(`MaSan`, `MaDatSan`, `NgayDatSan`, `GioBatDau`, `GioKetThuc` ,`DonGia`) 
+                                            VALUES ('$masan','$madatsan','$ngaythue','$giobatdau','$gioketthuc','$tongtien')";
+                            $kq1 = $con->query($sql1);
+                            
+                        }
+                        $p->dongketnoi($con);
+                        if($kq1){
+                            return $kq1; 
+                        }else{   
+                            return false;                 
+                        }
+                    } else {
+                        echo "Lỗi: " . $sql . "<br>" . $con->error;
+                    }
+                }
+            }else{
+                return false;
+            }
+        }
         public function Xemdoanhthutheongay($ngay) {
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -407,6 +543,8 @@
                 return false;
             }
         }
+
+        
     }
     
     class mkhachhang {
@@ -690,75 +828,85 @@
         }
     }
 
-    class mloaisan {
-        public function getAllloaisan() {
+    class msan_gia_thu_khunggio{
+        public function thaydoigiasan($masan,$gia,$makhunggio,$mathu) {
             $p = new ketnoi();
             $con = $p->moketnoi();
-            if ($con) {
-                $sql = "SELECT * FROM loaisan";
-                $result = $con->query($sql);
+            if($con){   
+                $sql = "UPDATE `san_gia_thu_khunggio` SET `Gia`='$gia' WHERE `MaSan`='$masan' and `KhungGio`='$makhunggio' and `MaThu`='$mathu'";
+                $kq = $con->query($sql);
                 $p->dongketnoi($con);
-                return $result;
-            } else {
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
                 return false;
             }
         }
-        public function mInsertLoaiSan($tenloaisan){
-            $p=new ketnoi();
-            $query="insert into loaisan(TenLoaiSan) values(N'$tenloaisan')";
-            $con=$p->MoKetNoi();
-            $kq=mysqli_query($con,$query);
-            $p->dongKetNoi($con);
-            return $kq;
-        }
-        public function checkDuplicateLoaiSan($tenloaisan) {
-            $p = new ketnoi();
-            $con = $p->MoKetNoi();
-            if ($con) {
-                $query = "SELECT COUNT(*) as count FROM loaisan WHERE TenLoaiSan = N'$tenloaisan'";
-                $result = mysqli_query($con, $query);
-    
-                if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $p->dongKetNoi($con);
-                    return $row['count'] > 0; // Trả về true nếu đã tồn tại
-                } else {
-                    $p->dongKetNoi($con);
-                    return false;
-                }
-            } else {
-                return false; // Kết nối thất bại
-            }
-        }
-        public function mUpdateLoaiSan($maLoai, $tenLoaiSan) {
-            $p = new ketnoi();
-            $query = "UPDATE loaisan SET TenLoaiSan = N'$tenLoaiSan' WHERE MaLoai = $maLoai";
-            $con = $p->MoKetNoi();
-            $kq = mysqli_query($con, $query);
-            $p->dongKetNoi($con);
-            return $kq;
-        }
-        
-    }
 
-    class mDiaDiem {
-        // Hàm thêm địa điểm vào cơ sở dữ liệu
-        public function themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio) {
+        public function giatheothuvsmasan($masan,$mathu) {
             $p = new ketnoi();
             $con = $p->moketnoi();
-    
-            if ($con) {
-                // Thực hiện câu lệnh INSERT để thêm địa điểm vào bảng diadiem
-                $query = "INSERT INTO diadiem (MaChuSan, TenDiaDiem, DiaChi, HinhDaiDien, MoTa, LoaiKhungGio) 
-                          VALUES (N'$maChuSan', N'$ten', N'$diachi', N'$hinh', N'$mota', N'$loaiKhungGio')";
-                $result = mysqli_query($con, $query);
-    
+            if($con){   
+                $sql = "SELECT * FROM `san_gia_thu_khunggio` WHERE MaSan = '$masan' and MaThu = '$mathu'";
+                $kq = $con->query($sql);
                 $p->dongketnoi($con);
-    
-                return $result; // Trả về kết quả (thành công hoặc thất bại)
-            } else {
-                return false; // Nếu kết nối cơ sở dữ liệu thất bại
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function khunggiotheothuvsmasan($masan,$mathu) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "(SELECT KhungGio FROM `san_gia_thu_khunggio` WHERE MaSan = '$masan' and MaThu = '$mathu' ORDER BY KhungGio ASC LIMIT 1) 
+                        UNION ALL 
+                        (SELECT KhungGio FROM `san_gia_thu_khunggio` WHERE MaSan = '$masan' and MaThu = '$mathu' ORDER BY KhungGio DESC LIMIT 1)";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
             }
         }
     }
-?>
+
+    class msan{
+        public function insertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            $sql = "INSERT INTO `san`(`TenSan`, `MaLoaiSan`, `Hinh`, `MaDiaDiem`) 
+                            VALUES ('$tensan','$maloaisan','$filehinh','$madiadiem')";
+            $kq = $con->query($sql);
+            if($kq){
+                $masan = $con->insert_id;
+                $mangkhunggio =explode("-",$khunggio);
+                for($i=0;$i<sizeof($mangkhunggio);$i++){
+                    $makhunggio = $mangkhunggio[$i];
+                    for($j=1;$j<=7;$j++){
+                        $sql1 = "INSERT INTO `san_gia_thu_khunggio`(`MaSan`, `KhungGio`, `MaThu`) VALUES ('$masan','$makhunggio','$j')";
+                        $kq1 = $con->query($sql1);
+                    }
+                }
+                $p->dongketnoi($con);
+                if($kq1){
+                    return $masan;
+                }else{
+                    return false;
+                }
+                
+            }
+        }
+    }

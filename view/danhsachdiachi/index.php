@@ -8,7 +8,7 @@
     margin-top: 55px;
   }
   .ds::before {
-      background-color: rgba(0,0,0,0.25);
+      background-color: rgba(0,0,0,0.3);
       content: "";
       position: fixed;
       top: 0px;
@@ -16,7 +16,7 @@
       bottom: 0px;
       left: 0px;
       z-index: -1;
-}
+  }
 </style>
 <div class="container ds">
   <section class="hero-section">
