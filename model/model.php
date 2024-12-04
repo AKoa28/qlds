@@ -552,7 +552,12 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan JOIN chusan cs on cs.MaChuSan = dd.MaChuSan where kh.HienThi = 1 and cs.MaChuSan = $machusan GROUP BY kh.MaKhachHang";
+                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang 
+                        JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem 
+                        JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan 
+                        JOIN chusan cs on cs.MaChuSan = dd.MaChuSan 
+                        where kh.HienThi = 1 and cs.MaChuSan = '$machusan' 
+                        GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -612,25 +617,18 @@
             }
         }
     
-        
-        // public function timKiemKhachHang($keyword) {
-        //     $p = new ketnoi();
-        //     $con = $p->moketnoi();
-        //     if ($con) {
-        //         $sql = "SELECT * FROM khachhang kh 
-        //                 JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan 
-        //                 join datsan ds on ds.MaKhachHang = kh.MaKhachHang
-        //                 join diadiem dd on  dd.MaDiaDiem = ds.MaDiaDiem
-        //                 WHERE tk.Ten LIKE '%$keyword%' 
-        //                 OR tk.SDT LIKE '%$keyword%' 
-        //                 OR tk.Email LIKE '%$keyword%'";
-        //         $result = $con->query($sql);
-        //         $p->dongketnoi($con);
-        //         return $result;
-        //     } else {
-        //         return false;
-        //     }
-        // }
+        public function xacNhanKhachHang($makhachhang) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "UPDATE khachhang SET XacNhan = N'Đã xác nhận' WHERE MaKhachHang = '$makhachhang'";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
         public function timKiemKhachHang($keyword ,$machusan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -705,7 +703,10 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where kh.HienThi = 1 and MaDiaDiem = $madiadiem group by kh.MaKhachHang";
+                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang 
+                join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan 
+                where kh.HienThi = 1 and MaDiaDiem = $madiadiem 
+                group by kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -713,7 +714,6 @@
                 return false;
             }
         }
-
         public function thongtinnhanvien($manhanvien){
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -756,13 +756,7 @@
                 return false;
             }
         }
-        
     }
-
-
-
-
-
     class mchusan{
         public function thongtinchusan($machusan){
             $p = new ketnoi();
