@@ -629,6 +629,7 @@
                 return false;
             }
         }
+        
         public function timKiemKhachHang($keyword ,$machusan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
@@ -683,18 +684,7 @@
                 }
             }
 
-            public function xacNhanKhachHang($makhachhang) {
-                $p = new ketnoi();
-                $con = $p->moketnoi();
-                if ($con) {
-                    $sql = "UPDATE khachhang SET XacNhan = N'Đã xác nhận' WHERE MaKhachHang = '$makhachhang'";
-                    $result = $con->query($sql);
-                    $p->dongketnoi($con);
-                    return $result;
-                } else {
-                    return false;
-                }
-            }
+            
     }
 
 
