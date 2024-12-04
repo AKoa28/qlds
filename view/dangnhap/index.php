@@ -1,10 +1,10 @@
 <?php
     if(isset($_SESSION["dangnhap"])){
         echo '<script>alert("Đã đăng nhập")</script>';
-        header("refresh:0 url='?danhsachdiachi'");
+        header("refresh:0 url='?page=home&trang=1'");
     }
 ?>
-<div class="register-login-section spad">
+<div class="register-login-section spad section_phu">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
@@ -65,7 +65,7 @@
                             alert("Đăng nhập thất bại");
                         }else{
                             alert(ketqua);
-                            window.location.href = "?danhsachdiachi";
+                            window.location.href = "?page=home&trang=1";
                         }
                     },
                     error: function(xhr, status, error){

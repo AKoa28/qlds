@@ -1,11 +1,19 @@
-<?php
-    // if(!isset($_SESSION["chusan"])){
-    //     header("Location: ?chusandangnhap");
-    // }
+<div class="section_phu"><form method="post">
+    <?php
+        if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
+            header("Location: ?chusandangnhap");
 
-?>
-<div align="center">
-    <h1>DASBOARH DÀNH CHO CHỦ SÂN</h1>
-    <?php echo $_SESSION["chusan"] ?>
-    
-</div>
+            
+        }else{
+            include_once("controller/controller.php");
+            $p = new controller();
+            if(isset($_SESSION["chusan"])){
+                $machusan = $_SESSION["chusan"]; 
+                $tbldiadiem = $p->getselectdiachisan($machusan);
+            }else{
+                $madiadiem = $_SESSION["madiadiem"];
+                $tbldiadiem = $p->getdiadiemsantheomadiadiem($madiadiem);
+            }
+        }
+    ?>
+</form></div>

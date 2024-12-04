@@ -72,7 +72,58 @@
                 }
             }
         }
-
+        public function getdiadiemsantheomadiadiem($madiadiem){
+            $p = new model();
+            $con = $p->diadiemsantheomadiadiem($madiadiem);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdemsoluongdiadiem(){
+            $p = new model();
+            $con = $p->demsoluongdiadiem();
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdiachisanPhanTrang($limit,$offset){
+            $p = new model();
+            $con = $p->diachisanPhanTrang($limit,$offset);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        public function getdiachitheoTen($ten){
+            $p = new model();
+            $con = $p->diachitheoTen($ten);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
         public function getdatsan($masan,$khunggio){
             $p = new model();
             $con = $p->selectdatsan($masan,$khunggio,);
@@ -148,6 +199,7 @@
                     }else{
                         $_SESSION["nhanvien"] = $r["MaNhanVien"];
                         $_SESSION["ten"] = $r["Ten"];
+                        $_SESSION["madiadiem"] = $r["MaDiaDiem"];
                     }
                     
                 }
@@ -208,7 +260,16 @@
                 return $con;
             }
         }
-
+        public function getsuathongtinkhachhang($makhachhang,$ten,$sdt,$email){
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+            $p = new mtaikhoan();
+            $con = $p->suathongtinkhachhang($makhachhang,$ten,$sdt,$email, $capnhatlancuoi);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
     }
 
     class cdatsan{
@@ -250,9 +311,9 @@
     }
 
     class ckhachhang {
-        public function getselectallkhachhang() {
+        public function getselectallkhachhang($machusan) {
             $p = new mkhachhang();
-            $con = $p->xemkhachhang();
+            $con = $p->xemkhachhang($machusan);
             if (!$con) {
                 return -1;
             } else {
@@ -296,5 +357,95 @@
             $p = new mkhachhang();
             return $p->timKiemKhachHang($keyword);
         }
+        public function getdoimatkhaukhachhang($makhachhang, $matkhaumoi, $capnhatlancuoi) {
+            $p = new mkhachhang();
+            $con = $p->doimatkhaukhachhang($makhachhang,$matkhaumoi, $capnhatlancuoi);
+            
+            if (!$con) {
+                echo "<script>alert('Đổi mật khẩu thất bại! Vui lòng kiểm tra lại thông tin.'); window.location.href='index.php?thongtinkhachhang';</script>";
+                return false;
+            } else {
+                echo "<script>alert('Đổi mật khẩu thành công!'); window.location.href='index.php?thongtinkhachhang';</script>";
+                return true;
+            }
+        }
+        public function getlaymailkhachhang ($makhachhang){
+            $p = new mkhachhang();
+            $con = $p->laymailkhachhang($makhachhang);
+            if(!$con){
+                return false;
+            }else{
+                if ($con->num_rows > 0) {
+                    $row = $con->fetch_assoc();
+                    return $row['Email'];
+                } else {
+                    return false;
+                }
+            }
+         }
+    }
+    class cnhanvien{
+        public function getxemdanhsachkhachhang($madiadiem){
+            $p = new mnhanvien();
+            $con = $p->xemdskhachhang($madiadiem);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        
+    }
+    class cchusan{
+        public function getThongtinchusan($machusan){
+            $p = new mchusan();
+            $con = $p->thongtinchusan($machusan);
+            if($con->num_rows > 0){
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+        public function getsuathongtinchusan($machusan,$ten,$sdt,$email){
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+            $p = new mchusan();
+            $con = $p->suathongtinchusan($machusan,$ten,$sdt,$email, $capnhatlancuoi);
+            if(!$con){
+                return false;
+            }else{
+                echo "<script>alert('Cập nhật thông tin chủ sân thành công!'); window.location.href='index.php?thongtinchusan';</script>";
+                return $con;
+            }
+        }
+        public function getdoimatkhauchusan($machusan, $matkhaumoi, $capnhatlancuoi) {
+            $p = new mchusan();
+            $con = $p->doimatkhauchusan($machusan,$matkhaumoi, $capnhatlancuoi);
+            
+            if (!$con) {
+                echo "<script>alert('Đổi mật khẩu chủ sân thất bại! Vui lòng kiểm tra lại thông tin.'); window.location.href='index.php?thongtinchusan';</script>";
+                return false;
+            } else {
+                echo "<script>alert('Đổi mật khẩu chủ sân thành công!'); window.location.href='index.php?thongtinchusan';</script>";
+                return true;
+            }
+        }
+         public function getlaymailchusan ($machusan){
+            $p = new mchusan();
+            $con = $p->laymailchusan($machusan);
+            if(!$con){
+                return false;
+            }else{
+                if ($con->num_rows > 0) {
+                    $row = $con->fetch_assoc();
+                    return $row['Email'];
+                } else {
+                    return false;
+                }
+            }
+         }
     }
 ?>

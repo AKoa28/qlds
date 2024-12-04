@@ -1,8 +1,13 @@
 <?php
+    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
+        header("Location: ?chusandangnhap");
+    }
+
     include_once("controller/controller.php");
     $pK = new ckhachhang();
     $p = new ctaikhoan();
-    $tblkhachhang = $pK->getselectallkhachhang();
+    $machusan = $_SESSION["chusan"];
+    $tblkhachhang = $pK->getselectallkhachhang($machusan);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["action"])) {
@@ -84,6 +89,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý khách hàng</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -99,7 +105,7 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container section_phu">
         <h2 class="mb-4">Quản lý khách hàng</h2>
 
         <!-- Form tìm kiếm -->
@@ -110,15 +116,18 @@
         </form>
 
         <!-- Nút trở lại -->
+         <?php
+            //echo $machusan;
+         ?>
         <?php if (isset($_GET['keyword'])): ?>
             <a href="index.php?page=quanlykhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
         <?php endif; ?>
 
         <table class="table table-bordered" id="customerTable">
             <thead>
-                <tr>
+                <tr style="text-align: center">
                     <th>Mã khách hàng</th>
-                    <th>Mã tài khoản</th>
+                    <th>Địa điểm</th>
                     <th>Tên</th>
                     <th>Số điện thoại</th>
                     <th>Email</th>
@@ -143,7 +152,7 @@
                         $isVerified = $r["XacNhan"] === "Đã xác nhận";
                         echo "<tr class='$row_class'>";
                         echo "<td>" . $r["MaKhachHang"] . "</td>";
-                        echo "<td>" . $r["MaTaiKhoan"] . "</td>";
+                        echo "<td>" . $r["TenDiaDiem"] . "</td>";
                         echo "<td>" . $r["Ten"] . "</td>";
                         echo "<td>" . $r["SDT"] . "</td>";
                         echo "<td>" . $r["Email"] . "</td>";

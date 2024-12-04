@@ -18,9 +18,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">          
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
+            <a class="nav-link active" aria-current="page" href="?page=home&trang=1">Trang chủ</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">Giới thiệu</a>
@@ -42,8 +42,10 @@
           if(isset($_SESSION["dangnhap"])){
               echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["tenkhachhang"].'</a>&nbsp;&nbsp;&nbsp;';
               echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
+          }elseif(isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
+              echo '<a href="?thongtinchusan" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
+              echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
           }else{
-            
               echo '<a href="?dangnhap"><button class="btn btn-warning">Đăng nhập</button></a>';
           }
         ?>
