@@ -116,7 +116,7 @@
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
                             echo "<div class='col-md-10'>";
-                            include_once("view/quanlynhanvien/index.php");
+                            include_once("view/chusan/quanlynhanvien.php");
                             echo "</div>";
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlysan" && isset($_SESSION["chusan"])){
                             echo '<div class="col-md-2 background" style="">';
