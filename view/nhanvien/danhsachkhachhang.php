@@ -5,6 +5,7 @@
 
     include_once("controller/controller.php");
     $pK = new cnhanvien();
+    $pKh = new ckhachhang();
     $p = new ctaikhoan();
     $madiadiem = $_SESSION["madiadiem"];
     $tblkhachhang = $pK->getxemdanhsachkhachhang($madiadiem);
@@ -28,48 +29,48 @@
                             $tbltrungemail = $p->getselecttrungemail($email);
                             if($tbltrungemail->num_rows>0){
                                 echo "<script>alert('Email đã được đăng ký')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
+                                header("refresh:0; url='?page=danhsachkhachhang'");
                             }else{
                             
         
                                 $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
                                 if($updatetaikhoan){
                                     echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                    header("refresh:0; url='?page=danhsachkhachhang'");
                                 }else{
                                     echo "<script>alert('Đăng ký thất bại')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                    header("refresh:0; url='?page=danhsachkhachhang'");
                                 }  
                             }
                         }else{
                         echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
-                        header("refresh:0; url='?page=quanlykhachhang'");
+                        header("refresh:0; url='?page=danhsachkhachhang'");
                         }
                     }else{
                         //thêm gửi mail
                         $tbltrungemail = $p->getselecttrungemail($email);
                         if($tbltrungemail->num_rows>0){
                             echo "<script>alert('Email đã được đăng ký')</script>";
-                            header("refresh:0; url='?page=quanlykhachhang'");
+                            header("refresh:0; url='?page=danhsachkhachhang'");
                         }else{
                                 $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
                                 if($inserttaikhoan){
                                     echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                    header("refresh:0; url='?page=danhsachkhachhang'");
                                 }else{
                                     echo "<script>alert('Đăng ký thất bại')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
+                                    header("refresh:0; url='?page=danhsachkhachhang'");
                                 }
                             }
                     }
                 }
             } elseif ($_POST["action"] == "verifyCustomer") {
                 $makhachhang = $_POST["makhachhang"];
-                $result = $pK->xacThucKhachHang($makhachhang);
+                $result = $pKh->getXacNhanKhachHang($makhachhang);
                 if ($result) {
-                    echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                    echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
                 } else {
-                    echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                    echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
                 }
             } elseif ($_POST["action"] == "deleteCustomer") {
                 $makhachhang = $_POST["makhachhang"];
@@ -80,7 +81,7 @@
     }
     if(isset($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
-        $tblkhachhang = $pK->timKiemKhachHang($keyword);
+        $tblkhachhang = $pK->gettimKiemKhachHang($keyword, $madiadiem);
     }
 ?>
 
@@ -111,7 +112,7 @@
 
         <!-- Form tìm kiếm -->
         <form class="d-flex mb-4" method="GET" action="index.php">
-            <input type="hidden" name="page" value="quanlykhachhang">
+            <input type="hidden" name="page" value="danhsachkhachhang">
             <input class="form-control mb-1 search-input" type="search" name="keyword" placeholder="Tìm kiếm khách hàng" aria-label="Search" required>
             <button class="btn btn-info search-btn" type="submit"><i class="bi bi-search"></i>Tìm Kiếm</button>
         </form>
@@ -121,7 +122,7 @@
             //echo $machusan;
          ?>
         <?php if (isset($_GET['keyword'])): ?>
-            <a href="index.php?page=quanlykhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
+            <a href="index.php?page=danhsachkhachhang" class="btn btn-primary mb-4"><i class="bi bi-arrow-left"></i> Trở lại</a>
         <?php endif; ?>
 
         <table class="table table-bordered" id="customerTable">
@@ -159,7 +160,7 @@
                         echo "<td>" . $r["Email"] . "</td>";
                         echo "<td>" . $r["XacNhan"] . "</td>";
                         echo "<td>
-                                <a href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a><br>
+                                
                                 <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
                                     <input type='hidden' name='action' value='deleteCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>

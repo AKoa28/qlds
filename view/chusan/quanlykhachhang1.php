@@ -64,7 +64,7 @@
                 }
             } elseif ($_POST["action"] == "verifyCustomer") {
                 $makhachhang = $_POST["makhachhang"];
-                $result = $pK->getXacNhanKhachHang($makhachhang);
+                $result = $pK->xacThucKhachHang($makhachhang);
                 if ($result) {
                     echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
                 } else {
@@ -79,8 +79,7 @@
     }
     if(isset($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
-        $keyword = mb_convert_encoding($keyword, 'UTF-8', 'auto');
-        $tblkhachhang = $pK->timKiemKhachHang($keyword, $machusan);
+        $tblkhachhang = $pK->timKiemKhachHang($keyword,$machusan);
     }
 ?>
 
@@ -110,7 +109,7 @@
         <h2 class="mb-4">Quản lý khách hàng</h2>
 
         <!-- Form tìm kiếm -->
-        <form class="d-flex mb-4" method="GET" action="">
+        <form class="d-flex mb-4" method="GET" action="index.php">
             <input type="hidden" name="page" value="quanlykhachhang">
             <input class="form-control mb-1 search-input" type="search" name="keyword" placeholder="Tìm kiếm khách hàng" aria-label="Search" required>
             <button class="btn btn-info search-btn" type="submit"><i class="bi bi-search"></i>Tìm Kiếm</button>
@@ -141,13 +140,17 @@
                 if ($tblkhachhang === -1) {
                     echo "<tr><td colspan='7'>Lỗi kết nối cơ sở dữ liệu!</td></tr>";
                 } elseif ($tblkhachhang === 0) {
-                        echo "<tr style='text-align: center'><td colspan='7'><h5>Không có khách hàng nào!</h5></td></tr>";
+                    if (isset($_GET['keyword'])) {
+                        echo "<tr><td colspan='7'>Không tìm thấy khách hàng nào!</td></tr>";
+                    } else {
+                        echo "<tr><td colspan='7'>Không có khách hàng nào!</td></tr>";
+                    }
                 } else {
                     $row_count = 0;
                     while ($r = $tblkhachhang->fetch_assoc()) {
                         $row_class = ($row_count % 2 == 0) ? 'even-row' : 'odd-row';
                         $isVerified = $r["XacNhan"] === "Đã xác nhận";
-                        echo "<tr style='text-align:center' class='$row_class'>";
+                        echo "<tr class='$row_class'>";
                         echo "<td>" . $r["MaKhachHang"] . "</td>";
                         echo "<td>" . $r["TenDiaDiem"] . "</td>";
                         echo "<td>" . $r["Ten"] . "</td>";
@@ -155,16 +158,16 @@
                         echo "<td>" . $r["Email"] . "</td>";
                         echo "<td>" . $r["XacNhan"] . "</td>";
                         echo "<td>
-                                <a style='width:95px' href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm'><i class='bi bi-pencil'></i> Sửa</a><br>
+                                <a href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a><br>
                                 <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
                                     <input type='hidden' name='action' value='deleteCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
-                                    <button style='width:95px' type='submit' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i> Xóa</button><br>
+                                    <button type='submit' class='btn btn-danger btn-sm me-2'><i class='bi bi-trash'></i> Xóa</button><br>
                                 </form>";
                         echo "  <form method='POST' action='' style='display:inline;' onsubmit='return confirmVerifyCustomer()'>
                                     <input type='hidden' name='action' value='verifyCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
-                                    <button style='width:95px' type='submit' class='btn btn-success btn-sm' " . ($isVerified ? 'disabled' : '') . "><i class='bi bi-check'></i> Xác Nhận</button>
+                                    <button type='submit' class='btn btn-success btn-sm' " . ($isVerified ? 'disabled' : '') . "><i class='bi bi-check'></i> Xác Nhận</button>
                                 </form>
                             </td>";
                         echo "</tr>";

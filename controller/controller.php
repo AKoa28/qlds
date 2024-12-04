@@ -353,9 +353,9 @@
             $p = new mkhachhang();
             return $p->xacThucKhachHang($makhachhang);
         }
-        public function timKiemKhachHang($keyword) {
+        public function timKiemKhachHang($keyword,$machusan) {
             $p = new mkhachhang();
-            return $p->timKiemKhachHang($keyword);
+            return $p->timKiemKhachHang($keyword,$machusan);
         }
         public function getdoimatkhaukhachhang($makhachhang, $matkhaumoi, $capnhatlancuoi) {
             $p = new mkhachhang();
@@ -398,7 +398,29 @@
                 }
             }
         }
-        
+
+        public function getThongtinnhanvien($manhanvien){
+            $p = new mnhanvien();
+            $con = $p->thongtinnhanvien($manhanvien);
+            if($con->num_rows > 0){
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+        public function gettimKiemKhachHang($keyword, $madiadiem) {
+            $p = new mkhachhang();
+            return $p->timKiemKhachHang($keyword, $madiadiem);
+        }
+        public function xoaKhachHang($makhachhang) {
+            $p = new mnhanvien();
+            $con = $p->xoaKhachHang($makhachhang);
+            if ($con) {
+                echo "<script>alert('Xóa khách hàng thành công'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
+            }
+        }
     }
     class cchusan{
         public function getThongtinchusan($machusan){
@@ -447,5 +469,53 @@
                 }
             }
          }
+    }
+    class cloaisan {
+        public function getselectallloaisan() {
+            $p = new mloaisan();
+            $con = $p->getAllloaisan();
+            if (!$con) {
+                return -1;
+            } else {
+                if ($con->num_rows > 0) {
+                    return $con;
+                } else {
+                    return 0;
+                }
+            }
+        }
+        public function cInsertLoaiSan($tenloaisan) {
+            // Kiểm tra trùng tên loại sân trước khi thêm
+            if ($this->cCheckDuplicateLoaiSan($tenloaisan)) {
+                return "duplicate"; // Trả về thông báo trùng
+            }
+    
+            $p = new mloaisan();
+            $kq = $p->mInsertLoaiSan($tenloaisan);
+            return $kq;
+        }
+    
+        public function cCheckDuplicateLoaiSan($tenloaisan) {
+            $p = new mloaisan();
+            return $p->checkDuplicateLoaiSan($tenloaisan);
+        }
+        public function cUpdateLoaiSan($maLoai, $tenLoaiSan) {
+            // Kiểm tra trùng tên loại sân trước khi cập nhật
+            if ($this->cCheckDuplicateLoaiSan($tenLoaiSan)) {
+                return "duplicate"; // Trả về thông báo trùng
+            }
+            $p = new mloaisan();
+            $kq = $p->mUpdateLoaiSan($maLoai, $tenLoaiSan);
+            return $kq;
+        }
+        
+    }
+
+    class cDiaDiem {
+        // Hàm xử lý thêm địa điểm
+            public function cThemDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio) {
+                $model = new mDiaDiem();
+                return $model->themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio);
+        }
     }
 ?>

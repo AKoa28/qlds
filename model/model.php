@@ -486,15 +486,36 @@
                 return false;
             }
         }
-        public function timKiemKhachHang($keyword) {
+        // public function timKiemKhachHang($keyword) {
+        //     $p = new ketnoi();
+        //     $con = $p->moketnoi();
+        //     if ($con) {
+        //         $sql = "SELECT * FROM khachhang kh 
+        //                 JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan 
+        //                 join datsan ds on ds.MaKhachHang = kh.MaKhachHang
+        //                 join diadiem dd on  dd.MaDiaDiem = ds.MaDiaDiem
+        //                 WHERE tk.Ten LIKE '%$keyword%' 
+        //                 OR tk.SDT LIKE '%$keyword%' 
+        //                 OR tk.Email LIKE '%$keyword%'";
+        //         $result = $con->query($sql);
+        //         $p->dongketnoi($con);
+        //         return $result;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+        public function timKiemKhachHang($keyword ,$machusan) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM khachhang kh 
-                        JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan 
-                        WHERE tk.Ten LIKE '%$keyword%' 
-                        OR tk.SDT LIKE '%$keyword%' 
-                        OR tk.Email LIKE '%$keyword%'";
+                $sql = "SELECT * FROM khachhang kh JOIN datsan ds on kh.MaKhachHang = ds.MaKhachHang 
+                        JOIN diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem 
+                        JOIN taikhoan tk on tk.MaTaiKhoan = kh.MaTaiKhoan 
+                        JOIN chusan cs on cs.MaChuSan = dd.MaChuSan 
+                        WHERE kh.HienThi = 1 
+                        AND cs.MaChuSan = $machusan 
+                        AND (tk.Ten LIKE '%$keyword%' OR tk.SDT LIKE '%$keyword%' OR tk.Email LIKE '%$keyword%' OR dd.TenDiaDiem LIKE '%$keyword%')
+                        GROUP BY kh.MaKhachHang";
                 $result = $con->query($sql);
                 $p->dongketnoi($con);
                 return $result;
@@ -537,6 +558,8 @@
                 }
             }
     }
+
+
     class mnhanvien{
         public function xemdskhachhang($madiadiem){
             $p = new ketnoi();
@@ -550,8 +573,56 @@
                 return false;
             }
         }
+
+        public function thongtinnhanvien($manhanvien){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `taikhoan` tk  JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan WHERE MaNhanVien = '$manhanvien'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+        public function timKiemKhachHang($keyword ,$madiadiem) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang 
+                        join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan 
+                        where kh.HienThi = 1 and MaDiaDiem = $madiadiem 
+                        and (tk.Ten LIKE '%$keyword%' OR tk.SDT LIKE '%$keyword%' OR tk.Email LIKE '%$keyword%')
+                        GROUP BY kh.MaKhachHang";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function xoaKhachHang($makhachhang) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            
+            if ($con) {
+                $sql = "UPDATE khachhang SET HienThi = 0 WHERE MaKhachHang = '$makhachhang'";
+                $con->query($sql);
+                $p->dongketnoi($con);
+                
+                return $con;
+            } else {
+                return false;
+            }
+        }
         
     }
+
+
+
+
+
     class mchusan{
         public function thongtinchusan($machusan){
             $p = new ketnoi();
@@ -618,3 +689,76 @@
             }
         }
     }
+
+    class mloaisan {
+        public function getAllloaisan() {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM loaisan";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function mInsertLoaiSan($tenloaisan){
+            $p=new ketnoi();
+            $query="insert into loaisan(TenLoaiSan) values(N'$tenloaisan')";
+            $con=$p->MoKetNoi();
+            $kq=mysqli_query($con,$query);
+            $p->dongKetNoi($con);
+            return $kq;
+        }
+        public function checkDuplicateLoaiSan($tenloaisan) {
+            $p = new ketnoi();
+            $con = $p->MoKetNoi();
+            if ($con) {
+                $query = "SELECT COUNT(*) as count FROM loaisan WHERE TenLoaiSan = N'$tenloaisan'";
+                $result = mysqli_query($con, $query);
+    
+                if ($result) {
+                    $row = mysqli_fetch_assoc($result);
+                    $p->dongKetNoi($con);
+                    return $row['count'] > 0; // Trả về true nếu đã tồn tại
+                } else {
+                    $p->dongKetNoi($con);
+                    return false;
+                }
+            } else {
+                return false; // Kết nối thất bại
+            }
+        }
+        public function mUpdateLoaiSan($maLoai, $tenLoaiSan) {
+            $p = new ketnoi();
+            $query = "UPDATE loaisan SET TenLoaiSan = N'$tenLoaiSan' WHERE MaLoai = $maLoai";
+            $con = $p->MoKetNoi();
+            $kq = mysqli_query($con, $query);
+            $p->dongKetNoi($con);
+            return $kq;
+        }
+        
+    }
+
+    class mDiaDiem {
+        // Hàm thêm địa điểm vào cơ sở dữ liệu
+        public function themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+    
+            if ($con) {
+                // Thực hiện câu lệnh INSERT để thêm địa điểm vào bảng diadiem
+                $query = "INSERT INTO diadiem (MaChuSan, TenDiaDiem, DiaChi, HinhDaiDien, MoTa, LoaiKhungGio) 
+                          VALUES (N'$maChuSan', N'$ten', N'$diachi', N'$hinh', N'$mota', N'$loaiKhungGio')";
+                $result = mysqli_query($con, $query);
+    
+                $p->dongketnoi($con);
+    
+                return $result; // Trả về kết quả (thành công hoặc thất bại)
+            } else {
+                return false; // Nếu kết nối cơ sở dữ liệu thất bại
+            }
+        }
+    }
+?>
