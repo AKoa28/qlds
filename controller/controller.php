@@ -195,7 +195,21 @@
         }
         public function getdatsan($masan,$khunggio){
             $p = new model();
-            $con = $p->selectdatsan($masan,$khunggio,);
+            $con = $p->selectdatsan($masan,$khunggio);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        public function getdatsanbyngay($ngay){
+            $p = new model();
+            $con = $p->selectdatsanbyngay($ngay);
             if(!$con){
                 return -1;
             }else{

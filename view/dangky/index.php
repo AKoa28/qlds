@@ -125,7 +125,7 @@
            
                 $('#error-message').hide();  // Ẩn thông báo lỗi nếu mật khẩu khớp
                 $.ajax({
-                    url: "view/dangky/ajax.php",
+                    url: "view/dangky/ajax.php",  
                     type: "POST",
                     data: {
                         password: password,

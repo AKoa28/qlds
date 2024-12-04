@@ -187,6 +187,19 @@
                 return false;
             }
         }
+
+        public function selectdatsanbyngay($ngay){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
     }
 
     class mnguoidung{
