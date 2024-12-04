@@ -64,7 +64,7 @@
                 }
             } elseif ($_POST["action"] == "verifyCustomer") {
                 $makhachhang = $_POST["makhachhang"];
-                $result = $pK->xacThucKhachHang($makhachhang);
+                // $result = $pK->xacThucKhachHang($makhachhang);
                 if ($result) {
                     echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
                 } else {
