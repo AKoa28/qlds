@@ -442,10 +442,7 @@
             }
         }
 
-        public function xacThucKhachHang($makhachhang) {
-            $p = new mkhachhang();
-            return $p->xacThucKhachHang($makhachhang);
-        }
+        
         public function timKiemKhachHang($keyword,$machusan) {
             $p = new mkhachhang();
             return $p->timKiemKhachHang($keyword,$machusan);
@@ -476,6 +473,11 @@
                 }
             }
          }
+         public function getXacNhanKhachHang($makhachhang) {
+            $p = new mkhachhang();
+            return $p->xacNhanKhachHang($makhachhang);
+        }
+       
     }
     class cnhanvien{
         public function getxemdanhsachkhachhang($madiadiem){

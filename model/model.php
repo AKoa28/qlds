@@ -612,18 +612,7 @@
             }
         }
     
-        public function xacThucKhachHang($makhachhang) {
-            $p = new ketnoi();
-            $con = $p->moketnoi();
-            if ($con) {
-                $sql = "UPDATE khachhang SET XacNhan = N'Đã xác nhận' WHERE MaKhachHang = '$makhachhang'";
-                $result = $con->query($sql);
-                $p->dongketnoi($con);
-                return $result;
-            } else {
-                return false;
-            }
-        }
+        
         // public function timKiemKhachHang($keyword) {
         //     $p = new ketnoi();
         //     $con = $p->moketnoi();
@@ -688,6 +677,19 @@
                 $con = $p->moketnoi();
                 if($con){
                     $sql = "SELECT tk.Email FROM `taikhoan` tk JOIN khachhang kh ON tk.MaTaiKhoan = kh.MaTaiKhoan WHERE kh.MaKhachHang = '$makhachhang'";
+                    $result = $con->query($sql);
+                    $p->dongketnoi($con);
+                    return $result;
+                } else {
+                    return false;
+                }
+            }
+
+            public function xacNhanKhachHang($makhachhang) {
+                $p = new ketnoi();
+                $con = $p->moketnoi();
+                if ($con) {
+                    $sql = "UPDATE khachhang SET XacNhan = N'Đã xác nhận' WHERE MaKhachHang = '$makhachhang'";
                     $result = $con->query($sql);
                     $p->dongketnoi($con);
                     return $result;
@@ -910,3 +912,75 @@
             }
         }
     }
+    class mloaisan {
+        public function getAllloaisan() {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM loaisan";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function mInsertLoaiSan($tenloaisan){
+            $p=new ketnoi();
+            $query="insert into loaisan(TenLoaiSan) values(N'$tenloaisan')";
+            $con=$p->MoKetNoi();
+            $kq=mysqli_query($con,$query);
+            $p->dongKetNoi($con);
+            return $kq;
+        }
+        public function checkDuplicateLoaiSan($tenloaisan) {
+            $p = new ketnoi();
+            $con = $p->MoKetNoi();
+            if ($con) {
+                $query = "SELECT COUNT(*) as count FROM loaisan WHERE TenLoaiSan = N'$tenloaisan'";
+                $result = mysqli_query($con, $query);
+    
+                if ($result) {
+                    $row = mysqli_fetch_assoc($result);
+                    $p->dongKetNoi($con);
+                    return $row['count'] > 0; // Trả về true nếu đã tồn tại
+                } else {
+                    $p->dongKetNoi($con);
+                    return false;
+                }
+            } else {
+                return false; // Kết nối thất bại
+            }
+        }
+        public function mUpdateLoaiSan($maLoai, $tenLoaiSan) {
+            $p = new ketnoi();
+            $query = "UPDATE loaisan SET TenLoaiSan = N'$tenLoaiSan' WHERE MaLoai = $maLoai";
+            $con = $p->MoKetNoi();
+            $kq = mysqli_query($con, $query);
+            $p->dongKetNoi($con);
+            return $kq;
+        }
+        
+    }
+
+    class mDiaDiem {
+        // Hàm thêm địa điểm vào cơ sở dữ liệu
+        public function themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+    
+            if ($con) {
+                // Thực hiện câu lệnh INSERT để thêm địa điểm vào bảng diadiem
+                $query = "INSERT INTO diadiem (MaChuSan, TenDiaDiem, DiaChi, HinhDaiDien, MoTa, LoaiKhungGio) 
+                          VALUES (N'$maChuSan', N'$ten', N'$diachi', N'$hinh', N'$mota', N'$loaiKhungGio')";
+                $result = mysqli_query($con, $query);
+    
+                $p->dongketnoi($con);
+    
+                return $result; // Trả về kết quả (thành công hoặc thất bại)
+            } else {
+                return false; // Nếu kết nối cơ sở dữ liệu thất bại
+            }
+        }
+    }
+?>
