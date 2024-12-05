@@ -417,9 +417,9 @@
                 }
             }
         }
-        public function themtaikhoan($ten, $sdt, $email, $matkhau) {
+        public function themtaikhoan($ten, $sdt, $email, $matkhau, $capnhatlancuoi) {
             $p = new mkhachhang();
-            return $p->themtaikhoan($ten, $sdt, $email, $matkhau);
+            return $p->themtaikhoan($ten, $sdt, $email, $matkhau, $capnhatlancuoi);
         }
     
         public function layMaTaiKhoan($sdt) {

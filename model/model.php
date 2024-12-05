@@ -565,11 +565,11 @@
                 return false;
             }
         }
-        public function themtaikhoan($ten, $sdt, $email, $matkhau) {
+        public function themtaikhoan($ten, $sdt, $email, $matkhau, $capnhatlancuoi) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             $matkhau = md5($matkhau);
-            $sql = "INSERT INTO taikhoan (Ten, SDT, Email, MatKhau) VALUES ('$ten', '$sdt', '$email', '$matkhau')";
+            $sql = "INSERT INTO taikhoan (Ten, SDT, Email, MatKhau, CapNhatLanCuoi) VALUES ('$ten', '$sdt', '$email', '$matkhau', '$capnhatlancuoi')";
             $result = $con->query($sql);
             $p->dongketnoi($con);
             if($result){
