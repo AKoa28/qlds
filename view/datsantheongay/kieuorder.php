@@ -33,7 +33,7 @@
                             </table>
                         </div>
                 <h3>Chọn ngày</h3>
-                <input type="date" name="ngay" class="form-control" required>
+                <input type="date" name="ngay"  onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
                 
             ';
         }else{
@@ -60,9 +60,9 @@
                             </table>
                         </div>
                 <h3>Chọn ngày bắt đầu</h3>
-                <input type="date" name="ngaybatdau" class="form-control" required>
+                <input type="date" name="ngaybatdau" onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
                 <h3>Chọn ngày kết thúc</h3>
-                <input type="date" name="ngayketthuc" class="form-control" required>
+                <input type="date" name="ngayketthuc" onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
                 
             ';
         }

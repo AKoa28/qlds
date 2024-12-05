@@ -86,19 +86,20 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
                 
                             echo '
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="getkieuorder(this.value,'.$madiadiem.')" value="1" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                        <input class="form-check-input" onchange="getkieuorder(this.value,'.$madiadiem.'),getkiemtrangay()" value="1" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                                         <label class="form-check-label" for="flexRadioDefault1">
                                             Thuê 1 ngày
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onchange="getkieuorder(this.value,'.$madiadiem.')" value="2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
+                                        <input class="form-check-input" onchange="getkieuorder(this.value,'.$madiadiem.'),getkiemtrangay()" value="2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
                                         <label class="form-check-label" for="flexRadioDefault2">
                                             Thuê nhiều ngày
                                         </label>
                                     </div>
                             ';
                             echo '<div id="showkieuorder"></div>';
+                            echo '<div id="loingay"></div>';
                             
                         ?>
                         <div class="mt-2" id="div3">
@@ -118,6 +119,21 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
             data: {giatri: giatri, madiadiem: madiadiem},
             success: function(ketqua){
                 $("#showkieuorder").html(ketqua);
+            },
+            error: function(xhr, status, error){
+                alert("Lỗi"+error);
+            }
+        });
+    }
+
+
+    function getkiemtrangay(value, teninput){
+        $.ajax({
+            url: 'view/datsantheongay/kiemtrangay.php',
+            type: 'POST',
+            data: {value: value, teninput: teninput},
+            success: function(ketqua){
+                $("#loingay").html(ketqua);
             },
             error: function(xhr, status, error){
                 alert("Lỗi"+error);

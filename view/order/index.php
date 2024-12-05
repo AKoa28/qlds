@@ -351,11 +351,13 @@
                                         <th>Giờ bắt đầu</th>
                                         <th>Giờ kết thúc</th>
                                         <th>Giá</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     '; 
                                     $total = 0;
+                                    $dem =0;
                                 //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc [8] => Tên sân ) 
                                 foreach($_SESSION["TTDS"] as $ttds => $pt){
                                     
@@ -367,7 +369,9 @@
                                             <td>'.$pt[6].'</td>
                                             <td>'.$pt[7].'</td>
                                             <td>'.number_format($pt[3],0,".",",").' đ</td>
-                                        </tr> ';
+                                            <td><a href="?page=order&masan='.$madiadiem.'&xoatheongay='.$dem.'" class="btn btn-danger btn-xoa">Xoá</a></td></tr>
+                                            </tr> ';
+                                    $dem++;
                                     $total += $pt[3];
                                 }
                                     
@@ -379,11 +383,83 @@
                                 </tbody>  
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4"></td>
-                                        <td colspan=""><button type="submit" name="subdstn" class="btn btn-info">Đặt sân</button></td>
+                                        <td colspan="5"></td>
                                         <td colspan=""><b>Thành tiền</b></td>
-                                        <td colspan=""><b>'.number_format($total,0,".",",").' đ</b></td>           
+                                        <td colspan=""><b>'.number_format($total,0,".",",").' đ</b></td> ';          
+                                if(empty($_SESSION["TTDS"])){
+                                    echo '<td colspan=""><a href="?page=lichdatsan&masan='.$madiadiem.'"><button type="button" class="btn btn-danger">Quay lại trang lịch sân</button></a></td>';
+                                }else{
+                                    echo '<td colspan=""><button type="submit" name="datsan" class="btn btn-info">Đặt sân</button></td>';
+                                }
+        echo '                      </tr>
+                                </tfoot>
+                            </table>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+            ';
+            
+        $_SESSION["total"] = $total;
+        
+    }elseif(isset($_SESSION["TTDS"])){ //trường hợp xoá
+        echo '
+            <div class="container p-5 section_phu">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="mb-5" style="text-align:center;">Thông tin đặt sân</h1>
+                        <form method="POST">
+                            <table class="table"  style="text-align:center;">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>Mã sân</th>
+                                        <th>Tên sân</th>
+                                        <th>Ngày thuê</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Giờ bắt đầu</th>
+                                        <th>Giờ kết thúc</th>
+                                        <th>Giá</th>
+                                        <th>Thao tác</th>
                                     </tr>
+                                </thead>
+                                <tbody>
+                                    '; 
+                                    $total = 0;
+                                    $dem =0;
+                                //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc [8] => Tên sân ) 
+                                foreach($_SESSION["TTDS"] as $ttds => $pt){
+                                    
+                                    echo'<tr>
+                                            <td>'.$pt[0].'</td>
+                                            <td>'.$pt[8].'</td>
+                                            <td>'.$pt[5].'</td>
+                                            <td>'.$pt[2].'</td>
+                                            <td>'.$pt[6].'</td>
+                                            <td>'.$pt[7].'</td>
+                                            <td>'.number_format($pt[3],0,".",",").' đ</td>
+                                            <td><a href="?page=order&masan='.$madiadiem.'&xoatheongay='.$dem.'" class="btn btn-danger btn-xoa">Xoá</a></td></tr>
+                                            </tr> ';
+                                    $dem++;
+                                    $total += $pt[3];
+                                }
+                                    
+                                
+        // print_r($tenkhunggio);
+        // echo $giobatdau;
+        // echo $gioketthuc;
+        echo '                        
+                                </tbody>  
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td colspan=""><b>Thành tiền</b></td>
+                                        <td colspan=""><b>'.number_format($total,0,".",",").' đ</b></td> ';          
+                                if(empty($_SESSION["TTDS"])){
+                                    echo '<td colspan=""><a href="?page=datsantheongay&masan='.$madiadiem.'"><button type="button" class="btn btn-danger">Quay lại trang lịch sân</button></a></td>';
+                                }else{
+                                    echo '<td colspan=""><button type="submit" name="datsan" class="btn btn-info">Đặt sân</button></td>';
+                                }
+        echo '                      </tr>
                                 </tfoot>
                             </table>
                         </form> 
@@ -392,7 +468,6 @@
             </div>
             ';
         $_SESSION["total"] = $total;
-        
     }
     
     // bấm nút xoá thì sẽ tiến hành xoá phần tử tương ứng trong mảng session["TTHD"] 
@@ -403,6 +478,22 @@
             unset($_SESSION["TTHD"][$id]);
             // Cập nhật lại mảng sau khi xóa
             $_SESSION["TTHD"] = array_values($_SESSION["TTHD"]);
+            
+        }
+        // Chuyển hướng để làm mới trang và tránh việc gửi lại form
+        header("Location: ?page=order&masan=$madiadiem");
+        exit;
+    }
+    if (isset($_GET['xoatheongay'])) { 
+        // echo "<script>alert('tới day')</script>";
+        // print_r($_SESSION["TTDS"]);
+        $id = $_GET['xoatheongay'];
+        // print_r($_SESSION["TTDS"][$id]);
+        // Kiểm tra chỉ số hợp lệ trước khi xóa
+        if (isset($_SESSION["TTDS"][$id])) {
+            unset($_SESSION["TTDS"][$id]);
+            // Cập nhật lại mảng sau khi xóa
+            $_SESSION["TTDS"] = array_values($_SESSION["TTDS"]);
             
         }
         // Chuyển hướng để làm mới trang và tránh việc gửi lại form

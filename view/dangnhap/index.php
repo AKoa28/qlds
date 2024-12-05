@@ -64,7 +64,7 @@
                         if(ketqua.trim() === "thatbai"){
                             alert("Đăng nhập thất bại");
                         }else{
-                            alert(ketqua);
+                            alert(ketqua.trim());
                             // $("#formdangnhap").html(ketqua);
                             window.location.href = "?page=home&trang=1";
                         }
