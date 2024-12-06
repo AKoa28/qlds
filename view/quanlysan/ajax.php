@@ -29,7 +29,8 @@
                                     <td>' . $r["MaSan"] . '</td>
                                     <td>' . $r["TenSan"] . '</td>
                                     <td>' . $r["TenLoaiSan"] . '</td>
-                                    <td><a type="button" class="btn btn-primary" href="?page=xemchitietsan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Xem chi tiết</a></td>
+                                    <td><a type="button" class="btn btn-primary" href="?page=xemchitietsan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Xem chi tiết</a>
+                                        <a type="button" class="btn btn-danger" href="?page=xoasan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Xoá sân</a></td>
                     ';
                     
                 }

@@ -354,17 +354,18 @@ if($tbl===-1){
                                             $t += 1; // $t lúc này bằng 0 nên $t = 0 + 1 => $t = 1
                                             $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[1] (lấy ngày thứ 2 của tuần hiện tại)
                                         } 
+        // đặt sân theo ngày
                                         $suanngaydequery = date('Y-m-d', strtotime($ngay));
-                                        $tbldatsanbyngay = $p->getdatsanbyngay($suanngaydequery);
+                                        $tbldatsanbyngay = $p->getdatsanbyngay($suanngaydequery, $diachi, $ms); //Tìm thông tin sân đã được đặt trong ngày 
                                         if(!$tbldatsanbyngay){
-                                            $arrmasan = [];
+                                            $ngayd=[];
                                         }else{
                                             while($rgay = $tbldatsanbyngay->fetch_assoc()){
                                                 if($rgay["KhungGio"] == ""){
-                                                    $ngaydat[] = date('d-m-Y', strtotime($rgay["NgayDatSan"]));
+                                                    // $ngaydat[] = date('d-m-Y', strtotime($rgay["NgayDatSan"]));
+                                                    $ngayd[] = date('d-m-Y', strtotime($rgay["NgayDatSan"]));
                                                     $trangthai[] = [date('d-m-Y', strtotime($rgay["NgayDatSan"])),$rgay["TrangThai"]];
-                                                    $arrmasan[]=[date('d-m-Y', strtotime($rgay["NgayDatSan"])),$rgay["TrangThai"],$rgay["MaSan"]];
-
+                                                   
                                                 }
                                             }
                                         }
@@ -374,13 +375,15 @@ if($tbl===-1){
                                                 $laytrangthai = $NDTT[1];
                                             }
                                         }
+
                                         // foreach ($arrmasan as $NDMS) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
                                         //     if($ngay==$NDMS[0]){
-                                        //         $laytrangthai = $NDTT[1];
-                                        //         $laymasan = $NDMS[2];
+                                        //         // $layngay = $NDMS[0];
+                                        //         $laytrangthai = $NDMS[1];
                                         //     }
                                         // }
-                                        // echo $ms.$laymasan;
+                                        
+                                        
                                         
                                         $giohientai = date('H:i:s');
                                         $laygiocuakhunggio = explode("-",$catkhunggio[1]);
@@ -412,7 +415,7 @@ if($tbl===-1){
                                                     $checkbox++;
                                                 }
                                                 
-                                            }elseif((in_array($ngay,$ngaydat) && $laytrangthai == "Ưu tiên")){
+                                            }elseif((in_array($ngay,$ngaydat) || in_array($ngay,$ngayd)) && $laytrangthai == "Ưu tiên"){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Đã duyệt"){
@@ -439,8 +442,12 @@ if($tbl===-1){
                                     
                                 }
                                 echo "</tr>";
+                                // foreach ($ngayd as $key => $value) {
+                                //     echo "Key: $key, Value: $value <br>";
+                                // }
                                 // print_r($ngaydat);
                                 $ngaydat=[];
+                                $ngayd =[];
                                 $trangthai = [];
                             }
                     }else{

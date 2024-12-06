@@ -40,8 +40,8 @@
                 $tblkiemtrangay = $ps->getdatsanvsctds($catsan[0],$_REQUEST["ngaydatsan"]);// gọi hàm kiểm tra ngày đó có người đặt chưa
                 if($tblkiemtrangay){ // nếu có kết quả trả về
                     while($r = $tblkiemtrangay->fetch_assoc()){
-                        if($r["TrangThai"]=="Đã duyệt"){ // nếu khung giờ 
-                            echo "<p style='color: #99FF66;'>Ngày này sân: ".$catsan[1]." đã được đặt</p>";
+                        if($r["TrangThai"] == "Đã duyệt"){ // nếu khung giờ 
+                            echo "<p style='color: #FF9933;'>Ngày này sân: ".$catsan[1]." đã được đặt</p>";
                             break;
                         }
                     }
@@ -130,7 +130,7 @@
             $_SESSION["total"]=0;
             $mangsan = $_REQUEST["chonsan"];  // [0]=> mã sân,[1]=> tên sân,[0]=> mã địa điểm
             foreach($mangsan as $arrsan){
-                
+                $catsan = explode("_",$arrsan);
                 $arrngaythue = [];
                 $ngaybatdat = $_REQUEST["ngaybatdau"];
                 $ngayketthuc = $_REQUEST["ngayketthuc"];
@@ -138,6 +138,15 @@
                 $ketthuc = strtotime($ngayketthuc);
                 while ($batdau <= $ketthuc) {
                     $arrngaythue[] =  date('Y-m-d', $batdau);
+                    $tblkiemtrangay = $ps->getdatsanvsctds($catsan[0],date('Y-m-d', $batdau));// gọi hàm kiểm tra ngày đó có người đặt chưa
+                    if($tblkiemtrangay){ // nếu có kết quả trả về
+                        while($r = $tblkiemtrangay->fetch_assoc()){
+                            if($r["TrangThai"] == "Đã duyệt"){ // nếu khung giờ 
+                                echo "<p style='color: #FF9933;'>Ngày ".date('d-m-Y', $batdau)." sân: ".$catsan[1]." đã được đặt</p>";
+                                break;
+                            }
+                        }
+                    }
                     $batdau = strtotime('+1 day', $batdau); //Lặp qua từng ngày bằng cách tăng timestamp mỗi lần 1 ngày (+1 day).
                 }
                 // print_r($arrngaythue);
@@ -146,7 +155,7 @@
                 $tenkhunggio = [];
                 
                 // $giobatdau_gioketthuc="";
-                $catsan = explode("_",$arrsan);
+                
                 $ngaydat = date("Y-m-d H:i:s");
                 $chuyensang_mathu = [
                     "Sunday" => "7",

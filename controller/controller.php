@@ -207,9 +207,9 @@
             }
         }
 
-        public function getdatsanbyngay($ngay){
+        public function getdatsanbyngay($ngay,$madiachi, $ms){
             $p = new model();
-            $con = $p->selectdatsanbyngay($ngay);
+            $con = $p->selectdatsanbyngay($ngay,$madiachi, $ms);
             if(!$con){
                 return -1;
             }else{

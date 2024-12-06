@@ -42,6 +42,13 @@
         echo '';
     }
 
+    //Phê duyệt
+    if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="pheduyet"){
+        /* code duyệt viết ở đây */
+        
+        // header("Location: ?page=quanlylichdatsan"); // sau khi chạy thành công thì mở cmt header này ra
+    }
+
 ?>
 </form></div>
 <script>

@@ -251,7 +251,7 @@ class sendmail{
                 </div>
             ';
             
-            $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã thực hiện đặt sân theo ngày tại DatSanNhom9 và đây là thông tin bạn đã đặt. <br>Địa điểm: '.$diachidd.'<br>Địa chỉ: '.$diachidd.'<br>'. $str.'</p><p style="color: red"><i>Lưu ý: Vì bạn đặt sân theo ngày cho nên hãy đến địa chỉ '.$tendiadiem.' để tiến hành đặt cọc tiền trước khi được duyệt đặt sân. Nếu bạn không thực hiện đặt cọc thì sân bạn yêu cầu đặt sẽ <b>tự động huỷ sau 3 ngày kể từ ngày hôm nay</b>.</p>';
+            $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã thực hiện đặt sân theo ngày tại DatSanNhom9 và đây là thông tin bạn đã đặt. <br>Địa điểm: '.$tendiadiem.'<br>Địa chỉ: '.$diachidd.'<br>'. $str.'</p><p style="color: red"><i>Lưu ý: Vì bạn đặt sân theo ngày cho nên hãy đến địa chỉ '.$diachidd.' để tiến hành đặt cọc tiền trước khi được duyệt đặt sân. Nếu bạn không thực hiện đặt cọc thì sân bạn yêu cầu đặt sẽ <b>tự động huỷ sau 3 ngày kể từ ngày hôm nay</b>.</p>';
             
             // $mail->AltBody = $str;
             $mail->send();

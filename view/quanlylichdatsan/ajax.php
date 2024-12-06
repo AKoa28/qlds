@@ -21,6 +21,7 @@
                                     <th>Ngày Đặt</th>
                                     <th>Trạng Thái</th>
                                     <th>Tổng Tiền</th>
+                                    <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,6 +43,9 @@
                     }
                     $ketqua .= '
                                     <td>' . number_format($r["TongTien"],0,".",",") . ' đ</td>
+                                    <td>
+                                        <a href="?page=quanlylichdatsan&cate=pheduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Bạn có đồng ý phê duyệt không?\')">Phê duyệt</button></a>
+                                    </td>
                                 </tr>
                     ';
                 }

@@ -86,7 +86,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select DISTINCT t.MaSan, TenSan, TenLoaiSan  from san_gia_thu_khunggio t join san s on t.MaSan = s.MaSan join loaisan l on s.MaLoaiSan = l.MaLoai join diadiem c on s.MaDiaDiem = c.MaDiaDiem  where s.MaDiaDiem = '$diachi'";
+                $sql="select DISTINCT t.MaSan, TenSan, TenLoaiSan  from san_gia_thu_khunggio t join san s on t.MaSan = s.MaSan join loaisan l on s.MaLoaiSan = l.MaLoai join diadiem c on s.MaDiaDiem = c.MaDiaDiem  where s.MaDiaDiem = '$diachi'  and HienThi = 1";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -188,11 +188,11 @@
             }
         }
 
-        public function selectdatsanbyngay($ngay){
+        public function selectdatsanbyngay($ngay, $madiachi, $ms){
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay'";
+                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay' and MaDiaDiem = '$madiachi' and MaSan ='$ms'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

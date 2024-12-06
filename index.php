@@ -11,7 +11,7 @@
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <link rel="stylesheet" href="css/style.css">
-    <title>Quản lý chủ sân</title>
+    <title>Đặt sân Nhóm 9</title>
     <style>
         .fix-header { 
             width: 100%;
@@ -182,6 +182,13 @@
                             echo "</div>";
                             echo "<div class='col-md-10'>";
                             include_once("view/quanlysan/xemchitietsan.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xoasan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlysan/xoasan.php");
                             echo "</div>";
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "suagiasan"){
                             echo '<div class="col-md-2 background" style="">';

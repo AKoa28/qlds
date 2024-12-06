@@ -192,7 +192,8 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active-a" href="?page=themdiadiem">Thêm địa điểm</a>
-                            </li>';
+                            </li>
+                            ';
                 }else{
                     echo '  <li class="nav-item">
                                 <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>

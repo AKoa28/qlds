@@ -22,7 +22,6 @@
       <h2><?= $tendiachi ?></h2><br>
       <div class="row">
         <div class="col-md-7">
-            <input type="time" name="" id="">
             <img src="image/<?= $hinhdaidien ?>" class="image-chitiet" alt="">
         </div>
         <div class="col-md-5">
