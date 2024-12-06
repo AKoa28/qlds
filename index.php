@@ -235,6 +235,8 @@
                             include_once ("view/chusan/thongtinchusan.php");
                         }elseif(isset($_REQUEST['doimatkhauchusan'])) {
                             include_once ("view/chusan/thongtinchusan.php");
+                        }elseif(isset($_REQUEST['thongtinnhanvien'])) {
+                            include_once ("view/nhanvien/thongtinnhanvien.php");
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlyloaisan"){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
