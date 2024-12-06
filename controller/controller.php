@@ -400,6 +400,20 @@
                 return $con;
             }
         }
+        public function getdatsanvsctds($masan,$ngaydatsan){ 
+            $p = new mdatsan();
+            $con = $p->datsanvsctds($masan,$ngaydatsan);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
 
     }
 

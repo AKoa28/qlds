@@ -76,7 +76,8 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
         <div class="list-bar container">
             <h2><?= $tendiachi ?></h2><br>
             
-            <form action="?page=order&masan=<?=$masan?>" method="post">
+            <form action="?page=order&masan=<?=$masan?>" id="formdatsantheongay" method="post">
+            <!-- <form action="" id="formdatsantheongay" method="post"> -->
                 <div class="row">
                     <div class="col-md-6">
                         <img src="image/<?= $hinhdaidien ?>" class="image-chitiet" alt="">
@@ -103,7 +104,8 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
                             
                         ?>
                         <div class="mt-2" id="div3">
-                            <!-- <button class="btn btn-success" type="submit" name="subdatsan1ngay">Đặt sân</button> -->
+                            <p><i>Lưu ý: Đặt sân theo ngày phải được <b>đặt cọc</b> trước khi duyệt. Nếu không sẽ bị huỷ yêu cầu đặt sân sau 3 ngày kể từ ngày yêu cầu đặt sân.</i></p>
+                            <p>Sau khi đặt sân tại website này và nhận được email thì hãy đến địa chỉ bên dưới để thanh toán tiền cọc.<br><i style="color: #99FF66"><?=$diadiem?>.</i> </p>
                         </div>
                     </div>
                 </div>
@@ -126,20 +128,59 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
         });
     }
 
-
-    function getkiemtrangay(value, teninput){
-        $.ajax({
-            url: 'view/datsantheongay/kiemtrangay.php',
-            type: 'POST',
-            data: {value: value, teninput: teninput},
-            success: function(ketqua){
-                $("#loingay").html(ketqua);
-            },
-            error: function(xhr, status, error){
-                alert("Lỗi"+error);
-            }
-        });
-    }
-
+    $('#formdatsantheongay').on('submit', function(e) {
+        e.preventDefault();
+        if ($("#ngay").length) {
+            var chonsan = [];
+            var ngaydatsan = $("#ngay").val().trim();
+            $("input[name='chonsan[]']:checked").each(function() {
+                chonsan.push($(this).val());
+            });
+            // alert("Selected Values: " + chonsan.join(", ") + ngaydatsan);
+            $.ajax({
+                url: 'view/datsantheongay/kiemtrangay.php',
+                type: 'POST',
+                data: {chonsan: chonsan, ngaydatsan: ngaydatsan},
+                success: function(ketqua){
+                    if(ketqua.trim() === "thanhcong"){
+                        e.target.submit(); // Gửi form hiện tại
+                        $("#loingay").html("");
+                    }else{
+                        $("#loingay").html(ketqua);
+                    }
+                },
+                error: function(xhr, status, error){
+                    alert("Lỗi"+error);
+                }
+            });
+        }else{
+            var chonsan = [];
+            var ngaybatdau = $("#ngaybatdau").val().trim();
+            var ngayketthuc = $("#ngayketthuc").val().trim();
+            $("input[name='chonsan[]']:checked").each(function() {
+                chonsan.push($(this).val());
+            });
+            // alert("Selected Values: " + chonsan.join(", ") + ngaydatsan);
+            $.ajax({
+                url: 'view/datsantheongay/kiemtrangay.php',
+                type: 'POST',
+                data: {chonsan: chonsan,ngaybatdau: ngaybatdau, ngayketthuc: ngayketthuc},
+                success: function(ketqua){
+                    if(ketqua.trim() === "thanhcong"){
+                        $("#loingay").html("");
+                        e.target.submit(); // Gửi form hiện tại
+                    }else{
+                        $("#loingay").html(ketqua);
+                    }
+                },
+                error: function(xhr, status, error){
+                    alert("Lỗi"+error);
+                }
+            });
+        }
+    });
 </script>
 
+<?php
+    header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì form đã chọn vẫn còn
+?>

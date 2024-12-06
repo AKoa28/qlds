@@ -19,7 +19,7 @@
                                             $checkbox = 0;
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
-                                                echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
+                                                echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
                                                 $checkbox++;
                                                 $dem++;  
                                                 if($dem%4==0){
@@ -33,7 +33,7 @@
                             </table>
                         </div>
                 <h3>Chọn ngày</h3>
-                <input type="date" name="ngay"  onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
+                <input type="date" name="ngay" id="ngay" onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
                 
             ';
         }else{
@@ -46,7 +46,7 @@
                                             $checkbox = 0;
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
-                                                echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
+                                                echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'" data-madiadiem="'.$madiadiem.'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
                                                 $checkbox++;
                                                 $dem++;  
                                                 if($dem%4==0){
@@ -60,9 +60,9 @@
                             </table>
                         </div>
                 <h3>Chọn ngày bắt đầu</h3>
-                <input type="date" name="ngaybatdau" onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
+                <input type="date" name="ngaybatdau" id="ngaybatdau" onchange="getkiemtrangay(this.value,this.name,'.$madiadiem.')" class="form-control" required>
                 <h3>Chọn ngày kết thúc</h3>
-                <input type="date" name="ngayketthuc" onchange="getkiemtrangay(this.value,this.name)" class="form-control" required>
+                <input type="date" name="ngayketthuc" id="ngayketthuc" onchange="getkiemtrangay(this.value,this.name,'.$madiadiem.')" class="form-control" required>
                 
             ';
         }
@@ -76,7 +76,7 @@
     $(".checkbox-input").change(function(){
         if($(this).is(":checked")){
             if($("#div3").find("button").length===0){//kiểm tra có nút buuton chưa
-                $('#div3').append('<button class="btn btn-success" type="submit" name="subdatsantheongay">Đặt sân</button>');
+                $('#div3').append('<button class="btn btn-success" type="submit" name="subdatsantheongay" id="getGiaTri">Đặt sân</button>');
             }
         }else{
             if($(".checkbox-input:checked").length===0){// Kiểm tra không có checkbox nào được chọn
@@ -85,4 +85,5 @@
         }
             
     });
+    
 </script>

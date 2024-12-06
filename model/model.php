@@ -464,7 +464,7 @@
                 if(empty($_SESSION["TTDS"]) && !isset($_SESSION["TTDS"])){
                     return 0;
                 }else{
-                    $trangthai = "Chờ duyệt";
+                    $trangthai = "Ưu tiên";
                     $makhachhang = $_SESSION["TTDS"][0][1];
                     $ngaylap = $_SESSION["TTDS"][0][2];
                     $madiadiem = $_SESSION["TTDS"][0][4];
@@ -536,6 +536,19 @@
             $con = $p->moketnoi();
             if ($con) {
                 $sql = "SELECT ds.*, ctds.*, s.TenSan, dd.TenDiaDiem FROM `datsan` ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan join san s on ctds.MaSan = s.MaSan join diadiem dd on ds.MaDiaDiem = dd.MaDiaDiem where MaKhachHang = '$makhachhang'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        public function datsanvsctds($masan,$ngaydatsan) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM `datsan` ds JOIN `chitietdatsan` ctds on ds.MaDatSan = ctds.MaDatSan where MaSan = '$masan' and NgayDatSan = '$ngaydatsan'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

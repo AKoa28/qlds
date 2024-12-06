@@ -112,7 +112,7 @@ class sendmail{
             $tongtien=0;
             $str = "";
             $str .= '
-                        <table class="table"  style="text-align:center;">
+                        <table class="table" border="1" width="100%"  style="border-collapse: collapse; text-align:center;">
                                 <thead class="table-success">
                                     <tr>
                                     <th>Mã sân</th>
@@ -149,8 +149,6 @@ class sendmail{
                                         <td colspan="3"></td>
                                         <td class="table-Warning"><b>Thành tiền:</b> </td>
                                         <td class="table-Warning"><b id="capnhatgia">'.number_format($tongtien, 0, ".", ",").' đ</b></td>
-                                        <td>
-                                        </td>
                                         
                                         </tr>
                                     </tfoot>
@@ -174,7 +172,95 @@ class sendmail{
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
         }
     }
-}
+
+    public function guithongtindatsantheongay($maildangky,$ten,$thongtin,$ngaydat,$tendiadiem, $diachidd){
+        $mail = new PHPMailer(true);
+        $mail -> CharSet = 'UTF-8';
+        try {
+            //Server settings
+            $mail->SMTPDebug = 0;                     
+            $mail->isSMTP();                                            
+            $mail->Host       = 'smtp.gmail.com';                    
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = 'nhom9.ptud.2024@gmail.com';                     
+            $mail->Password   = 'efrp slzb shpp zeqc';                              
+            $mail->SMTPSecure = 'tls';            
+            $mail->Port       = 587;       
+            //Recipients
+            $mail->setFrom('nhom9.ptud.2024@gmail.com', 'DatSanNhom9');
+
+            $mail->addAddress($maildangky, $ten);    
+            // $mail->addAddress('ellen@example.com');               //Name is optional
+            // $mail->addReplyTo('info@example.com', 'Information');
+            $mail->addCC('nhom9.ptud.2024@gmail.com');
+            // $mail->addBCC('bcc@example.com');
+            //Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Thông tin đặt sân ngày '.$ngaydat;
+            $tongtien=0;
+            $str = "";
+            $str .= '
+                        <table class="table" border="1" width="100%"  style="border-collapse: collapse; text-align:center;">
+                                <thead class="table-success">
+                                    <tr>
+                                    <th>Mã sân</th>
+                                    <th>Giờ bắt đầu</th>
+                                    <th>Giờ kết thúc</th>
+                                    <th>Tên sân</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+            ';
+            //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc  [8] => Tên sân ) 
+            for ($i = 0; $i < sizeof($thongtin); $i++) {
+                $pt = $thongtin[$i];
+                $masan = $pt[0];
+                $gia = $pt[3];
+                $ngaythue = $pt[5];
+                $giobatdau = $pt[6];
+                $gioketthuc = $pt[7];
+                $tensan = $pt[8];
+        
+                $str .= '<tr><td>' . $masan . '</td>
+                    <td>' . $giobatdau . '</td>
+                    <td>' . $gioketthuc . '</td>
+                    <td>' . $tensan . '</td>
+                    <td>' . $ngaydat . '</td>
+                    <td class="gia">' . number_format($gia, 0, ".", ",") . ' đ</td><tr>';
+                $tongtien += $gia;
+            }
+            $str .= '
+                            </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                        <td class="table-Warning"><b>Thành tiền:</b> </td>
+                                        <td class="table-Warning"><b id="capnhatgia">'.number_format($tongtien, 0, ".", ",").' đ</b></td>
+                                        </tr>
+                                </tfoot>
+                                </table>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            ';
+            
+            $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn đã thực hiện đặt sân theo ngày tại DatSanNhom9 và đây là thông tin bạn đã đặt. <br>Địa điểm: '.$diachidd.'<br>Địa chỉ: '.$diachidd.'<br>'. $str.'</p><p style="color: red"><i>Lưu ý: Vì bạn đặt sân theo ngày cho nên hãy đến địa chỉ '.$tendiadiem.' để tiến hành đặt cọc tiền trước khi được duyệt đặt sân. Nếu bạn không thực hiện đặt cọc thì sân bạn yêu cầu đặt sẽ <b>tự động huỷ sau 3 ngày kể từ ngày hôm nay</b>.</p>';
+            
+            // $mail->AltBody = $str;
+            $mail->send();
+            // echo 'Message has been sent';
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
+        }
+    }
+}   
     
 ?>
 
