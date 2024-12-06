@@ -9,74 +9,74 @@
     $machusan = $_SESSION["chusan"];
     $tblkhachhang = $pK->getselectallkhachhang($machusan);
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST["action"])) {
-            if ($_POST["action"] == "addCustomer") {
-                if(isset($_REQUEST["subthemkh"])){
-                    $ten = $_POST["ten"];
-                    $sdt = $_POST["sdt"];
-                    $email = $_POST["email"];
-                    $password = $_POST["matkhau"];
+    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //     if (isset($_POST["action"])) {
+    //         if ($_POST["action"] == "addCustomer") {
+    //             if(isset($_REQUEST["subthemkh"])){
+    //                 $ten = $_POST["ten"];
+    //                 $sdt = $_POST["sdt"];
+    //                 $email = $_POST["email"];
+    //                 $password = $_POST["matkhau"];
 
-                    $tbltrungsdt = $p->getselecttrungsdt($sdt);
-                    if($tbltrungsdt->num_rows>0){
-                        while($rtt = $tbltrungsdt->fetch_assoc()){
-                            $remail = $rtt["Email"];
-                        }
-                        if($remail == NULL){
-                            $tbltrungemail = $p->getselecttrungemail($email);
-                            if($tbltrungemail->num_rows>0){
-                                echo "<script>alert('Email đã được đăng ký')</script>";
-                                header("refresh:0; url='?page=quanlykhachhang'");
-                            }else{
+    //                 $tbltrungsdt = $p->getselecttrungsdt($sdt);
+    //                 if($tbltrungsdt->num_rows>0){
+    //                     while($rtt = $tbltrungsdt->fetch_assoc()){
+    //                         $remail = $rtt["Email"];
+    //                     }
+    //                     if($remail == NULL){
+    //                         $tbltrungemail = $p->getselecttrungemail($email);
+    //                         if($tbltrungemail->num_rows>0){
+    //                             echo "<script>alert('Email đã được đăng ký')</script>";
+    //                             header("refresh:0; url='?page=quanlykhachhang'");
+    //                         }else{
                             
         
-                                $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
-                                if($updatetaikhoan){
-                                    echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
-                                }else{
-                                    echo "<script>alert('Đăng ký thất bại')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
-                                }  
-                            }
-                        }else{
-                        echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
-                        header("refresh:0; url='?page=quanlykhachhang'");
-                        }
-                    }else{
-                        //thêm gửi mail
-                        $tbltrungemail = $p->getselecttrungemail($email);
-                        if($tbltrungemail->num_rows>0){
-                            echo "<script>alert('Email đã được đăng ký')</script>";
-                            header("refresh:0; url='?page=quanlykhachhang'");
-                        }else{
-                                $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
-                                if($inserttaikhoan){
-                                    echo "<script>alert('Thêm tài khoản thành công')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
-                                }else{
-                                    echo "<script>alert('Đăng ký thất bại')</script>";
-                                    header("refresh:0; url='?page=quanlykhachhang'");
-                                }
-                            }
-                    }
-                }
-            } elseif ($_POST["action"] == "verifyCustomer") {
-                $makhachhang = $_POST["makhachhang"];
-                $result = $pK->getXacNhanKhachHang($makhachhang);
-                if ($result) {
-                    echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
-                } else {
-                    echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
-                }
-            } elseif ($_POST["action"] == "deleteCustomer") {
-                $makhachhang = $_POST["makhachhang"];
-                $pK->xoaKhachHang($makhachhang);
-            }
-            exit();
-        }
-    }
+    //                             $updatetaikhoan = $p->getupdatetaikhoan($ten,$sdt,$email,$password);
+    //                             if($updatetaikhoan){
+    //                                 echo "<script>alert('Thêm tài khoản thành công')</script>";
+    //                                 header("refresh:0; url='?page=quanlykhachhang'");
+    //                             }else{
+    //                                 echo "<script>alert('Đăng ký thất bại')</script>";
+    //                                 header("refresh:0; url='?page=quanlykhachhang'");
+    //                             }  
+    //                         }
+    //                     }else{
+    //                     echo "<script>alert('Số điện thoại đã được đăng ký')</script>"; 
+    //                     header("refresh:0; url='?page=quanlykhachhang'");
+    //                     }
+    //                 }else{
+    //                     //thêm gửi mail
+    //                     $tbltrungemail = $p->getselecttrungemail($email);
+    //                     if($tbltrungemail->num_rows>0){
+    //                         echo "<script>alert('Email đã được đăng ký')</script>";
+    //                         header("refresh:0; url='?page=quanlykhachhang'");
+    //                     }else{
+    //                             $inserttaikhoan = $p->getinserttaikhoan($ten,$sdt,$email,$password);
+    //                             if($inserttaikhoan){
+    //                                 echo "<script>alert('Thêm tài khoản thành công')</script>";
+    //                                 header("refresh:0; url='?page=quanlykhachhang'");
+    //                             }else{
+    //                                 echo "<script>alert('Đăng ký thất bại')</script>";
+    //                                 header("refresh:0; url='?page=quanlykhachhang'");
+    //                             }
+    //                         }
+    //                 }
+    //             }
+    //         } elseif ($_POST["action"] == "verifyCustomer") {
+    //             $makhachhang = $_POST["makhachhang"];
+    //             $result = $pK->getXacNhanKhachHang($makhachhang);
+    //             if ($result) {
+    //                 echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+    //             } else {
+    //                 echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+    //             }
+    //         } elseif ($_POST["action"] == "deleteCustomer") {
+    //             $makhachhang = $_POST["makhachhang"];
+    //             $pK->xoaKhachHang($makhachhang);
+    //         }
+    //         exit();
+    //     }
+    // }
     if(isset($_GET['keyword'])) {
         $keyword = $_GET['keyword'];
         $keyword = mb_convert_encoding($keyword, 'UTF-8', 'auto');
@@ -191,7 +191,7 @@
                         <input type="hidden" name="action" value="addCustomer">
                         <div class="mb-3">
                             <label for="ten" class="form-label">Tên</label>
-                            <input type="text" class="form-control" id="ten" name="ten" required>
+                            <input type="text" class="form-control" id="ten" name="tenkhachhang" required>
                         </div>
                         <div class="mb-3">
                             <label for="sdt" class="form-label">Số điện thoại</label>
@@ -246,3 +246,114 @@
     </script>
 </body>
 </html>
+<?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                if (isset($_POST["action"])) {
+                    if ($_POST["action"] == "addCustomer") {
+                        if(isset($_POST["subthemkh"])) {
+                            // Validate phone number format first
+                            if (!preg_match("/^(03|09|08|07)[0-9]\d{7}$/", $_POST["sdt"])) {
+                                echo "<script>alert('Số điện thoại không hợp lệ!'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                                exit();
+                            }
+                
+                            // Check for duplicate phone and email
+                            $p = new ctaikhoan();
+                            $tbltrungsdt = $p->getselecttrungsdt($_POST["sdt"]);
+                            $tbltrungemail = $p->getselecttrungemail($_POST["email"]);
+                
+                            if($tbltrungsdt->num_rows > 0) {
+                                echo "<script>alert('Số điện thoại đã được đăng ký!'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                                exit();
+                            }
+                
+                            if($tbltrungemail->num_rows > 0) {
+                                echo "<script>alert('Email đã được đăng ký!'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                                exit();
+                            }
+                
+                            // If no duplicates, store data and send verification code
+                            $_SESSION['tenkhachhang'] = $_POST["tenkhachhang"];
+                            $_SESSION['sdt'] = $_POST["sdt"]; 
+                            $_SESSION['email'] = $_POST["email"];
+                            $_SESSION['matkhaukhachhang'] = $_POST["matkhaukhachhang"];
+                
+                            // Generate verification code
+                            $_SESSION["maxacnhan"] = rand(1000,9999);
+                            $_SESSION["giotao"] = date("H:i:s", strtotime("+1 minutes"));
+                
+                            // Send verification email
+                            $mail = new sendmail();
+                            $mail->thaydoithongtinkhachhang($_POST["email"], $_POST["tenkhachhang"], $_SESSION["maxacnhan"]);
+                            
+                            if($mail) {
+                                echo '<script>alert("Gửi mã xác nhận thành công!");</script>';
+                                echo '
+                                <div class="modal fade show section_phu bg-dark" id="verificationModal" tabindex="-1" aria-labelledby="verificationModalLabel" style="display: block;">
+                                    <div class="modal-dialog row justify-content-center">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Xác nhận email</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post">
+                                                    <input type="hidden" name="action" value="addCustomer">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" name="maxacnhan" class="form-control" required>
+                                                        <label>Nhập mã xác nhận đã gửi đến email của bạn</label>
+                                                    </div>
+                                                    <button type="submit" name="xacnhanmail" class="btn btn-success">Xác nhận</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                            } else {
+                                echo "<script>alert('Gửi mã xác nhận thất bại!'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                            }
+                        }
+                
+                        if(isset($_POST["xacnhanmail"])) {
+                            if($_POST["maxacnhan"] == $_SESSION["maxacnhan"]) {
+                                $p = new ctaikhoan();
+                                $inserttaikhoan = $p->getinserttaikhoan(
+                                    $_SESSION['tenkhachhang'],
+                                    $_SESSION['sdt'],
+                                    $_SESSION['email'],
+                                    $_SESSION['matkhaukhachhang'] // Already hashed
+                                );
+                
+                                if($inserttaikhoan) {
+                                    // Clear session data
+                                    unset($_SESSION['tenkhachhang']);
+                                    unset($_SESSION['sdt']);
+                                    unset($_SESSION['email']);
+                                    unset($_SESSION['matkhaukhachhang']);
+                                    unset($_SESSION['maxacnhan']);
+                                    unset($_SESSION['giotao']);
+                
+                                    echo "<script>alert('Thêm tài khoản thành công'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                                } else {
+                                    echo "<script>alert('Thêm tài khoản thất bại'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                                }
+                            } else {
+                                echo "<script>alert('Mã xác nhận không đúng!'); window.location.href='index.php?page=quanlykhachhang';</script>";
+                            }
+                        }
+                    } elseif ($_POST["action"] == "verifyCustomer") {
+                        $makhachhang = $_POST["makhachhang"];
+                        $result = $pK->getXacNhanKhachHang($makhachhang);
+                        if ($result) {
+                            echo "<script>alert('Xác nhận thông tin khách hàng thành công'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                        } else {
+                            echo "<script>alert('Xác nhận thông tin khách hàng thất bại'); window.location.href='../qlds/index.php?page=quanlykhachhang';</script>";
+                        }
+                    } elseif ($_POST["action"] == "deleteCustomer") {
+                        $makhachhang = $_POST["makhachhang"];
+                        $pK->xoaKhachHang($makhachhang);
+                    }
+                    exit();
+                }
+            }
+
+    ?>
