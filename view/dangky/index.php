@@ -92,6 +92,10 @@
             $('#errPass').html(" ");
             $('#errPass').addClass('err');
             return true;
+        } else if (conpass == "") {
+            $("#errPass").html("Xác nhận mật khẩu không để trống");
+            $('#errPass').addClass('err');
+            return false;
         } else {
             $("#errPass").html("Xác nhận mật khẩu không đúng");
             $('#errPass').addClass('err');
@@ -164,7 +168,7 @@
                             }
                             
                         } else {
-                            alert("Có lỗi xảy ra: " + ketqua);
+                            alert("Có lỗi xảy ra: " + ketqua.trim());
                         }
                         andi();
                     },

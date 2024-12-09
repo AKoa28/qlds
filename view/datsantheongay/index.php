@@ -28,6 +28,24 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
 
 ?>
 <style>
+    .ds {
+    /* background-image: url('https://thuthuatnhanh.com/wp-content/uploads/2022/06/Anh-bong-da-sieu-dep.jpg'); */
+    background-image: url('image/bg4.jpg');
+    background-repeat: round;
+    background-attachment: fixed;
+    z-index: 0;
+    margin-top: 55px;
+  }
+  .ds::before {
+      background-color: rgba(0,0,0,0.3);
+      content: "";
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      z-index: -1;
+  }
     body {
         background-color: #f8f9fa;
         color: #333;
@@ -70,7 +88,7 @@ if (isset($_REQUEST["masan"]) && !in_array($_REQUEST["masan"], $arraydiachi)) {
 
 </style>
 
-<div class="container section_phu">
+<div class="container section_phu ds">
 
     <section class="hero-section">
         <div class="list-bar container">

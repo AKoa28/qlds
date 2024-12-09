@@ -15,7 +15,7 @@
         $dachon = $_SESSION["TTHD"];
         $tongtien = 0;
         // print_r($dachon);
-        if(isset($_SESSION["dangnhap"])){
+        if(isset($_SESSION["dangnhap"]) || isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
             echo '
             <div class="container p-5 section_phu">
                 <div class="row">
@@ -274,6 +274,48 @@
             if($tblthemdatsan){
                 $mail = new sendmail();
                 $mail -> guithongtindatsan($_SESSION["emailkhachhang"],$_SESSION["tenkhachhang"], $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd);
+                unset($_SESSION["TTHD"]);
+                echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
+                header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
+                ob_end_flush();
+                exit();
+            }else{
+                echo "<script>alert('thất bại');</script>";
+            }
+        }elseif(isset($_SESSION["chusan"])){//đặt sân cho có tài khoản
+            $machusan = $_SESSION["chusan"];
+            $ptk = new ctaikhoan(); 
+            $tblmakhachhang = $ptk->getmakhachhangcuachusan($machusan);
+            $ngaydat = date("Y-m-d H:i:s");
+            $trangthai = "Ưu tiên";
+            $total = $tongtien;
+            $diadiem = $madiadiem;
+            $themdatsan = new cdatsan();
+            $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($tblmakhachhang,$ngaydat,$trangthai,$tongtien,$diadiem);
+            if($tblthemdatsan){
+                $mail = new sendmail();
+                $mail -> guithongtindatsan($_SESSION["emailchusan"],$_SESSION["ten"], $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd);
+                unset($_SESSION["TTHD"]);
+                echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
+                header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");
+                ob_end_flush();
+                exit();
+            }else{
+                echo "<script>alert('thất bại');</script>";
+            }
+        }elseif(isset($_SESSION["nhanvien"])){//đặt sân cho có tài khoản
+            $manhanvien = $_SESSION["nhanvien"];
+            $ptk = new ctaikhoan(); 
+            $tblmakhachhang = $ptk->getmakhachhangcuanhanvien($manhanvien);
+            $ngaydat = date("Y-m-d H:i:s");
+            $trangthai = "Ưu tiên";
+            $total = $tongtien;
+            $diadiem = $madiadiem;
+            $themdatsan = new cdatsan();
+            $tblthemdatsan = $themdatsan->getinsertdatsankhachvl($tblmakhachhang,$ngaydat,$trangthai,$tongtien,$diadiem);
+            if($tblthemdatsan){
+                $mail = new sendmail();
+                $mail -> guithongtindatsan($_SESSION["emailnhanvien"],$_SESSION["ten"], $_SESSION["TTHD"], $ngaydat, $tendiadiem, $diachidd);
                 unset($_SESSION["TTHD"]);
                 echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
                 header("refresh:0 url ='?page=lichdatsan&masan=$diadiem'");

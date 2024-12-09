@@ -70,22 +70,22 @@
         });
     }
     
-    function getloaithoigian(giatri,tencbx){
+    function getloaithoigian(giatri,tencbx,madd){
         $.ajax({
             url: 'view/quanlydoanhthu/ajax.php',
             type: 'POST',
-            data: {giatri: giatri, tencbx: tencbx},
+            data: {giatri: giatri, tencbx: tencbx, madd: madd},
             success: function(ketqua){
                 $('#div2').html(ketqua);
             }
         });
     }
 
-    function getngay(giatri,tencbx){
+    function getngay(giatri,tencbx,madd){
         $.ajax({
             url: 'view/quanlydoanhthu/ajax.php',
             type: 'POST',
-            data: {giatri: giatri, tencbx: tencbx},
+            data: {giatri: giatri, tencbx: tencbx, madd: madd},
             success: function(ketqua){
                 $('#div3').html(ketqua);
             }

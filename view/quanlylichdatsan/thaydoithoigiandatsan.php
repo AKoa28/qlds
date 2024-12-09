@@ -1,99 +1,117 @@
 <?php
+$_SESSION["arrtt"] = [];
+$_SESSION["chonthaydoi"] = "";
+if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"]) ){
+    header("Location: ?page=chusan");
+}
+$pds = new cdatsan();
+$ptk = new ctaikhoan();
+$mactds = $_REQUEST["mactds"];
+$makh = $_REQUEST["makh"];
+$madds = $_REQUEST["mads"];
+$tblctds = $pds -> getchitietdatsanbymactds($mactds);
+// $tblttkh = $ptk -> getThongtinkhachhang($makh);
+if($tblctds){
+    // while($rttkh = $tblttkh->fetch_assoc()){
+    //     $tenkh = $rttkh["Ten"];
+    //     $emailkh = $rttkh["Email"];
+    // }
+    while($rctds = $tblctds->fetch_assoc()){
+        $mads = $rctds["MaChiTiet"];
+        $tensan = $rctds["TenSan"];
+        $nd = $rctds["NgayDatSan"];
+        $khunggio = $rctds["KhungGio"];
+        $giobatdau = $rctds["GioBatDau"];
+        $gioketthuc = $rctds["GioKetThuc"];
+        $dongia = $rctds["DonGia"];        
+        $tendiadiem = $rctds["TenDiaDiem"];   
+        $mdd = $rctds["MaDiaDiem"]; 
+        $ms1 = $rctds["MaSan"];   
+        $_SESSION["arrtt"] = [$mads,$tensan,$nd,$khunggio,$dongia,$tendiadiem,$mdd,$ms1];
+    }
 
-$diachi = $_REQUEST["masan"];
-include_once("controller/controller.php");
+    
+}
+if(!empty($_SESSION["arrtt"])){
+    $diachi = $_SESSION["arrtt"][6];
+    $masanurl = $_SESSION["arrtt"][7];
+}else{
+    header("Location: ?page=quanlylichdatsan");
+}
+
 $p = new controller();
-
-// $tbl = $p->getselectallsan($diachi);
 $tbl = $p->getselectkhunggio();
-// $tbl = $p->getselectallsan("1");
-
+$dsdatsan = $p -> getselectsan($masanurl);
+if($dsdatsan){
+    while($r = $dsdatsan->fetch_assoc()){
+        $tensan1 = $r["TenSan"];
+        $tenloaisan = $r["TenLoaiSan"];
+    }
+}else{
+    echo "error";
+}
 if($tbl===-1){
     echo "Không có";
 }elseif(!$tbl){
     echo "Hiện tại địa chỉ sân chưa mở cửa hoạt động";
 }else{
-    $_SESSION["TTHD"] = [];
     $d = 0;
     $dem = 0;
     $lich = [];
     $giatheothu = [];
     $giatheongay = [];
-    echo "<table width='100%' align='center' >";
+    echo "<table width='100%' align='center'>";
     while($r = $tbl->fetch_assoc()){
         $makhunggio = $r["MaKhungGio"];
         
         // $makhunggio = $r["KhungGio"];
         if($makhunggio > $d ){
-            $tblmasan = $p->getselectsandistinctmasan($diachi);
             $d = $makhunggio;
-            $khunggio = $r["TenKhungGio"];
+            $khunggio = $makhunggio."_".$r["TenKhungGio"];
             // $khunggio = $d. "_" .$r["TenKhungGio"];
-            if($tblmasan){
-                while($r1 = $tblmasan->fetch_assoc()){
-                    $masan = $r1["MaSan"];
-                    for($i=1; $i<8; $i++){
-                        $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masan ,$i); 
-                        if($tblgia){
-                            while($rn=$tblgia->fetch_assoc()){
-                                if($rn["Ngay"]==NULL){
-                                    $giatheothu[] = $rn["Gia"];
-                                }else{
-                                    $giatheongay[] = [$rn["MaSan"],$rn["Gia"],$rn["KhungGio"],$rn["Ngay"]];
-                                }
-                            }
-                        }
-                        
-                    } 
-                    // print_r($giatheothu);
-                    // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
-                    $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
-                    foreach ($giatheothu as $value) {
-                        if ($value !== 0) {
-                            $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
-                            break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
+            for($i=1; $i<8; $i++){
+                $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masanurl ,$i); 
+                // $giatheothu[] = $tblgia;
+                if($tblgia){
+                    while($rn=$tblgia->fetch_assoc()){
+                        if($rn["Ngay"]==NULL){
+                            $giatheothu[] = $rn["Gia"];
+                        }else{
+                            $giatheongay[] = [$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"]];
                         }
                     }
-                    if(!$all_zero){
-                        $dem++;
-                        if($dem==1){
-                            $tensan = $r1["MaSan"] . "-" . $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
-                            // $tensan = $r1["TenSan"] . " (".$r1["TenLoaiSan"].")";
-                            // $array1= [$khunggio,$tensan];
-                            $array1= [$makhunggio."_".$khunggio,$tensan];
-                            $row1 = array_merge($array1,$giatheothu);
-                            $lich[] = $row1;
-                            $array1 = [];
-                            $giatheothu = [];
-                            $dem=0;
-                        }
-                    }else{
-                        $giatheothu = [];
-                    }
-                } 
+                }
+            } 
+            // print_r($giatheothu);
+            // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
+            $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
+            foreach ($giatheothu as $value) {
+                if ($value !== 0) {
+                    $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
+                    break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
+                }
+            }
+            if(!$all_zero){
+                $dem++;
+                if($dem==1){
+                    // $tensan = $masanurl;
+                    $tensan = $masanurl. "-" .$tensan1 . " (".$tenloaisan.")";
+                    $array1= [$khunggio,$tensan];
+                    $row1 = array_merge($array1,$giatheothu);
+                    $lich[] = $row1;
+                    $array1 = [];
+                    $giatheothu = [];
+                    $dem=0;
+                }
             }else{
-                echo "không có";
+                $giatheothu = [];
             }
             
         }
     };
     
     echo "</table>";
-    //(dùng để test)
-    // print_r($lich);
-    // for($i = 0; $i < sizeof($lich); $i++){
-    //     echo "<br>".$lich[$i][0] ."<br>";
-    //     echo $lich[$i][1] ."<br>";
-    //     echo $lich[$i][2] ."<br>";
-    //     echo $lich[$i][3] ."<br>";
-    //     echo $lich[$i][4] ."<br>";
-    //     echo $lich[$i][5] ."<br>";
-    //     echo $lich[$i][6] ."<br>";
-    //     echo $lich[$i][7] ."<br>";
-    //     echo $lich[$i][8] ."<br>";
-    // }
-
-
+    
 }
     $thu = ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật"];
     // Thiết lập múi giờ
@@ -116,25 +134,6 @@ if($tbl===-1){
     $prevWeek = date('d-m-Y', strtotime("$startOfWeek -7 days"));
     $nextWeek = date('d-m-Y', strtotime("$startOfWeek +7 days"));
     
-    //xử lý huỷ
-    $pds  = new cdatsan();
-    $ngayhomnayDATETIME = date('Y-m-d H:i:s');
-    $ngayhomnayDATE = date('Y-m-d');
-    // $ngaykiemtrahuy = date('Y-m-d H:i:s', strtotime('+3 days', strtotime($ngayhomnayDATETIME)));
-    $ldds = $pds->getlaydondatsanlonhonngayhientai($diachi,$ngayhomnayDATETIME);
-    if($ldds){
-        while($rldds = $ldds->fetch_assoc()){
-            if($rldds["TrangThai"] == "Chờ duyệt" || $rldds["TrangThai"] == "Ưu tiên"){
-                // $catNgayDat = explode(" ",$rldds["NgayDat"]);
-                $ngaykiemtrahuy = date('Y-m-d', strtotime('+3 days', strtotime($rldds["NgayDat"])));
-                if(strtotime($ngaykiemtrahuy) < strtotime($ngayhomnayDATETIME)){
-                    // echo $catNgayDat[0] . "<br>";
-                    $capnhatkhongduyet = $pds->getcapnhatdatsankhongduyet($rldds["MaDatSan"]);
-                }
-            }
-        }
-    }
-    // SELECT * FROM `datsan` ds join `chitietdatsan` ctds on ds.MaDatSan = ctds.MaDatSan WHERE MaDiaDiem = '1' and NgayDatSan > '2024-12-09 00:00:00';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -142,9 +141,6 @@ if($tbl===-1){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schedule</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <style>
         body {
             background-color: #f8f9fa;
@@ -169,6 +165,13 @@ if($tbl===-1){
             background-color:cadetblue;
             z-index: 10;
         }
+        .table, .lichkhac thead th {
+            /* position: sticky; */
+            /* top: 55px; */
+            background-color:maroon;
+            z-index: 1;
+            color:#fff;
+        }
         .btn-custom {
             width: 100%;
             color: #fff;
@@ -179,72 +182,52 @@ if($tbl===-1){
             background-color: aliceblue;
             color:#333;
         }
-        tr:hover{
+        /* tr:hover{
             background-color: darkcyan;
-        }
+        } */
     </style>
 </head>
 <body>
-    <div class="section_phu">
-        
-    
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script> -->
-    <div class="container mt-3">
-        <div align="center">
-                <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
-        </div>
-        <div class="d-flex justify-content-around align-items-center mb-3">
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
-            <a href='?page=lichdatsan&masan=<?=$diachi?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
-        </div>
+<div class="section_phu">
+<div class="container mt-3">
+    <div align="center">
+            <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
     </div>
-    <form action="" method="post">
+    <div class="d-flex justify-content-around align-items-center mb-3">
+        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
+        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
+        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
+    </div>
+</div>
+<form action="" method="post">
     <div class="container mt-5 mb-5 p-3">
-        <div class="row justify-content-between">
-            <div class="col-md-5">
-                <div class="row">
-                    <p style="background-color: #ddd;width:20px; height:20px;"></p>&nbsp;Chưa có người chọn, bạn có thể chọn.
-                </div>
-                <div class="row">
-                    <p style="background-color: darkslategray;width:20px; height:20px;"></p>&nbsp;Lựa chọn của bạn.
-                </div>
-                <div class="row">
-                    <p style="background-color: gold;width:20px; height:20px;"></p>&nbsp;Người có tài khoản được ưu tiên duyệt, bạn không chọn được.
-                </div>
-                <div class="row">
-                    <p style="background-color: palegreen;width:20px; height:20px;"></p>&nbsp;Đã có người chọn nhưng chưa được duyệt, bạn có thể chọn.
-                </div>
-            </div>
+        <div class="row justify-content-center">
+            
             <div class="col-md-6" >
-                
                 <table class="table"  style="text-align:center;">
+                    <h4>Giá bạn đã chọn</h4>
                     <thead>
                         <th>STT</th>
                         <th>Khung giờ</th>
                         <th>Tên sân</th>
-                        <th>Ngày đặt</th>
+                        <th>Thứ</th>
                         <th>Giá</th>
                     </thead>
                     <tbody id="DaChon">
 
-                    </tbody>
+                 </tbody>
                     <tr>
-                        <td colspan="2" id="order">
+                        <td colspan="5" id="order">
                             
-                        </td>
-                        <td colspan="2">
-                            Thành tiền:
-                        </td>
-                        <td id="tongtien">
-
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div class="container">
+    
+    <div class="container mt-5">
+        
         <table class="table table-hover table-bordered" style="text-align:center;">
             <thead>
                 <tr>
@@ -339,11 +322,10 @@ if($tbl===-1){
                                 // $parts1 = explode("_", $row[0]);
                                 $ms = $parts[0];
                                 // $mkg = $parts1[0];
-                                echo "<td>{$parts[1]}</td>";
+                                echo "<td>{$row[1]}</td>";
                                 // echo "<td>{$row[1]}</td>";
                                     
     // Kiểm tra xem đã có người đặt chưa
-                                    
                                     $tbldatsan = $p->getdatsan($ms,$catkhunggio[1]);
                                     if($tbldatsan===-1){
                                         echo "Không có";
@@ -378,10 +360,14 @@ if($tbl===-1){
                                         } 
         // đặt sân theo ngày
                                         $suanngaydequery = date('Y-m-d', strtotime($ngay));
+                                        // echo $suanngaydequery."-".$diachi."-".$ms."<br>";
                                         $tbldatsanbyngay = $p->getdatsanbyngay($suanngaydequery, $diachi, $ms); //Tìm thông tin sân đã được đặt trong ngày 
                                         if(!$tbldatsanbyngay){
-                                            $ngayd=[];
+                                            $ngayd = [];
+                                        }elseif($tbldatsanbyngay===0){
+                                            $ngayd = [];
                                         }else{
+                                            $ngayd = [];
                                             while($rgay = $tbldatsanbyngay->fetch_assoc()){
                                                 if($rgay["KhungGio"] == ""){
                                                     // $ngaydat[] = date('d-m-Y', strtotime($rgay["NgayDatSan"]));
@@ -397,6 +383,7 @@ if($tbl===-1){
                                                 $laytrangthai = $NDTT[1];
                                             }
                                         }
+                                        // print_r($ngayd);
                                         // print_r($laytrangthai);
                                         // foreach ($arrmasan as $NDMS) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
                                         //     if($ngay==$NDMS[0]){
@@ -413,6 +400,8 @@ if($tbl===-1){
                                         // echo $laygiocuakhunggio[0];
                                         if($timestamp2 > strtotime($ngay)){ // $timestamp2 là ngày hôm nay, strtotime($ngay) là ngày được in trên lịch. Nếu ngày strtotime($ngay) là quá khứ thì 
                                             echo '<td> </td>'; // in ra khoảng trống
+                                        }elseif($catkhunggio[1]==$_SESSION["arrtt"][3] && $ms==$_SESSION["arrtt"][7] && strtotime($ngay) == strtotime($_SESSION["arrtt"][2])){//$_SESSION["arrtt"] = [$mads,$tensan,$nd,$khunggio,$dongia,$tendiadiem,$mdd,$ms1];
+                                            echo '<td><input type="checkbox" name="chondatsan" class="checkbox-input d-none"><label class="checkbox-label-ctds">'.number_format($row[$i],0,'.',',').' đ</label></td>'; 
                                         }else{
                                             
                                             $laygia=0;
@@ -428,17 +417,17 @@ if($tbl===-1){
                                                 echo '<td> </td>'; // in ra khoảng trống
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
                                                 if($laygia!=0){
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                     $laygia=0;
                                                    
                                                 }else{
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'" data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label-choduyet">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                 }
                                                 
                                             }elseif((in_array($ngay,$ngaydat) || in_array($ngay,$ngayd)) && $laytrangthai == "Ưu tiên"){
-                                                echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                echo '<td><input type="checkbox" name="chondatsan" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                
                                             }elseif(in_array($ngay,$ngaydat) && ($laytrangthai == "Đã duyệt" || $laytrangthai == "Đã thanh toán")){
                                                 echo '<td></td>';
@@ -448,12 +437,12 @@ if($tbl===-1){
                                                
                                             }else{
                                                 if($laygia!=0){
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                     $laygia=0;
                                                    
                                                 }else{
-                                                    echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
+                                                    echo '<td><input type="checkbox" name="chondatsan" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$row[$i].'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$row[$i].'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                     $checkbox++;
                                                 }
                                                 // echo "<td><a href='?page=order&tt=".$diachi."_".$row[0]."_".$row[1]."_".$ngay."_".$row[$i]."'><button class='btn btn-custom' name='".$ngay."'>".number_format($row[$i],0,'.',',')." đ</button> </a></td>";
@@ -479,9 +468,8 @@ if($tbl===-1){
                         echo "<tr><td colspan = '9'>Tuần này đã qua</td></tr>";
                     }
                     header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
-                    // print_r($giatheongay);
+                    
                 ?>
-                
             </tbody>
         </table>
         
@@ -523,7 +511,7 @@ $(document).ready(function () {
             var gia = parseInt($(this).data('gia')); // Lấy giá
 
             if ($(this).is(':checked')) {
-                tongtien += gia;
+                $('.checkbox-input').not(this).prop('disabled', true);// khi chọn 1 checkbox thì k cho chọn nữa
                 // Nếu checkbox được chọn, thêm thông tin vào bảng
                 $('#DaChon').append(
                     '<tr>' +
@@ -538,11 +526,11 @@ $(document).ready(function () {
                 stt++;
                 if ($('#order').find('button').length === 0) { // Kiểm tra nút chưa tồn tại
                     $('#order').append(
-                        "<button type='submit' class='btn btn-info' name='sub' >Đặt sân</button>"
+                        "<button type='submit' class='btn btn-info' name='sub' >Đồng ý</button>"
                     );
                 }
             } else {
-                tongtien -= gia;
+                $('.checkbox-input').prop('disabled', false); // vô hiệu disabled
                 // Nếu bỏ chọn checkbox, xóa thông tin tương ứng
                 $('#DaChon tr').filter(function () {
                     return $(this).find('td').eq(1).text().trim() === khunggio &&
@@ -559,8 +547,7 @@ $(document).ready(function () {
             
 
             
-            // Cập nhật tổng tiền
-            $('#tongtien').text(tongtien.toLocaleString() + ' đ');
+            
             updateLocalStorage();
         });
 });
@@ -568,12 +555,17 @@ $(document).ready(function () {
 </script>
 <?php
     if(isset($_REQUEST["sub"])){
-        $_SESSION["TTHD"] = [];
         if(isset($_REQUEST["chondatsan"])){
-            $_SESSION["TTHD"] = $_REQUEST["chondatsan"];
-            header("Location: ?page=order&masan=$diachi");
-            ob_end_flush();
-            exit();
+            $kiemtratrungdatsan = $pds->getkiemtratrungdatsan($madds,$_REQUEST["chondatsan"]);
+            if($kiemtratrungdatsan===false){
+                echo "<script>alert('Bạn chọn trùng thông tin với chi tiết đơn đặt khác')</script>";
+            }else{
+                $_SESSION["chonthaydoi"] = $_REQUEST["chondatsan"];
+                header('Location: ?page=quanlylichdatsan&cate=guixacnhanthongtinthaydoi&mactds='.$mactds.'&makh='.$makh.'&mads='.$madds.'');
+                ob_end_flush();
+                exit();
+            }
+            
         }
     }
 ?>

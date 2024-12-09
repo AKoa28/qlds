@@ -1,5 +1,5 @@
 <?php
-    if(isset($_SESSION["dangnhap"])){
+    if(isset($_SESSION["dangnhap"]) ||  isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"]) ){
         echo '<script>alert("Đã đăng nhập")</script>';
         header("refresh:0 url='?page=home&trang=1'");
     }
@@ -50,7 +50,7 @@
 
     $(document).ready(function(){
         $('form').on('submit', function (e){
-            e.preventDefault();
+            e.preventDefault(); // chặn gửi form đi
 
             const sdt = $("#sdt").val();
             const pass = $("#pass").val();

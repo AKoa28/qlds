@@ -225,37 +225,73 @@
                         $dongia = $r["DonGia"];
                         $trangthai = $r["TrangThai"];
                         $ngaydatsan = $r["NgayDatSan"];
-                        $catkg = explode("-",$khunggio);
-
-                        if(strtotime($today) > strtotime($ngaydatsan)){
-                            $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
-                        }else{
-                            if(strtotime($today) == strtotime($ngaydatsan) && strtotime($time) > strtotime($catkg[0])){
-                                $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
+                        $giobatdau = $r["GioBatDau"];
+                        $gioketthuc = $r["GioKetThuc"];
+                        if($khunggio == null){
+                            if(strtotime($today) > strtotime($ngaydatsan)){
+                                $array[] = [$diadiem,$tensan,$ngaydatsan,$giobatdau,$gioketthuc,$dongia,$trangthai];
                             }else{
-                                echo '
-                                    <tr >
-                                        <td class="col-2">'.$diadiem.'</td>
-                                        <td class="col-2">'.$tensan.'</td>
-                                        <td class="col-2"> '.$ngaydatsan.'</td>
-                                        <td class="col-1">'.$catkg[0].'</td>
-                                        <td class="col-1">'.$catkg[1].'</td>
-                                        <td class="col-1">'.number_format($dongia,0,".",",").' đ</td>
-                                        <td class="col-1">'.$trangthai.'</td>';
-                                if($trangthai == "Đã duyệt"){
-                                    echo '
-                                            <td class="col-1"></td>
-                                        </tr>
-                                    ';
+                                if(strtotime($today) == strtotime($ngaydatsan) && strtotime($time) > strtotime($catkg[0])){
+                                    $array[] = [$diadiem,$tensan,$ngaydatsan,$giobatdau,$gioketthuc,$dongia,$trangthai];
                                 }else{
                                     echo '
-                                            <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
-                                        </tr>
-                                    ';
+                                        <tr >
+                                            <td class="col-2">'.$diadiem.'</td>
+                                            <td class="col-2">'.$tensan.'</td>
+                                            <td class="col-2"> '.$ngaydatsan.'</td>
+                                            <td class="col-1">'.$giobatdau.'</td>
+                                            <td class="col-1">'.$gioketthuc.'</td>
+                                            <td class="col-1">'.number_format($dongia,0,".",",").' đ</td>
+                                            <td class="col-1">'.$trangthai.'</td>';
+                                    if($trangthai == "Đã duyệt"){
+                                        echo '
+                                                <td class="col-1"></td>
+                                            </tr>
+                                        ';
+                                    }else{
+                                        echo '
+                                                <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
+                                            </tr>
+                                        ';
+                                    }
+                                    
                                 }
-                                
+                            }
+                        }else{
+                            $catkg = explode("-",$khunggio);
+                            if(strtotime($today) > strtotime($ngaydatsan)){
+                                $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
+                            }else{
+                                if(strtotime($today) == strtotime($ngaydatsan) && strtotime($time) > strtotime($catkg[0])){
+                                    $array[] = [$diadiem,$tensan,$ngaydatsan,$catkg[0],$catkg[1],$dongia,$trangthai];
+                                }else{
+                                    echo '
+                                        <tr >
+                                            <td class="col-2">'.$diadiem.'</td>
+                                            <td class="col-2">'.$tensan.'</td>
+                                            <td class="col-2"> '.$ngaydatsan.'</td>
+                                            <td class="col-1">'.$catkg[0].'</td>
+                                            <td class="col-1">'.$catkg[1].'</td>
+                                            <td class="col-1">'.number_format($dongia,0,".",",").' đ</td>
+                                            <td class="col-1">'.$trangthai.'</td>';
+                                    if($trangthai == "Đã duyệt"){
+                                        echo '
+                                                <td class="col-1"></td>
+                                            </tr>
+                                        ';
+                                    }else{
+                                        echo '
+                                                <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
+                                            </tr>
+                                        ';
+                                    }
+                                    
+                                }
                             }
                         }
+                        
+
+                        
                         
                     }
                     echo '
@@ -369,6 +405,7 @@
                         $tenTD = $_POST["ten"];
                         $emailTD = $_POST["email"];
                         $sdtTD = $_POST["sdt"];
+
                         $_SESSION["tenTD"] = $tenTD;
                         $_SESSION["emailTD"] = $emailTD;
                         $_SESSION["sdtTD"] = $sdtTD;
@@ -469,6 +506,7 @@
                             }    
                         }   
                     }
+                    
             // Sau khi gửi mail
                     if(isset($_REQUEST["xacnhanmail"])){
                         // echo "<script>alert('tới đây rồi')</script>"; // Ý TƯỞNG LÀ LƯU BẰNG SESSION

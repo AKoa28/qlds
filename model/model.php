@@ -192,7 +192,7 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if($con){
-                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay' and MaDiaDiem = '$madiachi' and MaSan ='$ms'";
+                $sql="select * from datsan d join chitietdatsan ct on d.MaDatSan=ct.MaDatSan  where NgayDatSan = '$ngay' and MaDiaDiem = '$madiachi' and MaSan ='$ms' and TrangThai != 'Không duyệt'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -411,6 +411,31 @@
                 return false;
             }
         }
+        public function makhachhangcuachusan($machusan){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT MaKhachHang FROM `taikhoan` tk  JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan join chusan cs on cs.MaTaiKhoan = tk.MaTaiKhoan WHERE MaChuSan = '$machusan'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function makhachhangcuanhanvien($manhanvien){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT MaKhachHang FROM `taikhoan` tk  JOIN khachhang kh on tk.MaTaiKhoan = kh.MaTaiKhoan join nhanvien nv on nv.MaTaiKhoan = tk.MaTaiKhoan WHERE MaNhanVien = '$manhanvien'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
     }
     
     class mdatsan{
@@ -505,11 +530,11 @@
                 return false;
             }
         }
-        public function Xemdoanhthutheongay($ngay) {
+        public function Xemdoanhthutheongay($ngay,$madd) {
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT * FROM datsan ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan where NgayDatSan = '$ngay'";
+                $sql = "SELECT ds.*, ctds.*, TenSan FROM datsan ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan join san s on s.MaSan = ctds.MaSan where NgayDatSan = '$ngay' and ds.MaDiaDiem = '$madd'";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -557,6 +582,108 @@
             }
         }
 
+        public function chitietdatsan($madatsan) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT ctds.*, TenSan, MaKhachHang, TrangThai FROM `datsan` ds JOIN `chitietdatsan` ctds on ds.MaDatSan = ctds.MaDatSan JOIN san s on s.MaSan = ctds.MaSan where ds.MaDatSan = '$madatsan'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        public function chitietdatsanbymactds($mactds) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT ctds.*, TenSan, MaKhachHang, TenDiaDiem, ds.MaDiaDiem FROM `datsan` ds JOIN `chitietdatsan` ctds on ds.MaDatSan = ctds.MaDatSan JOIN san s on s.MaSan = ctds.MaSan join diadiem dd on dd.MaDiaDiem = ds.MaDiaDiem where ctds.MaChiTiet = '$mactds'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+        public function laydondatsanlonhonngayhientai($diachi,$ngayhomnay) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM `datsan` ds join `chitietdatsan` ctds on ds.MaDatSan = ctds.MaDatSan WHERE MaDiaDiem = '$diachi' and NgayDatSan > '$ngayhomnay'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        
+        public function capnhatdatsankhongduyet($madatsan) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "UPDATE `datsan` SET `TrangThai`='Không duyệt' WHERE MaDatSan = '$madatsan'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
+
+        public function updateChitietdatsan($mactds,$masan,$ngaydat,$khunggio,$gia,$maDonDatSan) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "UPDATE `chitietdatsan` 
+                SET `MaSan`='$masan',`NgayDatSan`='$ngaydat',`KhungGio`='$khunggio',`DonGia`='$gia' 
+                WHERE `MaChiTiet`='$mactds'";
+                $result = $con->query($sql);
+                
+                if($result){
+                    $sql1 = "SELECT DonGia FROM `datsan` ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan where ds.MaDatSan = '$maDonDatSan'";
+                    $result1 = $con->query($sql1);
+                    
+                    if($result1){
+                        $tongtien = 0;
+                        while($r=$result1->fetch_assoc()){
+                            $tongtien += $r["DonGia"];
+                        }
+                        $sql2 = "UPDATE `datsan` SET `TongTien`='$tongtien'WHERE `MaDatSan`='$maDonDatSan'";
+                        $result2 = $con->query($sql2);
+                        $p->dongketnoi($con);
+                        if($result2){
+                            return $result2;
+                        }else{
+                            return false;
+                        }
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+                
+            } else {
+                return false;
+            }
+        }
+
+        public function kiemtratrungdatsan($madds) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM `datsan` ds join chitietdatsan ctds on ds.MaDatSan = ctds.MaDatSan WHERE ctds.MaDatSan ='$madds'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            } else {
+                return false;
+            }
+        }
         
     }
     
@@ -696,6 +823,8 @@
                     return false;
                 }
             }
+
+            
 
             
     }

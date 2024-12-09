@@ -18,7 +18,7 @@
                                 <b>Loại thời gian</b>
                             </td>
                             <td class="col-md-4">
-                                <select name="cbxloaithoigian" id="cbxloaithoigian"  onchange="getloaithoigian(this.value,this.name)" class="form-select" aria-label="Default select example">
+                                <select name="cbxloaithoigian" id="cbxloaithoigian"  onchange="getloaithoigian(this.value,this.name,'.$_REQUEST["giatri"].')" class="form-select" aria-label="Default select example">
                                     <option value="0" selected>Chọn loại thời gian</option>
                                     <option value="1">Báo cáo theo ngày</option>
                                     <option value="2">Báo cáo theo tháng</option>
@@ -40,7 +40,7 @@
                                     <b>Chọn ngày</b>
                                 </td>
                                 <td class="col-md-4">
-                                    <input type="date" name="ngay" class="form-control" onchange="getngay(this.value,this.name)">
+                                    <input type="date" name="ngay" class="form-control" onchange="getngay(this.value,this.name,'.$_REQUEST["madd"].')">
                                 </td>
                             </tr>
                         </tbody>
@@ -84,22 +84,55 @@
             }
         }elseif($_REQUEST["tencbx"]=="ngay"){
             $ngayxemdt = $_REQUEST["giatri"];
+            $madd = $_REQUEST["madd"];
             $pngayxemdt = new cdatsan();
-            $tblngayxemdt = $pngayxemdt->getXemdoanhthutheongay($ngayxemdt);
+            $tblngayxemdt = $pngayxemdt->getXemdoanhthutheongay($ngayxemdt, $madd);
             if(!$tblngayxemdt){
                 echo 'error';
             }elseif($tblngayxemdt===0){
                 echo 'Trong ngày chưa có doanh thu';
             }else{
                 $tongtien = 0;
+                echo '
+                            <table class="table"  style="text-align:center;">
+                                <thead>
+                                    <th>Khung giờ</th>
+                                    <th>Tên sân</th>
+                                    <th>Ngày đặt sân</th>
+                                    
+                                    <th>Giá</th>
+                                </thead>
+                                <tbody id="DaChon">';
                 while($r=$tblngayxemdt->fetch_assoc()){
                         $tongtien += $r["DonGia"];
-                        echo $r["NgayDat"] . "<br>";
+                        
+                        echo'       <tr>
+                                        <td>'.$r["MaKhachHang"].'</td>
+                                        <td>'.$r["TenSan"].'</td>
+                                        <td>'.$r["NgayDatSan"].'</td>
+                                        <td>'.number_format($r["DonGia"],0,".",",").' đ</td>
+                                    </tr>';
+                        
+                        // echo $r["NgayDat"] . "<br>";
                 }
+                echo'   </tbody>
+                                    <tr>
+                                        <td colspan="2" id="order">
+                                            
+                                        </td>
+                                        <td colspan="2">
+                                            Thành tiền:
+                                        </td>
+                                        <td id="tongtien">
+
+                                        </td>
+                                    </tr>
+                            </table>
+                        ';
                 if($_REQUEST["tencbx"]=="cbxloaithoigian" && $_REQUEST["giatri"] == 0){
                     echo '';
                 }else{
-                    echo "<h2>Doanh thu: <i class='bi bi-coin'></i> ".number_format($tongtien,0,".",",") . "đ</h2>";
+                    echo "<h2>Doanh thu: <i class='bi bi-coin'></i> ".number_format($tongtien,0,".",",") . " đ</h2>";
                 }
                 
             }

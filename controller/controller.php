@@ -284,10 +284,14 @@
                         $_SESSION["ten"] = $r["Ten"];
                         $_SESSION["emailchusan"] = $r["Email"];
                     }else{
-                        $_SESSION["nhanvien"] = $r["MaNhanVien"];
-                        $_SESSION["ten"] = $r["Ten"];
-                        $_SESSION["madiadiem"] = $r["MaDiaDiem"];
-                        $_SESSION["emailnhanvien"] = $r["Email"];
+                        if($r["HienThi"] == "1"){
+                            $_SESSION["nhanvien"] = $r["MaNhanVien"];
+                            $_SESSION["ten"] = $r["Ten"];
+                            $_SESSION["madiadiem"] = $r["MaDiaDiem"];
+                            $_SESSION["emailnhanvien"] = $r["Email"];
+                        }else{
+                            return 0;
+                        }
                     }
                     
                 }
@@ -358,6 +362,31 @@
                 return $con;
             }
         }
+
+        public function getmakhachhangcuachusan($machusan){
+            $p = new mtaikhoan();
+            $con = $p->makhachhangcuachusan($machusan);
+            if($con->num_rows > 0){
+                while($r = $con->fetch_assoc()){
+                    return $r['MaKhachHang'];
+                }
+            }else{
+                return 0;
+            }
+        }
+
+        public function getmakhachhangcuanhanvien($manhanvien){
+            $p = new mtaikhoan();
+            $con = $p->makhachhangcuanhanvien($manhanvien);
+            if($con->num_rows > 0){
+                while($r = $con->fetch_assoc()){
+                    return $r['MaKhachHang'];
+                }
+            }else{
+                return 0;
+            }
+        }
+
     }
 
     class cdatsan{
@@ -371,9 +400,9 @@
             $con = $p->insertdatsantheongay($total);
             return $con;
         }
-        public function getXemdoanhthutheongay($ngay){
+        public function getXemdoanhthutheongay($ngay,$madd){
             $p = new mdatsan();
-            $con = $p->Xemdoanhthutheongay($ngay);
+            $con = $p->Xemdoanhthutheongay($ngay,$madd);
             if(!$con){
                 return 0;
             }else{
@@ -413,6 +442,101 @@
                 }
                 
             }
+        }
+
+        public function getchitietdatsan($madatsan){ 
+            $p = new mdatsan();
+            $con = $p->chitietdatsan($madatsan);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
+
+        public function getchitietdatsanbymactds($mactds){ 
+            $p = new mdatsan();
+            $con = $p->chitietdatsanbymactds($mactds);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
+
+        public function getlaydondatsanlonhonngayhientai($diachi,$ngayhomnay){ 
+            $p = new mdatsan();
+            $con = $p->laydondatsanlonhonngayhientai($diachi,$ngayhomnay);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
+
+        public function getcapnhatdatsankhongduyet($madatsan){ 
+            $p = new mdatsan();
+            $con = $p->capnhatdatsankhongduyet($madatsan);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+        public function getupdateChitietdatsan($madds){ 
+            if(!empty($_SESSION["chonthaydoi"]) && !empty($_SESSION["arrtt"])){
+                $catchuoi = explode("_",$_SESSION["chonthaydoi"]); //1_7:00-8:30_2-Sân số 2 (Sân 7)_13-12-2024_100000
+                $catmasan = explode("-",$catchuoi[2]);
+                $ngaydat = date("Y-m-d",strtotime($catchuoi[3]));
+                $p = new mdatsan();
+                $con = $p->updateChitietdatsan($_SESSION["arrtt"][0],$catmasan[0],$ngaydat,$catchuoi[1],$catchuoi[4],$madds);
+                if(!$con){
+                    return false;
+                }else{
+                    unset($_SESSION["chonthaydoi"]);
+                    unset($_SESSION["arrtt"]);
+                    return $con;
+                }
+            }else{
+                return false;
+            }
+            
+        }
+
+        public function getkiemtratrungdatsan($madds,$chondatsan){ 
+            
+            $catchuoi = explode("_",$chondatsan); //1_7:00-8:30_2-Sân số 2 (Sân 7)_13-12-2024_100000
+            $catmasan = explode("-",$catchuoi[2]);
+            $ngaydat = date("Y-m-d",strtotime($catchuoi[3]));
+            $p = new mdatsan();
+            $con = $p->kiemtratrungdatsan($madds);
+            if($con->num_rows>0){
+                while($r = $con->fetch_assoc()){
+                    if($catmasan[0]==$r["MaSan"] && strtotime($ngaydat)==strtotime($r["NgayDatSan"]) && $catchuoi[1]==$r["KhungGio"]){
+                        return false;
+                    }
+                }
+                return $con;
+            }else{
+                return $con;
+            }
+            
+            
         }
 
     }

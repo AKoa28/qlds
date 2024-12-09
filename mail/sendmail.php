@@ -260,6 +260,99 @@ class sendmail{
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
         }
     }
+
+    public function guithongtinthaydoidatsan($maildangky,$ten,$thongtin,$maxacnhan,$thongtinthaydoi){
+        $mail = new PHPMailer(true);
+        $mail -> CharSet = 'UTF-8';
+        try {
+            //Server settings
+            $mail->SMTPDebug = 0;                     
+            $mail->isSMTP();                                            
+            $mail->Host       = 'smtp.gmail.com';                    
+            $mail->SMTPAuth   = true;                                  
+            $mail->Username   = 'nhom9.ptud.2024@gmail.com';                     
+            $mail->Password   = 'efrp slzb shpp zeqc';                              
+            $mail->SMTPSecure = 'tls';            
+            $mail->Port       = 587;       
+            //Recipients
+            $mail->setFrom('nhom9.ptud.2024@gmail.com', 'DatSanNhom9');
+
+            $mail->addAddress($maildangky, $ten);    
+            // $mail->addAddress('ellen@example.com');               //Name is optional
+            // $mail->addReplyTo('info@example.com', 'Information');
+            $mail->addCC('nhom9.ptud.2024@gmail.com');
+            // $mail->addBCC('bcc@example.com');
+            //Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+            //Content
+            $mail->isHTML(true);                                  //Set email format to HTML
+            $mail->Subject = 'Yêu cầu thay đổi thời gian đặt sân từ Chủ sân';
+            $str = "";
+            $str .= '   <h3 class="mb-5" style="text-align:center;">Thông tin bạn đặt</h3>
+                        <table class="table" border="1" width="100%"  style="border-collapse: collapse; text-align:center;">
+                                <thead class="table-success">
+                                    <tr>
+                                    <th>Khung giờ</th>
+                                    <th>Tên sân</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                            <td>'.$_SESSION["arrtt"][3].'</td>
+                                            <td>'.$_SESSION["arrtt"][1].'</td>
+                                            <td>'.$_SESSION["arrtt"][2].'</td>
+                                            <td>'.number_format($_SESSION["arrtt"][4], 0, ".", ",").' đ</td>
+                                        </tr>
+                            </tbody>
+                                </table>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            ';
+            
+            $catchuoi = explode("_",$thongtinthaydoi);
+            $catmasan = explode("-",$catchuoi[2]);
+            $cattensan = explode("(",$catmasan[1]);
+            $str .= '   <h3 class="mb-5" style="text-align:center;">Thông tin yêu cầu thay đổi</h3>
+                        <table class="table" border="1" width="100%"  style="border-collapse: collapse; text-align:center;">
+                                <thead class="table-success">
+                                    <tr>
+                                        <th>Khung giờ</th>
+                                        <th>Tên sân</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>'.$catchuoi[1].'</td>
+                                    <td>'.$cattensan[0].'</td>
+                                    <td>'.$catchuoi[3].'</td>
+                                    <td>'.number_format($catchuoi[4], 0, ".", ",") .' đ</td>
+                                </tr>
+                                </tbody>
+                                </table>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            ';
+            //$_SESSION["arrtt"] = [$mads,$tensan,$nd,$khunggio,$dongia,$tendiadiem,$mdd,$ms1];
+            $mail->Body    = '<p>Chào <i>'.$ten.'<i>,</p><p>Bạn được chủ sân nơi bạn đặt sân yêu cầu thay đổi thời gian đặt sân. <br>Địa điểm: '.$_SESSION["arrtt"][5].' <br>'. $str.'</p><p>Nếu bạn đồng ý thay đổi hãy cung cấp mã xác nhận sau cho nhân viên <i style="color: red">'.$maxacnhan.'</i></p>';
+            
+            // $mail->AltBody = $str;
+            $mail->send();
+            // echo 'Message has been sent';
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} Mất mạng";
+        }
+    }
 }   
     
 ?>

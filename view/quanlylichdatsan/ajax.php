@@ -41,13 +41,25 @@
                     }else{
                         $ketqua.='<td>' . $r["TrangThai"] . '</td>';
                     }
+                    
                     $ketqua .= '
                                     <td>' . number_format($r["TongTien"],0,".",",") . ' đ</td>
-                                    <td>
-                                        <a href="?page=quanlylichdatsan&cate=pheduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Bạn có đồng ý phê duyệt không?\')">Phê duyệt</button></a>
-                                    </td>
-                                </tr>
                     ';
+                    if($r["TrangThai"] == "Đã duyệt"){
+                        $ketqua .=  '
+                                    <td>
+                                        <a href="?page=quanlylichdatsan&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>
+                                    </td></tr>
+                        ';
+                    }else{
+                        $ketqua .=  '
+                                    <td>
+                                        <a href="?page=quanlylichdatsan&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>
+                                        <a href="?page=quanlylichdatsan&cate=pheduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Bạn có đồng ý phê duyệt không?\')">Phê duyệt</button></a>
+                                        
+                                    </td></tr>
+                        ';
+                    }
                 }
                 $ketqua .= '
                                 
