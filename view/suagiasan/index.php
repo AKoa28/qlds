@@ -21,66 +21,74 @@
                 <form action="" method="post" id="formsuathongtin">
                 
     <?php
-    $chuoids = implode(' | ', $_SESSION["TTHD"]);
-    if (!isset($_SESSION["chusan"])) {
+    
+    if (!isset($_SESSION["chusan"]) && !isset($_SESSION["TTHD"])) {
         header("Location: ?page=chusan");
     }
-    if(sizeof($_SESSION["TTHD"])==1){
-            $thongtin = $_SESSION["TTHD"][0];
-            $catTTTD = explode("_",$thongtin);
-            echo  '
-                    <fieldset disabled>
-                        <div class="form-floating mb-3">
-                            <input type="text" name="tensan" class="form-control" id="disabledTextInput" placeholder="" value="'.$catTTTD[4].'">
-                            <label for="disabledTextInput">Tên sân - Loại sân</label>
+    $pc = new controller();
+    $diachi = $_REQUEST["madd"];
+    $masanurl = $_REQUEST["mas"];
+    $kiemtramaddcuacs = $pc->getktsohuusan($diachi,$masanurl);
+    if($kiemtramaddcuacs){
+            $chuoids = implode(' | ', $_SESSION["TTHD"]);
+            if(sizeof($_SESSION["TTHD"])==1){
+                    $thongtin = $_SESSION["TTHD"][0];
+                    $catTTTD = explode("_",$thongtin);
+                    echo  '
+                            <fieldset disabled>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="tensan" class="form-control" id="disabledTextInput" placeholder="" value="'.$catTTTD[4].'">
+                                    <label for="disabledTextInput">Tên sân - Loại sân</label>
+                                </div>
+                            </fieldset>
+                            <fieldset disabled>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="khunggio" class="form-control" id="disabledTextInput" placeholder="" value="'.$catTTTD[2].'">
+                                    <label for="disabledTextInput">Khung Giờ</label>
+                                </div>
+                            </fieldset>
+                            <fieldset disabled>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="thu" class="form-control" id="disabledTextInput" placeholder="" value="Thứ '.$catTTTD[6].'">
+                                    <label for="disabledTextInput">Thứ</label>
+                                </div>
+                            </fieldset>
+                            <fieldset disabled>
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="giahientai" class="form-control" id="disabledTextInput" placeholder="" value="'.number_format($catTTTD[5],0,'.',',').' đ">
+                                    <label for="disabledTextInput">Giá hiện tại (VNĐ)</label>
+                                </div>
+                            </fieldset>
+                            <div class="form-floating mb-3">
+                                <input type="number" name="giamoiTD1TT" class="form-control" id="floatingInput" placeholder="" min="0" required>
+                                <label for="floatingInput">Giá Mới (VNĐ)</label>
+                            </div>
+                            <button type="submit" name="subTD1TT" class="btn btn-info mb-3">Lưu thông tin</button>
+                    ';
+            }else{
+                $soluongmang = sizeof($_SESSION["TTHD"]);
+                echo '
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" onchange="getChinhGiaRieng(this.value),getChinhGiaChung()" value="'.$chuoids.'" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Chỉnh giá riêng
+                            </label>
                         </div>
-                    </fieldset>
-                    <fieldset disabled>
-                        <div class="form-floating mb-3">
-                            <input type="text" name="khunggio" class="form-control" id="disabledTextInput" placeholder="" value="'.$catTTTD[2].'">
-                            <label for="disabledTextInput">Khung Giờ</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" onchange="getChinhGiaChung(this.value),getChinhGiaRieng()" value="'.$chuoids.'" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Chỉnh giá cho tất cả
+                            </label>
                         </div>
-                    </fieldset>
-                    <fieldset disabled>
-                        <div class="form-floating mb-3">
-                            <input type="text" name="thu" class="form-control" id="disabledTextInput" placeholder="" value="Thứ '.$catTTTD[6].'">
-                            <label for="disabledTextInput">Thứ</label>
-                        </div>
-                    </fieldset>
-                    <fieldset disabled>
-                        <div class="form-floating mb-3">
-                            <input type="text" name="giahientai" class="form-control" id="disabledTextInput" placeholder="" value="'.number_format($catTTTD[5],0,'.',',').' đ">
-                            <label for="disabledTextInput">Giá hiện tại (VNĐ)</label>
-                        </div>
-                    </fieldset>
-                    <div class="form-floating mb-3">
-                        <input type="number" name="giamoiTD1TT" class="form-control" id="floatingInput" placeholder="" min="0" required>
-                        <label for="floatingInput">Giá Mới (VNĐ)</label>
-                    </div>
-                    <button type="submit" name="subTD1TT" class="btn btn-info mb-3">Lưu thông tin</button>
-            ';
+                ';
+            }
+            echo '<div id="showchinhgiarieng"></div>';
+            // print_r($_SESSION["TTHD"]);
+            // echo "<br>".$chuoids;
+            echo '<div id="showchinhgiachung"></div>';
     }else{
-        $soluongmang = sizeof($_SESSION["TTHD"]);
-        echo '
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" onchange="getChinhGiaRieng(this.value),getChinhGiaChung()" value="'.$chuoids.'" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Chỉnh giá riêng
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" onchange="getChinhGiaChung(this.value),getChinhGiaRieng()" value="'.$chuoids.'" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Chỉnh giá cho tất cả
-                    </label>
-                </div>
-        ';
+        header("Location: ?page=quanlysan");
     }
-    echo '<div id="showchinhgiarieng"></div>';
-    // print_r($_SESSION["TTHD"]);
-    // echo "<br>".$chuoids;
-    echo '<div id="showchinhgiachung"></div>';
-    
     ?>     
             </form>
         </div>

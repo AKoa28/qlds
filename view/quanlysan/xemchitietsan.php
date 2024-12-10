@@ -6,79 +6,84 @@
 $diachi = $_REQUEST["madd"];
 $masanurl = $_REQUEST["mas"];
 $p = new controller();
-$tbl = $p->getselectkhunggio();
-$dsdatsan = $p -> getselectsan($masanurl);
-if($dsdatsan){
-    while($r = $dsdatsan->fetch_assoc()){
-        $tensan1 = $r["TenSan"];
-        $tenloaisan = $r["TenLoaiSan"];
-    }
-}else{
-    echo "error";
-}
-if($tbl===-1){
-    echo "Không có";
-}elseif(!$tbl){
-    echo "Hiện tại địa chỉ sân chưa mở cửa hoạt động";
-}else{
-    $d = 0;
-    $dem = 0;
-    $lich = [];
-    $giatheothu = [];
-    $giatheongay = [];
-    echo "<table width='100%' align='center'>";
-    while($r = $tbl->fetch_assoc()){
-        $makhunggio = $r["MaKhungGio"];
-        
-        // $makhunggio = $r["KhungGio"];
-        if($makhunggio > $d ){
-            $d = $makhunggio;
-            $khunggio = $makhunggio."_".$r["TenKhungGio"];
-            // $khunggio = $d. "_" .$r["TenKhungGio"];
-            for($i=1; $i<8; $i++){
-                $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masanurl ,$i); 
-                // $giatheothu[] = $tblgia;
-                if($tblgia){
-                    while($rn=$tblgia->fetch_assoc()){
-                        if($rn["Ngay"]==NULL){
-                            $giatheothu[] = $rn["Gia"];
-                        }else{
-                            $giatheongay[] = [$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"]];
+    $kiemtramaddcuacs = $p->getktsohuusan($diachi,$masanurl);
+    if($kiemtramaddcuacs){
+        $tbl = $p->getselectkhunggio();
+        $dsdatsan = $p -> getselectsan($masanurl);
+        if($dsdatsan){
+            while($r = $dsdatsan->fetch_assoc()){
+                $tensan1 = $r["TenSan"];
+                $tenloaisan = $r["TenLoaiSan"];
+            }
+        }else{
+            echo "error";
+        }
+        if($tbl===-1){
+            echo "Không có";
+        }elseif(!$tbl){
+            echo "Hiện tại địa chỉ sân chưa mở cửa hoạt động";
+        }else{
+            $d = 0;
+            $dem = 0;
+            $lich = [];
+            $giatheothu = [];
+            $giatheongay = [];
+            echo "<table width='100%' align='center'>";
+            while($r = $tbl->fetch_assoc()){
+                $makhunggio = $r["MaKhungGio"];
+                
+                // $makhunggio = $r["KhungGio"];
+                if($makhunggio > $d ){
+                    $d = $makhunggio;
+                    $khunggio = $makhunggio."_".$r["TenKhungGio"];
+                    // $khunggio = $d. "_" .$r["TenKhungGio"];
+                    for($i=1; $i<8; $i++){
+                        $tblgia = $p->getselectsanbykhunggio_san_thu($makhunggio,$masanurl ,$i); 
+                        // $giatheothu[] = $tblgia;
+                        if($tblgia){
+                            while($rn=$tblgia->fetch_assoc()){
+                                if($rn["Ngay"]==NULL){
+                                    $giatheothu[] = $rn["Gia"];
+                                }else{
+                                    $giatheongay[] = [$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"],$i];
+                                }
+                            }
+                        }
+                    } 
+                    // print_r($giatheothu);
+                    // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
+                    $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
+                    foreach ($giatheothu as $value) {
+                        if ($value !== 0) {
+                            $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
+                            break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
                         }
                     }
+                    if(!$all_zero){
+                        $dem++;
+                        if($dem==1){
+                            // $tensan = $masanurl;
+                            $tensan = $tensan1 . " - (".$tenloaisan.")";
+                            $array1= [$khunggio,$tensan];
+                            $row1 = array_merge($array1,$giatheothu);
+                            $lich[] = $row1;
+                            $array1 = [];
+                            $giatheothu = [];
+                            $dem=0;
+                        }
+                    }else{
+                        $giatheothu = [];
+                    }
+                    
                 }
-            } 
-            // print_r($giatheothu);
-            // Kiểm tra nếu Sân đó có mở theo khung giờ chưa
-            $all_zero = true; // Giả định ban đầu là tất cả đều bằng 0
-            foreach ($giatheothu as $value) {
-                if ($value !== 0) {
-                    $all_zero = false; // Nếu có phần tử nào không phải 0, gán false
-                    break; // Thoát khỏi vòng lặp vì không cần kiểm tra tiếp
-                }
-            }
-            if(!$all_zero){
-                $dem++;
-                if($dem==1){
-                    // $tensan = $masanurl;
-                    $tensan = $tensan1 . " - (".$tenloaisan.")";
-                    $array1= [$khunggio,$tensan];
-                    $row1 = array_merge($array1,$giatheothu);
-                    $lich[] = $row1;
-                    $array1 = [];
-                    $giatheothu = [];
-                    $dem=0;
-                }
-            }else{
-                $giatheothu = [];
-            }
+            };
+            
+            echo "</table>";
             
         }
-    };
-    
-    echo "</table>";
-    
-}
+    }else{
+        header("Location: ?page=quanlysan");
+    }
     $thu = ["Thứ 2","Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","Chủ nhật"];
     // Thiết lập múi giờ
     date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -99,6 +104,28 @@ if($tbl===-1){
     // Hiển thị các nút điều hướng tuần trước, hôm nay và tuần sau
     $prevWeek = date('d-m-Y', strtotime("$startOfWeek -7 days"));
     $nextWeek = date('d-m-Y', strtotime("$startOfWeek +7 days"));
+
+    
+    //xử lý tự động xoá những ngày đã qua
+    $psgk  = new csan_gia_thu_khunggio();
+    $ngayhomnayDATETIME = date('Y-m-d H:i:s');
+    $ngayhomnayDATE = date('Y-m-d');
+    // $ngaykiemtrahuy = date('Y-m-d H:i:s', strtotime('+3 days', strtotime($ngayhomnayDATETIME)));
+    $sgtktheon = $psgk->getthongtinsan_gia_thu_khunggiotheongay($masanurl);
+    if($sgtktheon){
+        if($sgtktheon->num_rows>0){
+            while($rldds = $sgtktheon->fetch_assoc()){
+                // echo $rldds["Ngay"];
+                if(strtotime($ngayhomnayDATE) > strtotime($rldds["Ngay"])){
+                    foreach($giatheongay as $gtn => $dong){ //[$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"],$i];
+                        if(strtotime($dong[5])==strtotime($rldds["Ngay"])){
+                            $xoasgtktheon = $psgk->getdeletesgtktheon($dong[0],$dong[2],$dong[3],$dong[6],$dong[5]);//MaSan,Gia,KhungGio,MaThu,Ngay
+                        }
+                    }
+                }
+            }
+        }
+    }
     
 ?>
 <!DOCTYPE html>
@@ -172,22 +199,30 @@ if($tbl===-1){
                         <?php
                         if(sizeof($giatheongay)>0){
                              // print_r($giatheongay);
-                            foreach($giatheongay as $gtn => $dong){
-                                $formatngay = date("d-m-Y",strtotime($dong[5]));
-                                echo '
-                                    <tr>
-                                        <td>'.$dong[4].'</td>
-                                        <td>'.$dong[1].'</td>
-                                        <td>'.$formatngay.'</td>
-                                        <td>'.number_format($dong[2],0,".",",").' đ</td>
-                                        <td><button class="btn btn-danger">Xoá</button></td>
-                                    </tr>
+                            foreach($giatheongay as $gtn => $dong){//[$rn["MaSan"],$rn["TenSan"],$rn["Gia"],$rn["KhungGio"],$rn["TenKhungGio"],$rn["Ngay"],$i];
+                                $formatngay = date("d-m-Y",strtotime($dong[5]));//MaSan,Gia,KhungGio,MaThu,Ngay
+                                echo '<form method="post">
+                                        <input type="hidden" name="txtMaSan" value="'.$dong[0].'">
+                                        <input type="hidden" name="txtGia" value="'.$dong[2].'">
+                                        <input type="hidden" name="txtKhungGio" value="'.$dong[3].'">
+                                        <input type="hidden" name="txtMaThu" value="'.$dong[6].'">
+                                        <input type="hidden" name="txtNgay" value="'.$dong[5].'">
+                                        <tr>
+                                            <td>'.$dong[4].'</td>
+                                            <td>'.$dong[1].'</td>
+                                            <td>'.$formatngay.'</td>
+                                            <td>'.number_format($dong[2],0,".",",").' đ</td>
+                                            <td><button type="submit" name="XoaNgayCoGiaKhac" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn Xoá?\')">Xoá</button></td>
+                                        </tr>
+                                    </form>
                                 ';
                             }
+                            // print_r($giatheongay);
                         }else{
                             echo "";
                         }
                         ?>
+                        
                         
                     </tbody>
                 </table>
@@ -217,7 +252,9 @@ if($tbl===-1){
     
     <div class="container mt-5">
         <?php
-            echo "<div class='row d-flex align-items-center mb-1'><h2 >Chọn giá bạn muốn thay đổi</h2><i >Giá này sẽ mặc định cho các tuần sau đó. Nếu bạn muốn thay đổi giá theo ngày thì bấm <button class='btn btn-success'>vào đây</button></i></div>";
+            echo '<div class="row d-flex align-items-center mb-1"><h2 >Chọn giá bạn muốn thay đổi</h2>
+            <i >Giá này sẽ mặc định cho các tuần sau đó. Nếu bạn muốn thay đổi giá theo ngày thì bấm <a class="btn btn-success" href="?page=themngaycogiakhac&madd='.$diachi.'&mas='.$masanurl.'">vào đây</a></i></div>';
+           
         ?>
         <table class="table table-hover table-bordered" style="text-align:center;">
             <thead>
@@ -411,4 +448,20 @@ $(document).ready(function () {
             exit();
         }
     }
+
+    if(isset($_REQUEST["XoaNgayCoGiaKhac"])){
+        $txtMaSan = $_REQUEST["txtMaSan"];
+        $txtGia = $_REQUEST["txtGia"];
+        $txtKhungGio = $_REQUEST["txtKhungGio"];
+        $txtMaThu = $_REQUEST["txtMaThu"];
+        $txtNgay = $_REQUEST["txtNgay"];
+        $xoadachon = $psgk->getdeletesgtktheon($txtMaSan,$txtGia,$txtKhungGio,$txtMaThu,$txtNgay);//MaSan,Gia,KhungGio,MaThu,Ngay
+        if($xoadachon){
+            header("Location: ?page=xemchitietsan&madd=".$diachi."&mas=".$masanurl."");
+        }else{
+            echo "<script>alert('Xoá không thành công');</script>";
+        }
+        
+    }
+
 ?>

@@ -45,7 +45,7 @@
 
     session_start();
     ob_start();
-    // error_reporting(0);
+    error_reporting(0);
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
@@ -192,6 +192,13 @@
                             echo "</div>";
                             echo "<div class='col-md-10'>";
                             include_once("view/themsan/index.php");
+                            echo "</div>";
+                        } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themngaycogiakhac"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuchusan.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/themngaycogiakhac/index.php");
                             echo "</div>";
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xemchitietsan"){
                             echo '<div class="col-md-2 background" style="">';

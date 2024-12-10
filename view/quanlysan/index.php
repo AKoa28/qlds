@@ -21,7 +21,7 @@
             echo '<div class="container-fluid bg-body-secondary ">
                 <div class="row pt-3 pb-3 justify-content-center">
                     <div class="col-md-12" align="center">
-                        <h3>Quản lý lịch sân của địa chỉ</h3>
+                        <h3>Quản lý sân của địa chỉ</h3>
                     </div>
                 </div>
                 <div class="row justify-content-end">

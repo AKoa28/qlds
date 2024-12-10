@@ -200,6 +200,24 @@
                 return false;
             }
         }
+
+        public function ktsohuusan($madd,$masan){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $machusan = $_SESSION["chusan"];
+                if($masan){
+                    $sql="SELECT * FROM `diadiem` dd join san s on s.MaDiaDiem = dd.MaDiaDiem WHERE dd.MaDiaDiem='$madd' and MaChuSan = '$machusan' and MaSan = '$masan' and HienThi = '1'";
+                }else{
+                    $sql="SELECT * FROM `diadiem` WHERE MaDiaDiem='$madd' and MaChuSan = '$machusan'";
+                }
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
     }
 
     class mnguoidung{
@@ -1009,6 +1027,92 @@
                 return false;
             }
         }
+
+        public function thongtinsan_gia_thu_khunggiotheongay($masanurl) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "SELECT * FROM `san_gia_thu_khunggio` WHERE MaSan = '$masanurl'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function deletesgtktheon($MaSan,$Gia,$KhungGio,$MaThu,$Ngay) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "DELETE FROM `san_gia_thu_khunggio` WHERE MaSan = '$MaSan' and Gia = '$Gia' and KhungGio = '$KhungGio' and MaThu = '$MaThu' and Ngay = '$Ngay'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function KhungGiotheoMaSan($MaSan) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "SELECT DISTINCT KhungGio, TenKhungGio FROM `san_gia_thu_khunggio` sgtk join KhungGio kg on sgtk.KhungGio = kg.MaKhungGio WHERE MaSan = '$MaSan'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function insertsangiathukhunggio_ngay($mas, $giamoi, $kg, $chuyensangmathu, $ngay) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "INSERT INTO `san_gia_thu_khunggio`(`MaSan`, `Gia`, `KhungGio`, `MaThu`, `Ngay`) 
+                        VALUES ('$mas','$giamoi','$kg','$chuyensangmathu','$ngay')";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+        public function kiemtratrungthongtin($mas,$kg,$chuyensangmathu,$ngay) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "SELECT * FROM `san_gia_thu_khunggio` where MaSan = '$mas' and KhungGio = '$kg' and MaThu = '$chuyensangmathu' and Ngay = '$ngay'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
     }
 
     class msan{
@@ -1035,6 +1139,39 @@
                     return false;
                 }
                 
+            }
+        }
+        public function AnSan($masm,$madiadiem) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "UPDATE `san` SET `HienThi`='0' WHERE `MaSan`='$masm' and `MaDiaDiem`='$madiadiem'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
+        public function KiemTraTrungSan($tensan,$maloaisan,$madiadiem) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "SELECT * FROM `san` where TenSan = '$tensan' and MaLoaiSan = '$maloaisan' and MaDiaDiem = '$madiadiem'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
             }
         }
     }

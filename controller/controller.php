@@ -220,6 +220,20 @@
                 }
             }
         }
+
+        public function getktsohuusan($madd,$masan=''){
+            $p = new model();
+            $con = $p->ktsohuusan($madd,$masan);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
     }
 
     class cnguoidung{
@@ -781,6 +795,61 @@
                 return $con;
             }
         }
+
+        public function getthongtinsan_gia_thu_khunggiotheongay($masanurl){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->thongtinsan_gia_thu_khunggiotheongay($masanurl);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getdeletesgtktheon($MaSan,$Gia,$KhungGio,$MaThu,$Ngay){//MaSan,Gia,KhungGio,MaThu,Ngay
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->deletesgtktheon($MaSan,$Gia,$KhungGio,$MaThu,$Ngay);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getKhungGiotheoMaSan($MaSan){//MaSan,Gia,KhungGio,MaThu,Ngay
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->KhungGiotheoMaSan($MaSan);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getinsertsangiathukhunggio_ngay($mas, $giamoi, $kg, $chuyensangmathu, $ngay){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->insertsangiathukhunggio_ngay($mas, $giamoi, $kg, $chuyensangmathu, $ngay);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getkiemtratrungthongtin($mas,$kg,$chuyensangmathu,$ngay){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->kiemtratrungthongtin($mas,$kg,$chuyensangmathu,$ngay);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows>0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
     }
 
     class csan{
@@ -801,6 +870,31 @@
                 return $kq;
             }else{
                 return false;
+            }
+        }
+
+        public function getAnSan($masm,$madiadiem){
+            $p = new msan();
+            $con = $p->AnSan($masm,$madiadiem);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }
+
+        public function getKiemTraTrungSan($tensan,$maloaisan,$madiadiem){
+            $p = new msan();
+            $con = $p->KiemTraTrungSan($tensan,$maloaisan,$madiadiem);
+            if(!$con){
+                return false;
+            }else{
+                if($con->num_rows>0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+                
             }
         }
     }

@@ -116,7 +116,7 @@ if($tbl===-1){
     $prevWeek = date('d-m-Y', strtotime("$startOfWeek -7 days"));
     $nextWeek = date('d-m-Y', strtotime("$startOfWeek +7 days"));
     
-    //xử lý huỷ
+    //xử lý tự động huỷ những đơn chưa duyệt sau 3 ngày
     $pds  = new cdatsan();
     $ngayhomnayDATETIME = date('Y-m-d H:i:s');
     $ngayhomnayDATE = date('Y-m-d');
@@ -367,14 +367,15 @@ if($tbl===-1){
                                     if($row[$i]==0){//nẾU GIÁ bằng 0 thì không in ra 
                                         echo "<td></td>";
                                     }else{ 
+                                        // $tamthoi = 0;
                                         if($i == 2){
                                             // mảng $weekDays có giá trị như sau Array( [0] => 21-10-2024 [1] => 22-10-2024 [2] => 23-10-2024 [3] => 24-10-2024 [4] => 25-10-2024 [5] => 26-10-2024 [6] => 27-10-2024 ) 
-                                            $t = $row[$i]; //nếu đúng $i = 2 thì gán $t = $row[$i] (giá) 
-                                            $t -= $t;  //sau đó cho $t = $t - $t để lấy giá trị 0
-                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[0] (lấy ngày đầu tiên của tuần hiện tại)
+                                            $tamthoi = 0; //nếu đúng $i = 2 thì gán $t = $row[$i] (giá) 
+                                            // $tamthoi -= $tamthoi;  //sau đó cho $t = $t - $t để lấy giá trị 0
+                                            $ngay = $weekDays[$tamthoi]; // sau đó gán $ngay = $weekDays[0] (lấy ngày đầu tiên của tuần hiện tại)
                                         }else{ //sau khi hoàn thành một vòng for thì $i lúc này đã khác 2 nên sẽ thực hiện else
-                                            $t += 1; // $t lúc này bằng 0 nên $t = 0 + 1 => $t = 1
-                                            $ngay = $weekDays[$t]; // sau đó gán $ngay = $weekDays[1] (lấy ngày thứ 2 của tuần hiện tại)
+                                            $tamthoi += 1; // $t lúc này bằng 0 nên $t = 0 + 1 => $t = 1
+                                            $ngay = $weekDays[$tamthoi]; // sau đó gán $ngay = $weekDays[1] (lấy ngày thứ 2 của tuần hiện tại)
                                         } 
         // đặt sân theo ngày
                                         $suanngaydequery = date('Y-m-d', strtotime($ngay));
