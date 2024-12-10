@@ -394,18 +394,15 @@ if($tbl===-1){
                                         }
 
                                         foreach ($trangthai as $NDTT) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
+                                            $laytrangthai = "";
                                             if($ngay==$NDTT[0]){
-
                                                 $laytrangthai = $NDTT[1];
+                                                if ($laytrangthai == "Đã duyệt") {
+                                                    break; // Thoát khỏi vòng lặp khi trạng thái là "Đã duyệt"
+                                                }
                                             }
                                         }
-                                        // print_r($laytrangthai);
-                                        // foreach ($arrmasan as $NDMS) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
-                                        //     if($ngay==$NDMS[0]){
-                                        //         // $layngay = $NDMS[0];
-                                        //         $laytrangthai = $NDMS[1];
-                                        //     }
-                                        // }
+                                        
                                         
                                         
                                         
