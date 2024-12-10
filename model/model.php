@@ -511,15 +511,17 @@
                     $makhachhang = $_SESSION["TTDS"][0][1];
                     $ngaylap = $_SESSION["TTDS"][0][2];
                     $madiadiem = $_SESSION["TTDS"][0][4];
+
+                    echo $makhachhang;
                     //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc ) 
                     
-                    if($makhachhang==""){
-                        $sql="INSERT INTO `datsan`(`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
-                                     VALUES ('$ngaylap','$trangthai','$total','$madiadiem')";
-                    }else{
+                    // if($makhachhang==""){
+                    //     $sql="INSERT INTO `datsan`(`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
+                    //                  VALUES ('$ngaylap','$trangthai','$total','$madiadiem')";
+                    // }else{
                         $sql="INSERT INTO `datsan`(`MaKhachHang`,`NgayDat`, `TrangThai`, `TongTien`, `MaDiaDiem`) 
                                      VALUES ('$makhachhang','$ngaylap','$trangthai','$total','$madiadiem')";
-                    }
+                    // }
                     if ($con->query($sql) === TRUE) {
                         // Lấy ID của bản ghi vừa chèn
                         $madatsan = mysqli_insert_id($con);
@@ -565,7 +567,32 @@
             $p = new ketnoi();
             $con = $p->moketnoi();
             if ($con) {
-                $sql = "SELECT ds.*, tk.Ten FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where MaDiaDiem = '$madiadiem'";
+                // $sql = "SELECT ds.*, tk.Ten FROM datsan ds join khachhang kh on ds.MaKhachHang = kh.MaKhachHang join taikhoan tk on kh.MaTaiKhoan = tk.MaTaiKhoan where MaDiaDiem = '$madiadiem'";
+                
+                $sql = "
+                    SELECT 
+                        ds.*, 
+                        tk.Ten 
+                    FROM 
+                        datsan ds 
+                    JOIN 
+                        khachhang kh 
+                        ON ds.MaKhachHang = kh.MaKhachHang 
+                    JOIN 
+                        taikhoan tk 
+                        ON kh.MaTaiKhoan = tk.MaTaiKhoan 
+                    WHERE 
+                        MaDiaDiem = '$madiadiem' 
+                    ORDER BY 
+                        CASE 
+                            WHEN ds.TrangThai = 'Ưu tiên' THEN 1 
+                            WHEN ds.TrangThai = 'Chờ duyệt' THEN 2 
+                            WHEN ds.TrangThai = 'Đã duyệt' THEN 3 
+                            WHEN ds.TrangThai = 'Không duyệt' THEN 4 
+                            ELSE 5 
+                        END, 
+                        ds.NgayDat ASC;
+                ";
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;

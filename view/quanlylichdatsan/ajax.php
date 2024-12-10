@@ -45,7 +45,7 @@
                     $ketqua .= '
                                     <td>' . number_format($r["TongTien"],0,".",",") . ' đ</td>
                     ';
-                    if($r["TrangThai"] == "Đã duyệt"){
+                    if($r["TrangThai"] == "Đã duyệt" || $r["TrangThai"] == "Không duyệt"){
                         $ketqua .=  '
                                     <td>
                                         <a href="?page=quanlylichdatsan&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>

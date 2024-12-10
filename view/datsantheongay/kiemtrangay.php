@@ -106,9 +106,18 @@
                     //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc  [8] => Tên sân ) 
                     if(isset($_SESSION["dangnhap"])){
                         $_SESSION["TTDS"][] = [$catsan[0],$_SESSION["dangnhap"],$ngaydat,$tongtien,$catsan[2],$_REQUEST["ngaydatsan"],$giobatdau,$gioketthuc,$catsan[1]];
-                    }else{
-                        $_SESSION["TTDS"][] = [$catsan[0],"",$ngaydat,$tongtien,$catsan[2],$_REQUEST["ngaydatsan"],$giobatdau,$gioketthuc,$catsan[1]]; 
+                    }elseif(isset($_SESSION["chusan"])){
+                        $machusan = $_SESSION["chusan"];
+                        $ptk = new ctaikhoan(); 
+                        $tblmakhachhang = $ptk->getmakhachhangcuachusan($_SESSION["chusan"]);
+                        $_SESSION["TTDS"][] = [$catsan[0],$tblmakhachhang,$ngaydat,$tongtien,$catsan[2],$_REQUEST["ngaydatsan"],$giobatdau,$gioketthuc,$catsan[1]]; 
+                    }elseif(isset($_SESSION["nhanvien"])){
+                        $manhanvien = $_SESSION["nhanvien"];
+                        $ptk = new ctaikhoan(); 
+                        $tblmakhachhang = $ptk->getmakhachhangcuanhanvien($_SESSION["nhanvien"]);
+                        $_SESSION["TTDS"][] = [$catsan[0],$tblmakhachhang,$ngaydat,$tongtien,$catsan[2],$_REQUEST["ngaydatsan"],$giobatdau,$gioketthuc,$catsan[1]];
                     }
+                    
                 }else{
                     echo "error";
                 }
@@ -180,7 +189,7 @@
                             if($r["Ngay"]==""){ // Nếu cột ngày là rỗng
                                 $tongtien += $r["Gia"]; 
                             }else{ // nếu cột ngày có giá trị
-                                $kiemtratrunggia = $pdc->getselectsanbykhunggio_san_thu($catsan[0],$chuyensangmathu,$r["KhungGio"]); //Kiểm tra trùng mã sân, thứ, khung giờ. Vì nó có 2 giá tiền khác nhau cộng vào sẽ sai giá
+                                $kiemtratrunggia = $pdc->getselectsanbykhunggio_san_thu($r["KhungGio"],$catsan[0],$chuyensangmathu); //Kiểm tra trùng mã sân, thứ, khung giờ. Vì nó có 2 giá tiền khác nhau cộng vào sẽ sai giá
                                 if($kiemtratrunggia){
                                     while($rkttg = $kiemtratrunggia->fetch_assoc()){
                                         if($rkttg["Ngay"] == ""){ // Nếu cột ngày là rỗng thì trừ giá tiền đó ra
@@ -223,8 +232,16 @@
                     //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc  [8] => Tên sân ) 
                     if(isset($_SESSION["dangnhap"])){
                         $_SESSION["TTDS"][] = [$catsan[0],$_SESSION["dangnhap"],$ngaydat,$tongtien,$catsan[2],$nt,$giobatdau,$gioketthuc,$catsan[1]];
-                    }else{
-                        $_SESSION["TTDS"][] = [$catsan[0],"",$ngaydat,$tongtien,$catsan[2],$nt,$giobatdau,$gioketthuc,$catsan[1]];
+                    }elseif(isset($_SESSION["chusan"])){
+                        $machusan = $_SESSION["chusan"];
+                        $ptk = new ctaikhoan(); 
+                        $tblmakhachhang = $ptk->getmakhachhangcuachusan($_SESSION["chusan"]);
+                        $_SESSION["TTDS"][] = [$catsan[0],$tblmakhachhang,$ngaydat,$tongtien,$catsan[2],$nt,$giobatdau,$gioketthuc,$catsan[1]];
+                    }elseif(isset($_SESSION["nhanvien"])){
+                        $manhanvien = $_SESSION["nhanvien"];
+                        $ptk = new ctaikhoan(); 
+                        $tblmakhachhang = $ptk->getmakhachhangcuanhanvien($_SESSION["nhanvien"]);
+                        $_SESSION["TTDS"][] = [$catsan[0],$tblmakhachhang,$ngaydat,$tongtien,$catsan[2],$nt,$giobatdau,$gioketthuc,$catsan[1]];
                     }
                 }
             }

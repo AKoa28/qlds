@@ -352,6 +352,7 @@ $p = new controller();
                                 }
                                 echo "</tr>";
                             }
+                            
                     header("Cache-Control: no-cache, must-revalidate"); // Khi từ trang order "click to go back" về trang lichdatsan thì dữ liệu đã chọn vẫn còn
                 ?>
             </tbody>

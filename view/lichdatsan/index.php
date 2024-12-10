@@ -395,6 +395,7 @@ if($tbl===-1){
 
                                         foreach ($trangthai as $NDTT) { // lấy ra trạng thái đã select sẵn có trong mảng $trangthai
                                             if($ngay==$NDTT[0]){
+
                                                 $laytrangthai = $NDTT[1];
                                             }
                                         }
@@ -424,9 +425,14 @@ if($tbl===-1){
                                                     break;
                                                 }
                                             }
+                                            // echo  $laytrangthai ."<br>";
+                                            // print_r($trangthai);
                                             // Lấy trạng thái của Ngày đặt 
                                             if(strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) && $timestamp2 == strtotime($ngay)){ // nếu strtotime($giohientai) > strtotime($laygiocuakhunggio[0]) và ngày hôm nay = ngày trên lịch thì thực hiện 
                                                 echo '<td> </td>'; // in ra khoảng trống
+                                            }elseif((in_array($ngay,$ngaydat) || in_array($ngay,$ngayd)) && $laytrangthai == "Đã duyệt"){
+                                                echo '<td></td>';
+                                               
                                             }elseif(in_array($ngay,$ngaydat) && $laytrangthai == "Chờ duyệt"){
                                                 if($laygia!=0){
                                                     echo '<td><input type="checkbox" name="chondatsan[]" value="'.$diachi.'_'.$catkhunggio[1].'_'.$row[1].'_'.$ngay.'_'.$laygia.'" class="checkbox-input d-none" id="'.$checkbox.'"  data-dc="'.$diachi.'" data-kg="'.$catkhunggio[1].'" data-ts="'.$row[1].'" data-ngay="'.$ngay.'" data-gia="'.$laygia.'"><label for="'.$checkbox.'" class="checkbox-label">'.number_format($laygia,0,'.',',').' đ</label></td>';
@@ -442,9 +448,6 @@ if($tbl===-1){
                                                 echo '<td><input type="checkbox" name="chondatsan[]" class="checkbox-input d-none"><label class="checkbox-label-uutien">'.number_format($row[$i],0,'.',',').' đ</label></td>';
                                                
                                             }elseif(in_array($ngay,$ngaydat) && ($laytrangthai == "Đã duyệt" || $laytrangthai == "Đã thanh toán")){
-                                                echo '<td></td>';
-                                               
-                                            }elseif((in_array($ngay,$ngaydat) || in_array($ngay,$ngayd)) && $laytrangthai == "Đã duyệt"){
                                                 echo '<td></td>';
                                                
                                             }else{

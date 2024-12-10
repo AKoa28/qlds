@@ -230,6 +230,7 @@
             </div>
             ';
         $_SESSION["total"] = $tongtien;
+        // print_r($_SESSION["TTDS"]);
     }
     
     // bấm nút xoá thì sẽ tiến hành xoá phần tử tương ứng trong mảng session["TTHD"] 
