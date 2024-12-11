@@ -83,7 +83,6 @@
   
         <?php
             include_once('view/giaodien/header.php');
-            
         ?>
     <div class="container-fluid">
             <div class="row">
@@ -146,7 +145,7 @@
                             include_once("view/giaodien/menuchusan.php");
                             echo "</div>";
                             echo "<div class='col-md-10'>";
-                            include_once("view/quanlyloaisan/index.php");
+                            include_once("view/quanlyloaisan/quanlyloaisan.php");
                             echo "</div>";
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlydoanhthu"){
                             echo '<div class="col-md-2 background" style="">';
@@ -236,6 +235,8 @@
                             include_once("view/datsantheongay/index.php");
                         } elseif(isset($_REQUEST['dangky'])) {
                             include_once ("view/dangky/index.php");
+                        } elseif(isset($_REQUEST['dangkychusan'])) {
+                            include_once ("view/dangkychusan/index.php");
                         } elseif(isset($_REQUEST['dangnhap'])) {
                             include_once ("view/dangnhap/index.php");
                         } elseif(isset($_REQUEST['chusandangnhap'])) {
@@ -280,6 +281,10 @@
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "sualoaisan"){
                             echo "<div class='col-md-10'>";
                             include_once("view/sualoaisan/sualoaisan.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xoaloaisan"){
+                            echo "<div class='col-md-10'>";
+                            include_once("view/xoaloaisan/xoaloaisan.php");
                             echo "</div>";
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themdiadiem"){
                             echo '<div class="col-md-2 background" style="">';

@@ -65,7 +65,8 @@
                         echo "<td>" .$r["MaLoai"]. "</td>";
                         echo "<td>" .$r["TenLoaiSan"]. "</td>";
                         echo "<td>
-                        <a href='?page=sualoaisan&maLoai=" .$r["MaLoai"]. "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a><br>
+                        <a href='?page=sualoaisan&maLoai=" .$r["MaLoai"]. "' class='btn btn-warning btn-sm me-2'><i class='bi bi-pencil'></i> Sửa</a>
+                        <a href='?page=xoaloaisan&maLoai=" .$r["MaLoai"]. "'' class='btn btn-danger btn-sm me-2' onclick='return confirm(\"Bạn có chắc muốn xoá không?\")'><i class='bi bi-pencil'></i>Xoá</a>
                         </td>";
                         $row_count++;
                     }

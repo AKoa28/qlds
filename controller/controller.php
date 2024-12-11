@@ -716,6 +716,64 @@
                 }
             }
          }
+
+         public function getinsertchusan($ten, $sdt, $email, $pass) {
+            // Mã hóa mật khẩu
+            $pass = md5($pass);
+            
+            // Lấy thời gian cập nhật lần cuối
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+        
+            // Khởi tạo đối tượng model chuSan
+            $p = new mchusan();
+            
+            // Gọi phương thức insertChusan từ model và truyền các tham số vào
+            $result = $p->insertChusan($ten, $sdt, $email, $pass, $capnhatlancuoi);
+        
+            // Kiểm tra kết quả trả về từ model
+            if (!$result) {
+                return false; // Nếu không thành công, trả về false
+            } else {
+                return $result; // Nếu thành công, trả về kết quả (true)
+            }
+        }
+        public function getupdatechusan($ten,$sdt,$email,$pass){
+            $pass = md5($pass);
+            $capnhatlancuoi = date("Y-m-d H:i:s");
+            $p = new mchusan();
+            $con = $p->updatetaikhoanchusan($ten,$sdt,$email,$pass, $capnhatlancuoi);
+            if(!$con){
+                return false;
+            }else{
+                return $con;
+            }
+        }    
+        public function getselectallchusan() {
+            $p = new mchusan();
+            $con = $p->xemchusan();
+            if (!$con) {
+                return -1;
+            } else {
+                if ($con->num_rows > 0) {
+                    return $con;
+                } else {
+                    return 0;
+                }
+            }
+        }    
+        public function timkiemchusan($keyword) {
+            $p = new mchusan();
+            return $p->timkiemchusan($keyword);
+        }
+        public function xoachusan($makhachhang) {
+            $p = new mchusan();
+            $con = $p->xoachusan($makhachhang);
+            if ($con) {
+                echo "<script>alert('Xóa chủ sân thành công'); window.location.href='../ptudbaocao/index.php?page=quanlychusan';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi xóa chủ sân'); window.location.href='../ptudbaocao/index.php?page=quanlychusan';</script>";
+            }
+        }
     }
     class cloaisan {
         public function getselectallloaisan() {
@@ -755,6 +813,11 @@
             $kq = $p->mUpdateLoaiSan($maLoai, $tenLoaiSan);
             return $kq;
         }
+
+        public function getXoaLoaiSan($maLoai) {
+            $p = new mloaisan();
+            return $p->XoaLoaiSan($maLoai);
+        }
         
     }
 
@@ -762,7 +825,27 @@
         // Hàm xử lý thêm địa điểm
             public function cThemDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio) {
                 $model = new mDiaDiem();
-                return $model->themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio);
+                if ($model->kiemTraTrungLap($ten, $diachi)) {
+                    return [
+                        "status" => "error",
+                        "message" => "Tên địa điểm và địa chỉ đã tồn tại trên hệ thống."
+                    ];
+                }
+        
+                // Nếu không trùng lặp, tiến hành thêm địa điểm
+                $result = $model->themDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio);
+        
+                if ($result) {
+                    return [
+                        "status" => "success",
+                        "message" => "Thêm địa điểm thành công!"
+                    ];
+                } else {
+                    return [
+                        "status" => "error",
+                        "message" => "Có lỗi xảy ra khi thêm địa điểm. Vui lòng thử lại."
+                    ];
+                }
         }
     }
 

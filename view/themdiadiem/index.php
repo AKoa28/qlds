@@ -34,14 +34,14 @@
             $controller = new cDiaDiem();
             $result = $controller->cThemDiaDiem($maChuSan, $ten, $diachi, $hinh, $mota, $loaiKhungGio);
 
-            if ($result) {
-                echo "<script>alert('Thêm địa điểm thành công!');</script>";
+            if ($result['status'] === "success") {
+                echo "<script>alert('{$result['message']}'); window.location.href = '?page=danhsach';</script>";
+                } else {
+                echo "<script>alert('{$result['message']}');</script>";
+                }
             } else {
-                echo "<script>alert('Có lỗi xảy ra khi thêm địa điểm!');</script>";
-            }
-        } else {
             echo "<script>alert('Không thể tải lên tệp.');</script>";
-        }
+            }
     }
 ?>
 

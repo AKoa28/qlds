@@ -1001,6 +1001,146 @@
                 return false;
             }
         }
+        public function insertChusan($ten, $sdt, $email, $pass, $capnhatlancuoi) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            
+            if($con) {
+                // Bước 1: Thêm vào bảng taikhoan
+                $sql = "INSERT INTO `taikhoan`(`Ten`, `SDT`, `Email`, `MatKhau`, `CapNhatLanCuoi`) 
+                        VALUES ('$ten', '$sdt', '$email', '$pass', '$capnhatlancuoi')";
+                $kq = $con->query($sql);
+                
+                if($kq) {
+                    // Bước 2: Lấy mã tài khoản vừa tạo
+                    $mataikhoan = $con->insert_id;
+                    
+                    // Bước 3: Thêm vào bảng khachhang
+                    $sql1 = "INSERT INTO `khachhang`(`MaTaiKhoan`, `TrangThai`, `XacNhan`) 
+                             VALUES ('$mataikhoan', N'Có tài khoản', N'Chưa xác nhận')";
+                    $kq1 = $con->query($sql1);
+                    
+                    if($kq1) {
+                        // Bước 4: Thêm vào bảng chusan
+                        $sql2 = "INSERT INTO `chusan`(`MaTaiKhoan`,`TrangThai`) 
+                                 VALUES ('$mataikhoan',N'Chưa duyệt')";
+                        $kq2 = $con->query($sql2);
+                        
+                        // Đóng kết nối
+                        $p->dongketnoi($con);
+                        
+                        if($kq2) {
+                            return $kq2; // Trả về true nếu tất cả các bước thành công
+                        } else {
+                            return false; // Trả về false nếu thêm vào bảng chusan thất bại
+                        }
+                    } else {
+                        return false; // Trả về false nếu thêm vào bảng khachhang thất bại
+                    }
+                } else {
+                    return false; // Trả về false nếu thêm vào bảng taikhoan thất bại
+                }
+            } else {
+                return false; // Trả về false nếu không thể kết nối CSDL
+            }
+        }
+        public function updatetaikhoanchusan($ten,$sdt,$email,$pass,$capnhatlancuoi){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="UPDATE `taikhoan` SET `Ten`='$ten',`MatKhau`='$pass',CapNhatLanCuoi='$capnhatlancuoi' WHERE SDT='$sdt' and `Email`='$email'";
+                $kq = $con->query($sql);
+                if($kq){
+                    $sql1 = "select MaTaiKhoan from taikhoan where Email='$email' and SDT='$sdt'";
+                    $kq1 = $con->query($sql1);
+                    if($kq1){
+                        if($kq1->num_rows > 0){
+                            while($r = $kq1->fetch_assoc()){
+                                $matk = $r['MaTaiKhoan'];
+                            }
+                            $sql2="UPDATE `khachhang` SET `TrangThai`= N'Có tài khoản',`XacNhan`='Chưa xác nhận' WHERE `MaTaiKhoan` = '$matk'";
+                            $kq2 = $con->query($sql2);
+                            if($kq2){
+                                $sql3="SELECT cs.* FROM `chusan` cs join taikhoan ts on cs.MaTaiKhoan = ts.MaTaiKhoan join khachhang kh on kh.MaTaiKhoan = ts.MaTaiKhoan where kh.MaTaiKhoan = '$matk'";
+                                $kq3 = $con->query($sql3);
+                                if($kq3){
+                                    while($r = $kq3->fetch_assoc()){
+                                        $trangthai = $r["TrangThai"];
+                                        $machusan = $r["MaChuSan"];
+                                        if($trangthai=="Chờ duyệt"){
+                                            $sql4="UPDATE `chusan` SET `TrangThai`='Đã duyệt' WHERE MaChuSan = '$machusan'";
+                                            $kq4 = $con->query($sql4);
+                                        }
+                                    }
+                                    $p->dongketnoi($con);
+                                    if($kq4){
+                                        return $kq4;
+                                    }else{
+                                        return false;
+                                    }
+                                }else{
+                                    return false;
+                                }
+                            }else{
+                                return false;
+                            }
+                            
+                        }else{
+                            return false;
+                        }
+                    }
+                }else{
+                    return false;
+                }
+                // $p->dongketnoi($con);
+                // return $kq;
+            }else{
+                return false;
+            }
+        }
+
+        public function xemchusan() {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM khachhang kh JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan join chusan cs on tk.MaTaiKhoan = cs.MaTaiKhoan";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function timkiemchusan($keyword) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if ($con) {
+                $sql = "SELECT * FROM khachhang kh 
+                        JOIN taikhoan tk ON kh.MaTaiKhoan = tk.MaTaiKhoan 
+                        WHERE tk.Ten LIKE '%$keyword%' 
+                        OR tk.SDT LIKE '%$keyword%' 
+                        OR tk.Email LIKE '%$keyword%'";
+                $result = $con->query($sql);
+                $p->dongketnoi($con);
+                return $result;
+            } else {
+                return false;
+            }
+        }
+        public function xoachusan($makhachhang) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            
+            if ($con) {
+                $sql = "DELETE FROM chusan WHERE MaChuSan = $makhachhang";
+                $con->query($sql);
+                $p->dongketnoi($con);
+                
+                return $con;
+            } else {
+                return false;
+            }
+        }
     }
 
     class msan_gia_thu_khunggio{
@@ -1267,6 +1407,15 @@
             $p->dongKetNoi($con);
             return $kq;
         }
+
+        public function XoaLoaiSan($maLoai){
+            $p=new ketnoi();
+            $query="DELETE FROM `loaisan` WHERE MaLoai ='$maLoai'";
+            $con=$p->MoKetNoi();
+            $kq=mysqli_query($con,$query);
+            $p->dongKetNoi($con);
+            return $kq;
+        }
         
     }
 
@@ -1288,6 +1437,29 @@
             } else {
                 return false; // Nếu kết nối cơ sở dữ liệu thất bại
             }
+        }
+        //Kiểm tra trùng lặp
+        public function kiemTraTrungLap($ten, $diachi) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+    
+            if ($con) {
+                $query = "SELECT COUNT(*) AS count FROM diadiem WHERE TenDiaDiem = ? AND DiaChi = ?";
+                $stmt = $con->prepare($query);
+                if ($stmt) {
+                    $stmt->bind_param("ss", $ten, $diachi);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $row = $result->fetch_assoc();
+                    $stmt->close();
+                    $p->dongketnoi($con);
+    
+                    return $row['count'] > 0; // Trả về true nếu đã tồn tại
+                }
+                $p->dongketnoi($con);
+            }
+    
+            return false; // Nếu có lỗi
         }
     }
 ?>
