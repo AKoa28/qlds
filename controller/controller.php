@@ -873,6 +873,20 @@
             }
         }
 
+        public function getupdatesan($tensan, $maloaisan, $filehinh,$hinhhientai, $masanurl){
+            if($filehinh["tmp_name"]!=""){
+                $p = new clskiemtraupload();
+                $kq = $p->uploadhinh($filehinh, $tensan, $hinhhientai);
+                if(!$kq){
+                    return false;
+                }
+            }
+            $p = new msan();
+            $kq = $p->updatesan($tensan, $maloaisan, $hinhhientai, $masanurl);
+            return $kq;
+            
+        }
+
         public function getAnSan($masm,$madiadiem){
             $p = new msan();
             $con = $p->AnSan($masm,$madiadiem);

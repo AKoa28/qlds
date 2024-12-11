@@ -287,6 +287,8 @@
             $con = $p->moketnoi();
             if($con){
                 $sql="SELECT * FROM `taikhoan` tk LEFT OUTER JOIN nhanvien nv on tk.MaTaiKhoan = nv.MaTaiKhoan LEFT OUTER JOIN chusan cs on cs.MaTaiKhoan = tk.MaTaiKhoan WHERE SDT = '$sdt' and MatKhau = '$pass'";
+               
+
                 $kq = $con->query($sql);
                 $p->dongketnoi($con);
                 return $kq;
@@ -1166,6 +1168,21 @@
                     return false;
                 }
                 
+            }
+        }
+
+        public function updatesan($tensan, $maloaisan, $filehinh, $masanurl){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            $sql = "UPDATE `san` 
+            SET `TenSan`='$tensan',`MaLoaiSan`='$maloaisan',`Hinh`='$filehinh' 
+            WHERE `MaSan`='$masanurl'";
+            $kq = $con->query($sql);
+            $p->dongketnoi($con);
+            if($kq){
+                return $kq;
+            }else{
+                return false;
             }
         }
         public function AnSan($masm,$madiadiem) {

@@ -77,7 +77,7 @@
                 if($kiemtratrung===0){
                     $tblthemsan = $ps->getinsertsan($tensan, $maloaisan, $filehinh, $khunggio, $madiadiem);
                     if(!$tblthemsan){
-                        echo '<script>alert("Lỗi hình!")</script>';
+                        echo '<script>alert("Lỗi!")</script>';
                     }elseif($tblthemsan===0){
                         echo '<script>alert("Lỗi hình!")</script>';
                     }else{

@@ -20,7 +20,7 @@
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
                                                 if($r["HienThi"]==1){
-                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
+                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
                                                     $checkbox++;
                                                     $dem++;  
                                                     if($dem%4==0){
@@ -50,7 +50,7 @@
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
                                                 if($r["HienThi"]==1){
-                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'" data-madiadiem="'.$madiadiem.'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'</label></td>';
+                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'" data-madiadiem="'.$madiadiem.'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
                                                     $checkbox++;
                                                     $dem++;  
                                                     if($dem%4==0){

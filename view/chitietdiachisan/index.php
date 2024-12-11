@@ -47,6 +47,31 @@
         <div class="col-md-5">
             <a href="?page=lichdatsan&masan=<?=$masan?>"><button class="btn btn-success">Đặt Lịch</button></a>
             <a href="?page=datsantheongay&masan=<?=$masan?>"><button class="btn btn-success">Đặt lịch ngày</button></a>
+            <h4 class="mt-5">Các sân đang có</h4>
+            <table width="50%" >
+                <thead>
+                    <tr>
+                        <th>Tên sân</th>
+                        <th>Loại sân</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $dsdatsan = $p -> getselectallsan($masan);
+                        while($r = $dsdatsan->fetch_assoc()){
+                            if($r["HienThi"]==1){
+                                echo '  <tr>
+                                            <td>'.$r["TenSan"].'</td>
+                                            <td>'.$r["TenLoaiSan"].'</td>
+                                        </tr>
+                                ';
+                                
+                            }
+                            
+                        }
+                    ?>
+                </tbody>
+            </table>
         </div>
        </div>      
     </div>

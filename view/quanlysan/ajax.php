@@ -18,7 +18,7 @@
                                     <th>Mã Sân</th>
                                     <th>Tên Sân</th>
                                     <th>Loại sân</th>
-                                    <th>Thao tác</th>
+                                    <th colspan="2">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -31,7 +31,8 @@
                                     <td>' . $r["TenSan"] . '</td>
                                     <td>' . $r["TenLoaiSan"] . '</td>
                                     <td><a type="button" class="btn btn-primary" href="?page=xemchitietsan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Xem chi tiết</a>
-                                        <a type="button" class="btn btn-danger" href="?page=xoasan&madd='.$madiadiem.'&mas='.$r["MaSan"].'" onclick="return confirm(\'Bạn có chắc chắn muốn Xoá?\')">Xoá sân</a></td>
+                                        <a type="button" class="btn btn-warning" href="?page=suathongtinsan&madd='.$madiadiem.'&mas='.$r["MaSan"].'">Sửa thông tin</a></td>
+                                    <td><a type="button" class="btn btn-danger" href="?page=xoasan&madd='.$madiadiem.'&mas='.$r["MaSan"].'" onclick="return confirm(\'Bạn có chắc chắn muốn Xoá?\')">Xoá sân</a></td>
                         ';
                     }
                 }
