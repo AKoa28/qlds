@@ -32,7 +32,93 @@
                   <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
                 </li>
               ';
-            }elseif(isset($_REQUEST["dangnhap"]) || isset($_REQUEST["dangky"])){
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlykhachhang"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlynhanvien"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlysan"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlyloaisan"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlylichdatsan"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlydoanhthu"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="themdiadiem"){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+              ';
+            }
+            
+            elseif(isset($_REQUEST["dangnhap"]) || isset($_REQUEST["dangky"])){
               echo '
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>

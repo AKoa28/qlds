@@ -22,8 +22,6 @@
                                     <option value="0" selected>Chọn loại thời gian</option>
                                     <option value="1">Báo cáo theo ngày</option>
                                     <option value="2">Báo cáo theo tháng</option>
-                                    <option value="3">Báo cáo theo quý</option>
-                                    <option value="1">Báo cáo theo năm</option>
                                 </select> 
                             </td>
                         </tr>
@@ -67,21 +65,6 @@
                             </tr>
                         </tbody>
                     </table>';
-            }elseif($_REQUEST["giatri"] == 3){
-                echo '<table class="table align-middle">
-                        <tbody>
-                            <tr align="center">
-                                <td class="col-md-12">
-                                    <button type="button" value="1" class="btn btn-outline-success">Quý 1</button>
-                                    <button type="button" value="2" class="btn btn-outline-success">Quý 2</button>
-                                    <button type="button" value="3" class="btn btn-outline-success">Quý 3</button>
-                                    <button type="button" value="4" class="btn btn-outline-success">Quý 4</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>';
-            }elseif($_REQUEST["giatri"] == 4){
-                
             }
         }elseif($_REQUEST["tencbx"]=="ngay"){
             $ngayxemdt = $_REQUEST["giatri"];

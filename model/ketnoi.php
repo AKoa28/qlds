@@ -1,7 +1,7 @@
 <?php
     class ketnoi{
         public function moketnoi(){
-            $con = mysqli_connect("localhost","root","","qlds");
+            $con = mysqli_connect("localhost","root","","qldstest");
             $con->set_charset("utf8");
             return $con;
         }

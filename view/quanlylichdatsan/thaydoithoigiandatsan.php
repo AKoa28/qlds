@@ -561,9 +561,16 @@ $(document).ready(function () {
                 echo "<script>alert('Bạn chọn trùng thông tin với chi tiết đơn đặt khác')</script>";
             }else{
                 $_SESSION["chonthaydoi"] = $_REQUEST["chondatsan"];
-                header('Location: ?page=quanlylichdatsan&cate=guixacnhanthongtinthaydoi&mactds='.$mactds.'&makh='.$makh.'&mads='.$madds.'');
-                ob_end_flush();
-                exit();
+                if(isset($_SESSION["nhanvien"])){
+                    header('Location: ?page=quanlylichdatsannhanvien&cate=guixacnhanthongtinthaydoinhanvien&mactds='.$mactds.'&makh='.$makh.'&mads='.$madds.'');
+                    ob_end_flush();
+                    exit();
+                }else{
+                    header('Location: ?page=quanlylichdatsan&cate=guixacnhanthongtinthaydoi&mactds='.$mactds.'&makh='.$makh.'&mads='.$madds.'');
+                    ob_end_flush();
+                    exit();
+                }
+                
             }
             
         }

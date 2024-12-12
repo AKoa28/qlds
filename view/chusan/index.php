@@ -1,4 +1,4 @@
-<div class="section_phu"><form method="post">
+<div class="">
     <?php
         if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
             header("Location: ?chusandangnhap");
@@ -16,4 +16,6 @@
             }
         }
     ?>
-</form></div>
+    
+</div>
+<img src="image/owner.png" alt="" width="100%">

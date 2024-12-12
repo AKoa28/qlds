@@ -24,13 +24,52 @@
     }
 </style>
 <div class="menu_phu text-center text-md-start">
-        <!-- <h4 class="p-3">Menu_phu Quản Lý</h4> -->
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?page=quanlysan">Quản lý sân</a>
-            </li>
+        <?php
+    if(isset($_SESSION["nhanvien"])){
+        if(isset($_REQUEST["page"]) && $_REQUEST["page"]=="danhsachkhachhang" ){
+            echo '<li class="nav-item">
+                    <a class="nav-link active-a" href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
+                </li>';
+        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlylichdatsannhanvien" ){
+            echo '<li class="nav-item">
+                    <a class="nav-link " href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active-a" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="?page=quanlydoanhthu">Xem doanh thu</a>
+                </li>';
+        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlydoanhthu" ){
+            echo '<li class="nav-item">
+                    <a class="nav-link " href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active-a" href="?page=quanlydoanhthu">Xem doanh thu</a>
+                </li>';
+        }else{
+            echo '<li class="nav-item">
+                    <a class="nav-link" href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
+                </li>';
+        }
+    }
+?>
         </ul>
 </div>
+

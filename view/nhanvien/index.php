@@ -17,4 +17,5 @@
         }
     ?>
 </form>
-</div>
+
+</div><img src="image/employee.png" alt="" width="100%">

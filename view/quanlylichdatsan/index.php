@@ -111,7 +111,7 @@
 
     }
 
-    if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="chitietdatsan"){
+    if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="chitietdatsan" ){
         $pds = new cdatsan();
         $madatsan = $_REQUEST["mads"];
         $tblctds = $pds -> getchitietdatsan($madatsan);
@@ -147,7 +147,12 @@
                             echo "<td></td></tr>";
                         }else{
                             $chinhformatngay = date("d-m-Y", strtotime($r["NgayDatSan"]));
-                            echo '<td><a href="?page=quanlylichdatsan&cate=thaydoithoigiands&mactds='.$r["MaChiTiet"].'&makh='.$r["MaKhachHang"].'&mads='.$madatsan.'&date='.$chinhformatngay.'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Lưu ý: Để đổi thông tin khách đã đặt, bạn phải nhập mã xác nhận được gửi về mail khách hàng. Nhấn OK để tiếp tục\')">Thay đổi</button></a></td></tr>';
+                            if(isset($_SESSION["nhanvien"])){
+                                echo '<td><a href="?page=quanlylichdatsannhanvien&cate=thaydoithoigiandsnhanvien&mactds='.$r["MaChiTiet"].'&makh='.$r["MaKhachHang"].'&mads='.$madatsan.'&date='.$chinhformatngay.'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Lưu ý: Để đổi thông tin khách đã đặt, bạn phải nhập mã xác nhận được gửi về mail khách hàng. Nhấn OK để tiếp tục\')">Thay đổi</button></a></td></tr>';
+                            }else{
+                                echo '<td><a href="?page=quanlylichdatsan&cate=thaydoithoigiands&mactds='.$r["MaChiTiet"].'&makh='.$r["MaKhachHang"].'&mads='.$madatsan.'&date='.$chinhformatngay.'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Lưu ý: Để đổi thông tin khách đã đặt, bạn phải nhập mã xác nhận được gửi về mail khách hàng. Nhấn OK để tiếp tục\')">Thay đổi</button></a></td></tr>';
+                            }
+                            
                         }
                         
                 $dem++;

@@ -178,6 +178,30 @@
                                 echo "</div>";
                             }
                             
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlylichdatsannhanvien"){
+                            if(isset($_REQUEST["cate"]) && $_REQUEST["cate"] == "thaydoithoigiandsnhanvien" ){
+                                echo '<div class="col-md-2 background" style="">';
+                                include_once("view/giaodien/menunhanvien.php");
+                                echo "</div>";
+                                echo "<div class='col-md-10'>";
+                                include_once("view/quanlylichdatsan/thaydoithoigiandatsan.php");
+                                echo "</div>";
+                            }elseif(isset($_REQUEST["cate"]) && $_REQUEST["cate"] == "guixacnhanthongtinthaydoinhanvien" ){
+                                echo '<div class="col-md-2 background" style="">';
+                                include_once("view/giaodien/menunhanvien.php");
+                                echo "</div>";
+                                echo "<div class='col-md-10'>";
+                                include_once("view/quanlylichdatsan/guixacnhanthongtinthaydoi.php");
+                                echo "</div>";
+                            }else{
+                                echo '<div class="col-md-2 background" style="">';
+                                include_once("view/giaodien/menunhanvien.php");
+                                echo "</div>";
+                                echo "<div class='col-md-10'>";
+                                include_once("view/quanlylichdatsan/index.php");
+                                echo "</div>";
+                            }
+                            
                         } elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themdiadiem"){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
@@ -285,13 +309,6 @@
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xoaloaisan"){
                             echo "<div class='col-md-10'>";
                             include_once("view/xoaloaisan/xoaloaisan.php");
-                            echo "</div>";
-                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "themdiadiem"){
-                            echo '<div class="col-md-2 background" style="">';
-                            include_once("view/giaodien/menuchusan.php");
-                            echo "</div>";
-                            echo "<div class='col-md-10'>";
-                            include_once("view/themdiadiem/index.php");
                             echo "</div>";
                         } else {
                             if(isset($_GET["page"])){

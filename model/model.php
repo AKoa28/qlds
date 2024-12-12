@@ -1476,6 +1476,23 @@
             }
         }
 
+        public function kiemtragiasancobang0($mas) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){   
+                $sql = "SELECT * FROM `san_gia_thu_khunggio` WHERE MaSan = '$mas'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                if($kq){
+                    return $kq;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+
     }
 
     class msan{

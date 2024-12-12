@@ -1,4 +1,7 @@
 
+<div id="khongchobam">
+
+</div>
 <?php
 
     $madiadiem = $_REQUEST["masan"];
@@ -402,34 +405,49 @@
     }elseif(isset($_REQUEST["subdstn"])){
         //Array ( [0] => Mã sân [1] => Mã khách hàng [2] => Ngày lập hoá đơn [3] => Tổng tiền [4] => Mã địa điểm [5] => Ngày thuê  [6] => Giờ bắt đầu [7] => Giờ kết thúc  [8] => Tên sân ) 
         $themdatsan = new cdatsan();
-        $total = $_SESSION["total"] ;
-        $ngaydat = date("Y-m-d H:i:s");
-        $tblthemdatsan = $themdatsan->getinsertdatsantheongay($total);
-        //Array ( 
-        //[0] => Array ( [0] => 1 [1] => [2] => 2024-11-25 18:10:33 [3] => 2400000 [4] => 1 [5] => 2024-11-26 [6] => 7:00 [7] => 22:30 [8] => Sân số 1 ) 
-        //[1] => Array ( [0] => 2 [1] => [2] => 2024-11-25 18:10:33 [3] => 900015 [4] => 1 [5] => 2024-11-26 [6] => 7:00 [7] => 22:30 [8] => Sân số 2 ) )
-        if($tblthemdatsan){
-            $mail = new sendmail();
-            if(isset($_SESSION["emailnhanvien"])){
-                $mail -> guithongtindatsantheongay($_SESSION["emailnhanvien"],$_SESSION["ten"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
-            }elseif(isset($_SESSION["emailchusan"])){
-                $mail -> guithongtindatsantheongay($_SESSION["emailchusan"],$_SESSION["ten"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
+        if($_SESSION["total"]!=0){
+            $total = $_SESSION["total"] ;
+            $ngaydat = date("Y-m-d H:i:s");
+            $tblthemdatsan = $themdatsan->getinsertdatsantheongay($total);
+            //Array ( 
+            //[0] => Array ( [0] => 1 [1] => [2] => 2024-11-25 18:10:33 [3] => 2400000 [4] => 1 [5] => 2024-11-26 [6] => 7:00 [7] => 22:30 [8] => Sân số 1 ) 
+            //[1] => Array ( [0] => 2 [1] => [2] => 2024-11-25 18:10:33 [3] => 900015 [4] => 1 [5] => 2024-11-26 [6] => 7:00 [7] => 22:30 [8] => Sân số 2 ) )
+            if($tblthemdatsan){
+                $mail = new sendmail();
+                if(isset($_SESSION["emailnhanvien"])){
+                    $mail -> guithongtindatsantheongay($_SESSION["emailnhanvien"],$_SESSION["ten"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
+                }elseif(isset($_SESSION["emailchusan"])){
+                    $mail -> guithongtindatsantheongay($_SESSION["emailchusan"],$_SESSION["ten"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
+                }else{
+                    $mail -> guithongtindatsantheongay($_SESSION["emailkhachhang"],$_SESSION["tenkhachhang"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
+                }
+                unset($_SESSION["TTDS"]);
+                unset($_SESSION["total"]);
+                echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
+                header("refresh:0 url ='?page=lichdatsan&masan=$madiadiem'");
+                ob_end_flush();
+                exit();
             }else{
-                $mail -> guithongtindatsantheongay($_SESSION["emailkhachhang"],$_SESSION["tenkhachhang"], $_SESSION["TTDS"], $ngaydat, $tendiadiem, $diachidd);
+                echo "<script>alert('thất bại');</script>";
             }
-            unset($_SESSION["TTDS"]);
-            unset($_SESSION["total"]);
-            echo "<script>alert('Yêu cầu đặt sân thành công, Chờ xét duyệt.');</script>";
-            header("refresh:0 url ='?page=lichdatsan&masan=$madiadiem'");
-            ob_end_flush();
-            exit();
         }else{
-            echo "<script>alert('thất bại');</script>";
+            echo "<script>alert('Yêu cầu đặt sân thất bại, Sân này chưa được mở.');</script>";
+            header("refresh:0 url ='?page=chitietdiachisan&masan=$madiadiem'");
         }
+        
     }
 ?>
                
 <script>
+    function hienthi() {
+            // Hiển thị lớp phủ để chặn tương tác
+        document.getElementById("khongchobam").style.display = "block";
+    }
+
+    function andi() {
+        // Ẩn lớp phủ để kích hoạt lại trang
+        document.getElementById("khongchobam").style.display = "none";
+    }
     function ktSDT() {
         let sdt = $('#sdt').val();
         let btcq = /^(03|09|08|07|05)[0-9]\d{7}$/;
@@ -467,5 +485,7 @@
         }
 
     });
-    
+    $('form').on('submit', function(){
+        hienthi();
+    });
 </script>

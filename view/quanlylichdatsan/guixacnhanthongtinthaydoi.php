@@ -1,5 +1,5 @@
 <?php
-    if(!isset($_SESSION["chusan"]) && !isset($_REQUEST["nhanvien"])){
+    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
         header("Location: ?page=home");
     }else{
         if(!empty($_SESSION["chonthaydoi"]) && !empty($_SESSION["arrtt"])){ //$_SESSION["arrtt"] = [$mads,$tensan,$nd,$khunggio,$dongia,$tendiadiem,$mdd,$ms1];
@@ -115,7 +115,12 @@
                     $updateChitietdatsan = $p->getupdateChitietdatsan($madds);
                     if($updateChitietdatsan){
                         echo "<script>alert('Cập nhật thành công')</script>";
-                        header("refresh:0; url='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."&date=".$catchuoi[3]."'");
+                        if(isset($_SESSION["nhanvien"])){
+                            header("refresh:0; url='?page=quanlylichdatsannhanvien&cate=thaydoithoigiandsnhanvien&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."&date=".$catchuoi[3]."'");
+                        }else{
+                            header("refresh:0; url='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."&date=".$catchuoi[3]."'");
+                        }
+                        
                     }else{
                         echo "<script>alert('Cập nhật thất bại')</script>";
                     }
@@ -124,7 +129,12 @@
                     unset($_SESSION["maxacnhan"]);
                     unset($_SESSION["giotao"]);
                     echo "<script>alert('Mã xác nhận sai')</script>";
-                    header("refresh:0; url='?page=quanlylichdatsan&cate=guixacnhanthongtinthaydoi&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."'");
+                    if(isset($_SESSION["nhanvien"])){
+                        header("refresh:0; url='?page=quanlylichdatsannhanvien&cate=guixacnhanthongtinthaydoinhanvien&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."'");
+
+                    }else{
+                        header("refresh:0; url='?page=quanlylichdatsan&cate=guixacnhanthongtinthaydoi&mactds=".$_REQUEST["mactds"]."&makh=".$_REQUEST["makh"]."&mads=".$_REQUEST["mads"]."'");
+                    }
                 }
             }else{ // nếu giờ hiện tại lớn hơn giờ tạo + 1 phút thì thông báo;
                 unset($_SESSION["maxacnhan"]);

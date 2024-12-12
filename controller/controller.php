@@ -1061,6 +1061,24 @@
                 
             }
         }
+        public function getkiemtragiasancobang0($mas){
+            $p = new msan_gia_thu_khunggio();
+            $con = $p->kiemtragiasancobang0($mas);
+            if(!$con){
+                return false;
+            }else{
+                $TongTien = 0;
+                if($con->num_rows>0){
+                    while($r = $con->fetch_assoc()){
+                        $TongTien += $r["Gia"];
+                    }
+                    return $TongTien;
+                }else{
+                    return 0;
+                }
+                
+            }
+        }
     }
 
     class csan{

@@ -7,6 +7,7 @@
     require_once("../../mail/sendmail.php");
     if(isset($_REQUEST["giatri"])){
         $p = new controller();
+        $sgkt = new csan_gia_thu_khunggio();
         $madiadiem = $_REQUEST["madiadiem"];
         $dsdatsan = $p -> getselectallsan($madiadiem);
         if($_REQUEST["giatri"] == 1){
@@ -19,16 +20,18 @@
                                             $checkbox = 0;
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
-                                                if($r["HienThi"]==1){
-                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
-                                                    $checkbox++;
-                                                    $dem++;  
-                                                    if($dem%4==0){
-                                                        echo '</tr><tr>';
-                                                        $dem = 0;
+                                                $kiemtragiasancobang0 = $sgkt->getkiemtragiasancobang0($r["MaSan"]);
+                                                if($kiemtragiasancobang0!=0){
+                                                    if($r["HienThi"]==1){
+                                                        echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
+                                                        $checkbox++;
+                                                        $dem++;  
+                                                        if($dem%4==0){
+                                                            echo '</tr><tr>';
+                                                            $dem = 0;
+                                                        }
                                                     }
-                                                }
-                                                  
+                                                } 
                                             }
             echo '                            
                                     </tr>
@@ -49,14 +52,17 @@
                                             $checkbox = 0;
                                             $dem = 0;
                                             while($r = $dsdatsan->fetch_assoc()){
-                                                if($r["HienThi"]==1){
-                                                    echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'" data-madiadiem="'.$madiadiem.'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
-                                                    $checkbox++;
-                                                    $dem++;  
-                                                    if($dem%4==0){
-                                                        echo '</tr><tr>';
-                                                        $dem = 0;
-                                                    }  
+                                                $kiemtragiasancobang0 = $sgkt->getkiemtragiasancobang0($r["MaSan"]);
+                                                if($kiemtragiasancobang0!=0){
+                                                    if($r["HienThi"]==1){
+                                                        echo '<td><input type="checkbox" name="chonsan[]" value="'.$r["MaSan"].'_'.$r["TenSan"].'_'.$madiadiem.'" class="checkbox-input d-none" id="'.$checkbox.'" data-masan="'.$r["MaSan"].'" data-tensan="'.$r["TenSan"].'" data-madiadiem="'.$madiadiem.'"><label for="'.$checkbox.'" class="checkbox-label">'.$r["TenSan"].'-('.$r["TenLoaiSan"].')</label></td>';
+                                                        $checkbox++;
+                                                        $dem++;  
+                                                        if($dem%4==0){
+                                                            echo '</tr><tr>';
+                                                            $dem = 0;
+                                                        }  
+                                                    }
                                                 }
                                             }
             echo '

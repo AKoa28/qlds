@@ -52,14 +52,26 @@
                                     </td></tr>
                         ';
                     }else{
-                        $ketqua .=  '
+                        if(isset($_SESSION["nhanvien"])){
+                            $ketqua .=  '
                                     <td>
-                                        <a href="?page=quanlylichdatsan&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>
+                                        <a href="?page=quanlylichdatsannhanvien&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>
                                         <a href="?page=quanlylichdatsan&cate=pheduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Bạn có đồng ý phê duyệt không? \')">Phê duyệt</button></a> 
                                 <a href="?page=quanlylichdatsan&cate=khongduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-warning" name="koduyetds" onclick="return confirm(\'Bạn có chắc không phê duyệt? \')">Không duyệt</button></a> 
                                         
                                     </td></tr>
                         ';
+                        }elseif(isset($_SESSION["chusan"])){
+                                $ketqua .=  '
+                                        <td>
+                                            <a href="?page=quanlylichdatsan&cate=chitietdatsan&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-primary" >Chi tiết</button></a>
+                                            <a href="?page=quanlylichdatsan&cate=pheduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-success" name="pheduyetds" onclick="return confirm(\'Bạn có đồng ý phê duyệt không? \')">Phê duyệt</button></a> 
+                                    <a href="?page=quanlylichdatsan&cate=khongduyet&mads='.$r["MaDatSan"].'"><button type="button" class="btn btn-warning" name="koduyetds" onclick="return confirm(\'Bạn có chắc không phê duyệt? \')">Không duyệt</button></a> 
+                                            
+                                        </td></tr>
+                            ';
+                        }
+                        
                     }
                 }
                 $ketqua .= '

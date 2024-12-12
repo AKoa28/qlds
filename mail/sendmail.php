@@ -230,7 +230,7 @@ class sendmail{
                     <td>' . $giobatdau . '</td>
                     <td>' . $gioketthuc . '</td>
                     <td>' . $tensan . '</td>
-                    <td>' . $ngaydat . '</td>
+                    <td>' . $ngaythue . '</td>
                     <td class="gia">' . number_format($gia, 0, ".", ",") . ' đ</td><tr>';
                 $tongtien += $gia;
             }
