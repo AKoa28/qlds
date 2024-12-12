@@ -97,7 +97,6 @@
                                 <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
                                     <input type='hidden' name='action' value='deleteCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>
-                                    <button type='submit' class='btn btn-danger btn-sm me-2'><i class='bi bi-trash'></i> Xóa</button><br>
                                 </form>";
                         echo "  <form method='POST' action='' style='display:inline;' onsubmit='return confirmVerifyCustomer()'>
                                     <input type='hidden' name='action' value='verifyCustomer'>

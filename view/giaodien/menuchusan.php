@@ -51,7 +51,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
-                        </li>';
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>';
                 }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlynhanvien" ){
                     echo '<li class="nav-item">
                             <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>
@@ -70,7 +73,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
-                        </li>';
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>';
                 }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlysan" ){
                     echo '<li class="nav-item">
                             <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>
@@ -89,7 +95,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
-                        </li>';
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>';
                 }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlyloaisan" ){
                     echo '<li class="nav-item">
                             <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>
@@ -108,7 +117,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
-                        </li>';
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>';
                 }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlylichdatsan" ){
                     echo '<li class="nav-item">
                             <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>
@@ -127,7 +139,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
-                        </li>';
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>';
                 }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlydoanhthu" ){
                     echo '  <li class="nav-item">
                                 <a class="nav-link" href="index.php?page=quanlykhachhang">Quản lý khách hàng</a>
@@ -146,11 +161,14 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active-a" href="?page=quanlydoanhthu">Xem doanh thu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
                             </li>';
                 }elseif(isset($_SESSION["chusan"])){
                     echo '
                             <li class="nav-item">
-                                <a class="nav-link d-flex justify-content-between align-items-center" href="index.php?page=quanlykhachhang">Quản lý khách hàng <span class="badge bg-primary rounded-pill">14</span></a>
+                                <a class="nav-link d-flex justify-content-between align-items-center" href="index.php?page=quanlykhachhang">Quản lý khách hàng </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="index.php?page=quanlynhanvien">Quản lý nhân viên</a>
@@ -219,6 +237,9 @@
                                 <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
                                 <span class="badge bg-primary rounded-pill">14</span>
                             </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" href="?page=themdiadiem">Thêm địa điểm</a>
+                            </li>
                     ';
                 }
             ?>
@@ -243,4 +264,6 @@
             <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
         </li>
     </ul>
-</nav> -->
+</nav> 
+<span class="badge bg-primary rounded-pill">14</span>
+-->

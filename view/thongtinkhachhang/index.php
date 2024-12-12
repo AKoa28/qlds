@@ -50,6 +50,9 @@
         }else{
             echo "Không có kết quả";
         }
+
+        
+
     }
 ?>
 <div class="container">
@@ -58,6 +61,21 @@
             <div class="menu_phu">
                 <ul class="nav flex-column">
                     <?php
+                    $p = new ctaikhoan();
+                    $kiemtracophainhanvienkhong = $p->getkiemtracophainhanvienkhong($makhachhang);
+                    if($kiemtracophainhanvienkhong){
+                        if(isset($_REQUEST["lichdadatsan"])){
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link active-a">Lịch đã đặt</a></li>
+                            ';
+                        }else{
+                            echo '
+                                <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link active-a">Thông tin tài khoản</a> </li>
+                                <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
+                            ';
+                        }
+                    }else{
                         if(isset($_REQUEST["lichdadatsan"])){
                             echo '
                                 <li class="nav-item"><a href="?thongtinkhachhang" class="nav-link">Thông tin tài khoản</a> </li>
@@ -77,6 +95,7 @@
                                 <li class="nav-item"><a href="?lichdadatsan" class="nav-link">Lịch đã đặt</a></li>
                             ';
                         }
+                    }
                     ?>
                     
                 </ul>
@@ -250,7 +269,7 @@
                                         ';
                                     }else{
                                         echo '
-                                                <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
+                                                <td class="col-1"><a href="?lichdadatsan&cate=huylichdatsan&mact='.$r['MaChiTiet'].'"<button class="btn btn-danger" name="huylichdatsan" id="huylichdatsan" onclick="return confirm(\'Bạn có chắc muốn hủy?\')">Hủy đặt</button></td>
                                             </tr>
                                         ';
                                     }
@@ -281,7 +300,7 @@
                                         ';
                                     }else{
                                         echo '
-                                                <td class="col-1"><button class="btn btn-danger">Huỷ đặt</button></td>
+                                                <td class="col-1"><a href="?lichdadatsan&cate=huylichdatsan&mact='.$r['MaChiTiet'].'"<button class="btn btn-danger" name="huylichdatsan" id="huylichdatsan" onclick="return confirm(\'Bạn có chắc muốn hủy?\')">Hủy đặt</button></td>
                                             </tr>
                                         ';
                                     }
@@ -341,7 +360,12 @@
                 }else{
                     echo 'Không có dữ liệu';
                 }
-                
+                if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="huylichdatsan"){
+
+                        $machitiet = $_REQUEST['mact'];
+                        $pttds->huylichdatsan($machitiet);
+                    header("refresh:0; Location: ?lichdadatsan");
+                }
             }elseif(isset($_REQUEST["doimatkhaukhachhang"])){
                 echo '
                         <div class="col-md-10 section_phu">
@@ -644,7 +668,7 @@
                         </div>        ';
             }else{
                 echo '
-                        <div class="col-md-10 section_phu">
+                        <div class="col-md-10 section_phu ">
                             <div class="row justify-content-center mt-5">
                                 <h3 class="text-center">Thông tin của bạn</h3>
                                 <div class="col-md-5">
@@ -661,11 +685,23 @@
                                             <td>Số điện thoại:</td>
                                             <td>'.$sdt.'</td>
                                         </tr>
-                                    </table>
-                                    <a class="btn btn-info mt-3 mb-5" href="?thaydoithongtin" >Sửa thông tin</a>
+                                    </table>';
+                if($kiemtracophainhanvienkhong){
+                    echo'               <a class="btn btn-info mt-3 mb-5" disabled>Sửa thông tin</a>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <p style="color:red"><b>Bạn đang là nhân viên của một địa điểm cho thuê sân. Vì lý do bảo mật thông tin của bạn phải do chủ sân thay đổi</b></p>
+                                </div>
+                            </div>
+                        </div> ';
+                }else{
+                    echo'               <a class="btn btn-info mt-3 mb-5" href="?thaydoithongtin" >Sửa thông tin</a>
                                 </div>
                             </div>
                         </div>
+                    ';
+                }
+                echo'               
                 ';
             }
         ?>

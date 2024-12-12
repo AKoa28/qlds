@@ -401,6 +401,16 @@
             }
         }
 
+        public function getkiemtracophainhanvienkhong($makhachhang){
+            $p = new mtaikhoan();
+            $con = $p->kiemtracophainhanvienkhong($makhachhang);
+            if($con->num_rows > 0){
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+
     }
 
     class cdatsan{
@@ -414,16 +424,33 @@
             $con = $p->insertdatsantheongay($total);
             return $con;
         }
-        public function getXemdoanhthutheongay($ngay,$madd){
+        // public function getXemdoanhthutheongay($ngay,$madd){
+        //     $p = new mdatsan();
+        //     $con = $p->Xemdoanhthutheongay($ngay,$madd);
+        //     if(!$con){
+        //         return 0;
+        //     }else{
+        //         return $con;
+        //     }
+        // }
+        public function getXemdoanhthutheongay($ngay){
             $p = new mdatsan();
-            $con = $p->Xemdoanhthutheongay($ngay,$madd);
+            $con = $p->Xemdoanhthutheongay($ngay);
             if(!$con){
                 return 0;
             }else{
                 return $con;
             }
         }
-
+        public function huylichdatsan($madatsan) {
+            $p = new mdatsan();
+            $con = $p->huylichdatsan($madatsan);
+            if ($con) {
+                echo "<script>alert('Hủy thành công'); window.location.href='../qlds/index.php?lichdadatsan';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi hủy'); window.location.href='../qlds/index.php?lichdadatsan';</script>";
+            }
+        }
         public function getXemdslichdat($madiadiem){ 
             $p = new mdatsan();
             $con = $p->Xemdslichdat($madiadiem);
@@ -552,6 +579,15 @@
             
             
         }
+        public function updateTrangThai($id,$trangthai,$manhanvien){ 
+            $p = new mdatsan();
+            $con = $p->updateTrangThai($id,$trangthai,$manhanvien);
+            if(!$con){
+                return 0;
+            }else{
+                return $con;
+            }
+        }
 
     }
 
@@ -668,6 +704,98 @@
                 echo "<script>alert('Lỗi khi xóa khách hàng'); window.location.href='../qlds/index.php?page=danhsachkhachhang';</script>";
             }
         }
+
+
+        public function getselectallnhanvien($id) {
+            $p = new mnhanvien();
+            $con = $p->xemnhanvien($id);
+            if (!$con) {
+                return -1;
+            } else {
+                if ($con->num_rows > 0) {
+                    return $con;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        public function getdoimatkhaunhanvien($manhanvien, $matkhaumoi, $capnhatlancuoi) {
+            $p = new mnhanvien();
+            $con = $p->doimatkhaunhanvien($manhanvien,$matkhaumoi, $capnhatlancuoi);
+            
+            if (!$con) {
+                echo "<script>alert('Đổi mật khẩu thất bại! Vui lòng kiểm tra lại thông tin.'); window.location.href='index.php?page=quanlynhanvien';</script>";
+                return false;
+            } else {
+                echo "<script>alert('Đổi mật khẩu thành công!'); window.location.href='index.php?page=quanlynhanvien';</script>";
+                return true;
+            }
+        }
+        public function getselectnhanvien($id) {
+            $p = new mnhanvien();
+            $con = $p->thongtinnhanvien1($id);
+            if (!$con) {
+                return -1;
+            } else {
+                if ($con->num_rows > 0) {
+                    return $con;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        public function themtaikhoan($ten, $sdt, $email, $matkhau) {
+            $p = new mnhanvien();
+            return $p->themtaikhoanNV($ten, $sdt, $email, $matkhau);
+        }
+    
+        public function layMaTaiKhoan($sdt) {
+            $p = new mnhanvien();
+            return $p->layMaTaiKhoan($sdt);
+        }
+        
+        public function layMaNhanVien($mataikhoan) {
+            $p = new mnhanvien();
+            return $p->layMaNhanVien($mataikhoan);
+        }
+        public function updateNhanVien($maNhanVien, $ten, $sdt, $email, $chucVu, $madiadiem,$capnhatlancuoi) {
+            $p = new mnhanvien();
+            $result = $p->suanhanvien($maNhanVien, $ten, $sdt, $email, $chucVu, $madiadiem,$capnhatlancuoi);
+            if($result){
+                return $result;
+                }else{return false;}
+        }
+    
+        public function themnhanvien($mataikhoan, $chucvu, $madiadiem) {
+            $p = new mnhanvien();
+            return $p->themnhanvien($mataikhoan, $chucvu, $madiadiem);
+        }
+        public function xoaNhanVien($manhanvien) {
+            $p = new mnhanvien();
+            $con = $p->xoanhanvien($manhanvien);
+            if ($con) {
+                echo "<script>alert('Xóa nhân viên thành công'); window.location.href='../qlds/index.php?page=quanlynhanvien';</script>";
+            } else {
+                echo "<script>alert('Lỗi khi xóa nhân viên'); window.location.href='../qlds/index.php?page=quanlynhanvien';</script>";
+            }
+        }
+        public function getselectalldiadiem($id){
+            $p = new mnhanvien();
+            $con = $p->xemdiadiemsan($id);
+            if(!$con){
+                return -1;
+            }else{
+                if($con->num_rows > 0){
+                    return $con;
+                }else{
+                    return 0;
+                }
+            }
+        }
+
+        
     }
     class cchusan{
         public function getThongtinchusan($machusan){
@@ -769,9 +897,9 @@
             $p = new mchusan();
             $con = $p->xoachusan($makhachhang);
             if ($con) {
-                echo "<script>alert('Xóa chủ sân thành công'); window.location.href='../ptudbaocao/index.php?page=quanlychusan';</script>";
+                echo "<script>alert('Xóa chủ sân thành công'); window.location.href='../qlds/index.php?page=quanlychusan';</script>";
             } else {
-                echo "<script>alert('Lỗi khi xóa chủ sân'); window.location.href='../ptudbaocao/index.php?page=quanlychusan';</script>";
+                echo "<script>alert('Lỗi khi xóa chủ sân'); window.location.href='../qlds/index.php?page=quanlychusan';</script>";
             }
         }
     }

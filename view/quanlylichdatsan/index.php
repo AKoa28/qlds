@@ -11,9 +11,11 @@
     if(isset($_SESSION["chusan"])){
         $machusan = $_SESSION["chusan"]; 
         $tbldiadiem = $p->getselectdiachisan($machusan);
+        $ma = 'Chủ sân';
     }else{
         $madiadiem = $_SESSION["madiadiem"];
         $tbldiadiem = $p->getdiadiemsantheomadiadiem($madiadiem);
+        $ma = 'Nhân viên';
     }
     
    
@@ -44,11 +46,72 @@
     }
 
     //Phê duyệt
-    if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="pheduyet"){
-        /* code duyệt viết ở đây */
-        $madatsan = $_REQUEST["mads"];
-        // header("Location: ?page=quanlylichdatsan"); // sau khi chạy thành công thì mở cmt header này ra
-    }elseif(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="chitietdatsan"){
+    if($ma == "Nhân viên"){
+        if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="pheduyet")
+        {
+                $madatsan = $_REQUEST["mads"]; 
+                $p = new cdatsan();
+                $result = $p->updateTrangThai($madatsan, "Đã duyệt",$_SESSION['nhanvien']); 
+            
+                if ($result) {
+                    echo "<script>
+                            alert('Trạng thái mã đặt sân $madatsan đã được duyệt.')
+                        </script>";
+                        header("refresh:0; Location: ?page=quanlylichdatsan");
+                } else {    
+                    echo "Lỗi: Không thể duyệt trạng thái mã đặt sân $madatsan.";
+                }
+                //exit; // Dừng xử lý tiếp
+                /*header("Location: ?page=quanlylichdatsan");*/
+        }elseif(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="khongduyet"){
+                $madatsan = $_REQUEST["mads"];
+                $p = new cdatsan();
+                $result = $p->updateTrangThai($madatsan, "Không duyệt",$_SESSION['nhanvien']); 
+            
+                if ($result) {
+                    echo "<script>
+                            alert('Trạng thái mã đặt sân $madatsan không được duyệt.')
+                        </script>";
+                        header("refresh:0; Location: ?page=quanlylichdatsan");
+                } else {    
+                    echo "Lỗi: Không thể duyệt trạng thái mã đặt sân $madatsan.";
+                }
+        }
+    }else{
+        if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="pheduyet")
+        {
+                $madatsan = $_REQUEST["mads"]; 
+                $p = new cdatsan();
+                $result = $p->updateTrangThai($madatsan, "Đã duyệt","NULL"); 
+            
+                if ($result) {
+                    echo "<script>
+                            alert('Trạng thái mã đặt sân $madatsan đã được duyệt.')
+                        </script>";
+                        header("refresh:0; Location: ?page=quanlylichdatsan");
+                } else {    
+                    echo "Lỗi: Không thể duyệt trạng thái mã đặt sân $madatsan.";
+                }
+                //exit; // Dừng xử lý tiếp
+                /*header("Location: ?page=quanlylichdatsan");*/
+        }elseif(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="khongduyet"){
+                $madatsan = $_REQUEST["mads"];
+                $p = new cdatsan();
+                $result = $p->updateTrangThai($madatsan, "Không duyệt","NULL"); 
+            
+                if ($result) {
+                    echo "<script>
+                            alert('Trạng thái mã đặt sân $madatsan không được duyệt.')
+                        </script>";
+                        header("refresh:0; Location: ?page=quanlylichdatsan");
+                } else {    
+                    echo "Lỗi: Không thể duyệt trạng thái mã đặt sân $madatsan.";
+                }
+        }
+
+    }
+
+    if(isset($_REQUEST["cate"]) && $_REQUEST["cate"]=="chitietdatsan"){
         $pds = new cdatsan();
         $madatsan = $_REQUEST["mads"];
         $tblctds = $pds -> getchitietdatsan($madatsan);

@@ -155,7 +155,7 @@
                         echo "<td>" . $r["Email"] . "</td>";
                         echo "<td>" . $r["XacNhan"] . "</td>";
                         echo "<td>
-                                <a style='width:95px' href='?page=editkhachhang&makhachhang=" . $r["MaKhachHang"] . "' class='btn btn-warning btn-sm'><i class='bi bi-pencil'></i> Sửa</a><br>
+                                
                                 <form method='POST' action='' style='display:inline;' onsubmit='return confirmDeleteCustomer()'>
                                     <input type='hidden' name='action' value='deleteCustomer'>
                                     <input type='hidden' name='makhachhang' value='" . $r["MaKhachHang"] . "'>

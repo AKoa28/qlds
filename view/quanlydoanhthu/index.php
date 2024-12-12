@@ -8,11 +8,6 @@
 <body>
 <div  class="section_phu"><form method="post">
 <?php
-
-    if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
-        header("Location: ?chusandangnhap");
-    }
-
     // if(!isset($_SESSION["quanly"])){
     //     echo "<script>alert('Bạn không có quyền truy cập');</script>";
     //     header("Location: index.php");
@@ -70,22 +65,33 @@
         });
     }
     
-    function getloaithoigian(giatri,tencbx,madd){
+    function getloaithoigian(giatri,tencbx){
         $.ajax({
             url: 'view/quanlydoanhthu/ajax.php',
             type: 'POST',
-            data: {giatri: giatri, tencbx: tencbx, madd: madd},
+            data: {giatri: giatri, tencbx: tencbx},
             success: function(ketqua){
                 $('#div2').html(ketqua);
             }
         });
     }
 
-    function getngay(giatri,tencbx,madd){
+    function getngay(giatri,tencbx){
         $.ajax({
             url: 'view/quanlydoanhthu/ajax.php',
             type: 'POST',
-            data: {giatri: giatri, tencbx: tencbx, madd: madd},
+            data: {giatri: giatri, tencbx: tencbx},
+            success: function(ketqua){
+                $('#div3').html(ketqua);
+            }
+        });
+    }
+
+    function getthang(giatri,tencbx){
+        $.ajax({
+            url: 'view/quanlydoanhthu/ajax.php',
+            type: 'POST',
+            data: {giatri: giatri, tencbx: tencbx},
             success: function(ketqua){
                 $('#div3').html(ketqua);
             }
