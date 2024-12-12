@@ -116,6 +116,18 @@
                   <a class="nav-link active" href="?page=chusan">Dành cho chủ sân</a>
                 </li>
               ';
+            }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="nhanvienhethong" || isset($_REQUEST["dangnhapnvht"])){
+              echo '
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="?chinhsach">Chính sách</a>
+                </li>
+               <li class="nav-item">
+                  <a class="nav-link active" href="?page=nhanvienhethong">Nhân viên hệ thống</a>
+                </li>
+              ';
             }
             
             elseif(isset($_REQUEST["dangnhap"]) || isset($_REQUEST["dangky"])){
@@ -130,7 +142,7 @@
                   <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
                 </li>
               ';
-            }elseif(isset($_REQUEST["chinhsach"])){
+            }elseif(isset($_REQUEST["chinhsach"]) && !isset($_SESSION["dangnhap"]) && !isset($_SESSION["nhanvienhethong"]) && !isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
               echo '
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="index.php">Trang chủ</a>
@@ -140,6 +152,9 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+                </li>
+                 <li class="nav-item">
+                  <a class="nav-link " href="?page=nhanvienhethong">Nhân viên hệ thống</a>
                 </li>
               ';
             }elseif(isset($_SESSION["dangnhap"])){
@@ -152,6 +167,19 @@
                   </li>
                 ';
             }else{
+              if(isset($_SESSION["nhanvienhethong"])){
+                echo '
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?chinhsach">Chính sách</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link " href="?page=nhanvienhethong">Nhân viên hệ thống</a>
+                </li>
+                ';
+              }elseif(isset($_SESSION["chusan"]) || isset($_SESSION["nhanvien"])){
                 echo '
                   <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
@@ -163,6 +191,23 @@
                     <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
                   </li>
                 ';
+              }else{
+                echo '
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="index.php">Trang chủ</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?chinhsach">Chính sách</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?page=chusan">Dành cho chủ sân</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link " href="?page=nhanvienhethong">Nhân viên hệ thống</a>
+                </li>
+                ';
+              }
+                
             }
           ?>
           
@@ -174,6 +219,9 @@
           }elseif(isset($_SESSION["chusan"])){
               echo '<a href="?thongtinchusan" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
               echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
+          }elseif(isset($_SESSION["nhanvienhethong"]) ){
+            echo '<a href="?thongtinkhachhang" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["tennhanvienhethong"].'</a>&nbsp;&nbsp;&nbsp;';
+            echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';
           }elseif(isset($_SESSION["nhanvien"])){
             echo '<a href="?thongtinnhanvien" style="text-decoration: none; color: white"><i class="bi bi-person-circle"> </i>'.$_SESSION["ten"].'</a>&nbsp;&nbsp;&nbsp;';
             echo '<a href="?dangxuat" ><button class="btn btn-danger">Đăng xuất</button></a>';

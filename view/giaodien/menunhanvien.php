@@ -33,9 +33,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
                 </li>';
         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlylichdatsannhanvien" ){
             echo '<li class="nav-item">
@@ -43,19 +40,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active-a" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="?page=quanlydoanhthu">Xem doanh thu</a>
-                </li>';
-        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"]=="quanlydoanhthu" ){
-            echo '<li class="nav-item">
-                    <a class="nav-link " href="index.php?page=danhsachkhachhang">Danh sách khách hàng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active-a" href="?page=quanlydoanhthu">Xem doanh thu</a>
                 </li>';
         }else{
             echo '<li class="nav-item">
@@ -63,9 +47,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="?page=quanlylichdatsannhanvien">Quản lý lịch đặt sân</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="?page=quanlydoanhthu">Xem doanh thu</a>
                 </li>';
         }
     }

@@ -45,7 +45,7 @@
 
     session_start();
     ob_start();
-    // error_reporting(0);
+    error_reporting(0);
     date_default_timezone_set('Asia/Ho_Chi_Minh');
     include_once("model/model.php");
     include_once("controller/controller.php");
@@ -105,6 +105,14 @@
                                 include_once("view/nhanvien/index.php");
                                 echo "</div>";
                             }
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "nhanvienhethong"){
+                            // $_SESSION["chusan"] = 1;
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuadmin.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/nhanvienhethong/index.php");
+                            echo "</div>";
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlykhachhang"){
                             echo '<div class="col-md-2 background" style="">';
                             include_once("view/giaodien/menuchusan.php");
@@ -309,6 +317,15 @@
                         }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "xoaloaisan"){
                             echo "<div class='col-md-10'>";
                             include_once("view/xoaloaisan/xoaloaisan.php");
+                            echo "</div>";
+                        }elseif(isset($_REQUEST['dangnhapnvht'])) {
+                            include_once ("view/dangnhapnvht/index.php");
+                        }elseif(isset($_REQUEST["page"]) && $_REQUEST["page"] == "quanlychusan"){
+                            echo '<div class="col-md-2 background" style="">';
+                            include_once("view/giaodien/menuadmin.php");
+                            echo "</div>";
+                            echo "<div class='col-md-10'>";
+                            include_once("view/quanlychusan/quanlychusan.php");
                             echo "</div>";
                         } else {
                             if(isset($_GET["page"])){

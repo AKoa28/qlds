@@ -469,6 +469,18 @@
                 return false;
             }
         }
+        public function nhanvienhethongDANGNHAP($username,$pass){
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            if($con){
+                $sql="SELECT * FROM `qtht` WHERE username = '$username' and MatKhau = '$pass'";
+                $kq = $con->query($sql);
+                $p->dongketnoi($con);
+                return $kq;
+            }else{
+                return false;
+            }
+        }
     }
     
     class mdatsan{
@@ -1327,6 +1339,21 @@
             
             if ($con) {
                 $sql = "DELETE FROM chusan WHERE MaChuSan = $makhachhang";
+                $con->query($sql);
+                $p->dongketnoi($con);
+                
+                return $con;
+            } else {
+                return false;
+            }
+        }
+
+        public function pheduyetchusan($macs) {
+            $p = new ketnoi();
+            $con = $p->moketnoi();
+            
+            if ($con) {
+                $sql = "UPDATE `chusan` SET `TrangThai`='Đã duyệt' WHERE `MaChuSan`='$macs'";
                 $con->query($sql);
                 $p->dongketnoi($con);
                 

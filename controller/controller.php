@@ -294,9 +294,14 @@
                     if($r["MaNhanVien"] == "" && $r["MaChuSan"] == ""){
                         return 0;
                     }elseif($r["MaNhanVien"] == ""){
-                        $_SESSION["chusan"] = $r["MaChuSan"];
-                        $_SESSION["ten"] = $r["Ten"];
-                        $_SESSION["emailchusan"] = $r["Email"];
+                        if($r["TrangThai"] == "Đã duyệt"){
+                            $_SESSION["chusan"] = $r["MaChuSan"];
+                            $_SESSION["ten"] = $r["Ten"];
+                            $_SESSION["emailchusan"] = $r["Email"];
+                        }else{
+                            return 0;
+                        }
+                        
                     }else{
                         if($r["HienThi"] == "1"){
                             $_SESSION["nhanvien"] = $r["MaNhanVien"];
@@ -405,6 +410,21 @@
             $p = new mtaikhoan();
             $con = $p->kiemtracophainhanvienkhong($makhachhang);
             if($con->num_rows > 0){
+                return $con;
+            }else{
+                return 0;
+            }
+        }
+        public function getnhanvienhethongDANGNHAP($username,$pass){
+            $pass = md5($pass);
+            $p = new mtaikhoan();
+            $con = $p->nhanvienhethongDANGNHAP($username,$pass);
+            if($con->num_rows > 0){
+                while($r = $con->fetch_assoc()){
+                    $_SESSION["nhanvienhethong"] = $r["MaTKuser"];
+                    $_SESSION["tennhanvienhethong"] = $r["username"];
+                    $_SESSION["emailnhanvienhethong"] = $r["email"];
+                }
                 return $con;
             }else{
                 return 0;
@@ -900,6 +920,16 @@
                 echo "<script>alert('Xóa chủ sân thành công'); window.location.href='../qlds/index.php?page=quanlychusan';</script>";
             } else {
                 echo "<script>alert('Lỗi khi xóa chủ sân'); window.location.href='../qlds/index.php?page=quanlychusan';</script>";
+            }
+        }
+
+        public function pheduyetchusan($macs) {
+            $p = new mchusan();
+            $con = $p->pheduyetchusan($macs);
+            if ($con) {
+                return $con;
+            } else {
+                return false;
             }
         }
     }

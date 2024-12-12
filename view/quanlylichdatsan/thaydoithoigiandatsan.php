@@ -194,9 +194,22 @@ if($tbl===-1){
             <h3><?= $startOfWeek." đến ".$endOfWeek; ?></h3>
     </div>
     <div class="d-flex justify-content-around align-items-center mb-3">
-        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$prevWeek?>'><button class="btn btn-primary">Tuần trước</button></a>
-        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$currentDate?>'><button class='btn btn-primary pr'>Hôm nay</button></a>
-        <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=<?=$mactds?>&makh=<?=$makh?>&mads=<?=$madds?>&date=<?=$nextWeek?>'><button class="btn btn-primary">Tuần sau</button></a>
+        <?php
+            if(isset($_SESSION["nhanvien"])){
+                echo "
+                    <a href='?page=quanlylichdatsannhanvien&cate=thaydoithoigiandsnhanvien&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$prevWeek."'><button class='btn btn-primary'>Tuần trước</button></a>
+                    <a href='?page=quanlylichdatsannhanvien&cate=thaydoithoigiandsnhanvien&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$currentDate."'><button class='btn btn-primary pr'>Hôm nay</button></a>
+                    <a href='?page=quanlylichdatsannhanvien&cate=thaydoithoigiandsnhanvien&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$nextWeek."'><button class='btn btn-primary'>Tuần sau</button></a>
+                    ";
+            }else{
+                echo "
+                    <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$prevWeek."'><button class='btn btn-primary'>Tuần trước</button></a>
+                    <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$currentDate."'><button class='btn btn-primary pr'>Hôm nay</button></a>
+                    <a href='?page=quanlylichdatsan&cate=thaydoithoigiands&mactds=".$mactds."&makh=".$makh."&mads=".$madds."&date=".$nextWeek."'><button class='btn btn-primary'>Tuần sau</button></a>
+                    ";
+            }
+        ?>
+
     </div>
 </div>
 <form action="" method="post">

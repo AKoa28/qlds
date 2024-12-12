@@ -20,7 +20,7 @@
 <div id="khongchobam">
 
 </div>
-<div class="register-login-section spad section_phu">
+<div class="chusan-section spad section_phu">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
@@ -55,7 +55,7 @@
                         <button type="submit" class="site-btn register-btn" name="subregister" >Gửi yêu cầu</button>
                     </form>
                     <div class="switch-login">
-                        <a href="?dangnhap" class="or-login">Đăng nhập</a>
+                        <a href="?chusandangnhap" class="or-login">Đăng nhập</a>
                     </div>
                     <div id="show">
 

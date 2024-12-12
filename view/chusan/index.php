@@ -1,4 +1,4 @@
-<div class="">
+
     <?php
         if(!isset($_SESSION["chusan"]) && !isset($_SESSION["nhanvien"])){
             header("Location: ?chusandangnhap");
@@ -16,6 +16,5 @@
             }
         }
     ?>
-    
-</div>
+
 <img src="image/owner.png" alt="" width="100%">
